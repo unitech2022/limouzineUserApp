@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="icon_24_rating" data-name="icon/24/rating" opacity="0.54">
+    <rect id="base" width="24" height="24" fill="none"/>
+    <path id="Star" d="M6.968,11.451l-3.4,1.789a.833.833,0,0,1-1.209-.878l.65-3.79L.252,5.887A.833.833,0,0,1,.714,4.466l3.805-.553L6.221.465a.833.833,0,0,1,1.495,0l1.7,3.448,3.805.553a.833.833,0,0,1,.462,1.421L10.931,8.571l.65,3.79a.833.833,0,0,1-1.209.878Z" transform="translate(5.032 5.549)" fill="#010f07"/>
+  </g>
+</svg>

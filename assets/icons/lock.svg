@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="icon_24_lock" data-name="icon/24/lock" opacity="0.54">
+    <rect id="base" width="24" height="24" fill="none"/>
+    <path id="lock" d="M12,16H2a2,2,0,0,1-2-2V8A2,2,0,0,1,2,6V5A5,5,0,1,1,12,5V6a2,2,0,0,1,2,2v6A2,2,0,0,1,12,16ZM7,2A3,3,0,0,0,4,5V6h6V5A3,3,0,0,0,7,2Z" transform="translate(5 4)" fill="#010f07"/>
+  </g>
+</svg>

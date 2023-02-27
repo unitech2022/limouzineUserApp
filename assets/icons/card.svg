@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="icon_24_card" data-name="icon/24/card" opacity="0.54">
+    <rect id="base" width="24" height="24" fill="none"/>
+    <path id="Combined_Shape" data-name="Combined Shape" d="M15,11.667H1.667A1.669,1.669,0,0,1,0,10V5H16.667v5A1.669,1.669,0,0,1,15,11.667ZM12.5,7.5a.833.833,0,0,0,0,1.667h1.667a.833.833,0,0,0,0-1.667Zm4.167-5H0V1.667A1.669,1.669,0,0,1,1.667,0H15a1.669,1.669,0,0,1,1.667,1.667V2.5Z" transform="translate(3.667 6.167)" fill="#010f07"/>
+  </g>
+</svg>
