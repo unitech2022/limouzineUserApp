@@ -1,9 +1,8 @@
-
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taxi/core/helpers/functions.dart';
+import 'package:taxi/core/helpers/helper_functions.dart';
 import 'package:taxi/core/routers/routers.dart';
 import 'package:taxi/core/utlis/api_constatns.dart';
 import 'package:taxi/core/utlis/app_model.dart';
@@ -36,14 +35,16 @@ class AppCubit extends Cubit<AppState> {
 // print(selectedRadio);
     emit(AppState(selectedRadio: selectedRadio));
   }
+
   getPage(context) {
     Future.delayed(const Duration(seconds: 5), () {
       print(AppModel.lang);
+      firebaseCloudMessaging_Listeners();
       if (AppModel.lang == "") {
         Navigator.pushReplacementNamed(context, lang);
       } else {
         if (currentUser.token != null) {
-          pushPage(context:context,page: StartTripScreen());
+          pushPage(context: context, page: StartTripScreen());
         } else {
           Navigator.pushReplacementNamed(context, welcome);
         }
