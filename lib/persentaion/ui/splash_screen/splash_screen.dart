@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
    
     super.initState();
-    getLocation();
+   
     AppCubit.get(context).getPage(context);
   }
 

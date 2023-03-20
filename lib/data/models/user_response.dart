@@ -11,7 +11,7 @@ class UserDetail {
   String? status;
   String? code;
 
-  String? points;
+  // String? points;
   String? surveysBalance;
   String? createdAt;
 
@@ -25,7 +25,7 @@ class UserDetail {
       this.deviceToken,
       this.status,
       this.code,
-      this.points,
+      // this.points,
       this.surveysBalance,
       this.createdAt});
 
@@ -37,11 +37,11 @@ class UserDetail {
     profileImage = json['profileImage'];
     role = json['role'];
     deviceToken = json['deviceToken'];
-    status = json['status'];
+    status = json['status'].toString();
     code = json['code'];
   
-    points = json['points'];
-    surveysBalance = json['surveysBalance'];
+    // points = json['points'];
+    surveysBalance = json['surveysBalance'].toString();
     createdAt = json['createdAt'];
   }
 

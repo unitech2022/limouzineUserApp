@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:flutter/material.dart';
+import 'package:taxi/core/routers/routers.dart';
 
 class CircleImageWidget extends StatelessWidget {
   final double height, width;
@@ -10,10 +11,10 @@ class CircleImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      // borderRadius: BorderRadius.circular(width / 2),
+     borderRadius: BorderRadius.circular(width / 2),
       child: CachedNetworkImage(
         imageUrl: image,height: height,width: width,fit: BoxFit.cover,
-        imageBuilder: (context, imageProvider) => Container(
+        // imageBuilder: (context, imageProvider) => Container(
           // decoration: BoxDecoration(
           //   image: DecorationImage(
           //       image: imageProvider,
@@ -21,9 +22,9 @@ class CircleImageWidget extends StatelessWidget {
           //       colorFilter:
           //       ColorFilter.mode(Colors.red, BlendMode.colorBurn)),
           // ),
-        ),
+        // ),
         placeholder: (context, url) => SizedBox(),
-        errorWidget: (context, url, error) => Icon(Icons.person,size: 30,),
+        errorWidget: (context, url, error) => Icon(Icons.person,size: width/2,),
       ),
     );
   }

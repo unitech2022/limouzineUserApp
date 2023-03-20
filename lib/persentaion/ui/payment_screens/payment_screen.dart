@@ -7,6 +7,7 @@ import 'package:taxi/core/utlis/strings.dart';
 import 'package:taxi/core/widgets/container.divider.dart';
 import 'package:taxi/core/widgets/texts.dart';
 
+import '../../../core/helpers/functions.dart';
 import '../../../core/routers/routers.dart';
 import '../../../core/styles/colors.dart';
 import '../../../core/widgets/button_widget.dart';

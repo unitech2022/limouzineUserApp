@@ -12,6 +12,8 @@ import 'package:taxi/domin/usese_cases/trip_uses_cases/home_trip_use_case.dart';
 
 import 'package:taxi/persentaion/controller/app_cubit/cubit/app_cubit.dart';
 import 'package:taxi/persentaion/controller/auth_cubit/auth_cubit.dart';
+import 'package:taxi/persentaion/controller/map_cubit%20copy/map_cubit.dart';
+import 'package:taxi/persentaion/controller/notifictions_cubit/cubit/notifications_cubit.dart';
 import 'package:taxi/persentaion/controller/trip_cubit/trip_cubit.dart';
 import '../../data/data_source/remote_data_source/app_remote_data_source.dart';
 import '../../data/repository/app_repository.dart';
@@ -31,7 +33,7 @@ class ServicesLocator {
     sl.registerFactory(() => AppCubit());
     sl.registerFactory(() => AuthCubit(sl(), sl(), sl(), sl()));
     sl.registerFactory(() => TripCubit(sl(),sl(),sl()));
-    // sl.registerFactory(() => CityCubit(sl()));
+    sl.registerFactory(() => MapCubit());
     // sl.registerFactory(() => PlaceCubit(sl()));
 
     //    sl.registerFactory(() => SearchCubit(sl()));
@@ -44,7 +46,7 @@ class ServicesLocator {
     sl.registerLazySingleton(() => GetCarTypesUseCase(sl()));
    sl.registerLazySingleton(() => AddTripUseCase(sl()));
    sl.registerLazySingleton(() => HomeTripUseCase(sl()));
-    // sl.registerLazySingleton(() => GetFavoriteIdsUseCase(sl()));
+  sl.registerLazySingleton(() => NotificationsCubit());
     // sl.registerLazySingleton(() => AddFavoriteUseCase(sl()));
     // sl.registerLazySingleton(() => SearchCityUseCase(sl()));
 

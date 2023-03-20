@@ -138,6 +138,12 @@ class Strings {
   static const String praivcy = "سياسات الاستخدام و الخصوصية";
   static const String deleteAccount = "حذف الحساب";
   static const String ridWiyh = "ابدأ بالركوب مع";
+   static const String searchTodriver = "جارى البحث عن أقرب سائق لك ";
 
-  
+    static const String notNoty = "لا توجد اشعارات";
+      static const String descPolicy =
+      "سياسات الاستخدام و الخصوصية و مشاركة البيانات";
+        static const String policy = "سياسة التطبيق";
+static const String thereNotDriver = "لا يوجد سائقين في الوقت الحالي";
+        
 }

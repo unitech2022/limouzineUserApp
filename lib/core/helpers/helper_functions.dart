@@ -12,9 +12,9 @@ import '../utlis/app_model.dart';
 //   );
 // }
 
-pop(context) {
-  Navigator.pop(context);
-}
+// pop(context) {
+//   Navigator.pop(context);
+// }
 
 pushPageRoutName(context, route) {
   Navigator.pushNamed(
@@ -63,4 +63,45 @@ void firebaseCloudMessaging_Listeners() {
   });
 
 
+
+
+
 }
+Future<void> showMyDialog({context ,title ,body ,founction}) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title:  Text(title,style: TextStyle(fontSize: 20,color: Colors.black),),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: [
+            
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(body,style: TextStyle(fontSize: 20,color: Colors.black),textAlign: TextAlign.center,),
+                ],
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text("الغاء",style: TextStyle(fontSize: 14,color: Colors.black)),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+
+           TextButton(
+            child: const Text("تغيير",style: TextStyle(fontSize: 16,color: Colors.black)),
+            onPressed: founction,
+          ),
+        ],
+      );
+    },
+  );
+}
+

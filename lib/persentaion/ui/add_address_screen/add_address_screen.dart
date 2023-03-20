@@ -4,6 +4,7 @@ import 'package:taxi/core/helpers/helper_functions.dart';
 import 'package:taxi/core/utlis/strings.dart';
 import 'package:taxi/core/widgets/texts.dart';
 
+import '../../../core/helpers/functions.dart';
 import '../../../core/styles/colors.dart';
 import '../../../core/widgets/button_widget.dart';
 import '../home_screen/components/app_bar_home.dart';

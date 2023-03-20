@@ -2,7 +2,9 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taxi/core/utlis/api_constatns.dart';
@@ -149,6 +151,17 @@ showSnakeBar({context,message}){
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
 
+showToast({message}){
+  Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 12.0
+    );
+}
 
 // Future showDialogAction(BuildContext context,bool load,{name,type,onTap}) async {
 //   showDialog(

@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_svg/svg.dart';
 import 'package:taxi/core/styles/colors.dart';
+import 'package:taxi/core/utlis/api_constatns.dart';
 import 'package:taxi/core/utlis/strings.dart';
 import 'package:taxi/core/widgets/circle_image_widget.dart';
 import 'package:taxi/core/widgets/texts.dart';
+import 'package:taxi/persentaion/controller/trip_cubit/trip_cubit.dart';
 import 'package:taxi/persentaion/ui/home_screen/components/app_bar_home.dart';
 import 'package:taxi/persentaion/ui/home_screen/components/drawer_widget.dart';
+import 'package:taxi/persentaion/ui/login_screen/login_screen.dart';
 
 import '../../../core/helpers/helper_functions.dart';
+import '../../../core/utlis/enums.dart';
+import '../../../data/models/history_response.dart';
 
 class HistoryScreen extends StatefulWidget {
   @override
@@ -18,13 +24,23 @@ class HistoryScreen extends StatefulWidget {
 class _HistoryScreenState extends State<HistoryScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    TripCubit.get(context).getHistoriesTrips();
+  }
+
   int index = 1;
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<TripCubit, TripState>(
+  builder: (context, state) {
     return Scaffold(
       key: _scaffoldKey,
-      endDrawer: DrawerWidget(scaffoldKey: _scaffoldKey),
+      drawer: DrawerWidget(scaffoldKey: _scaffoldKey),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(110.0),
         child: Container(
@@ -35,13 +51,18 @@ class _HistoryScreenState extends State<HistoryScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: AppBarHome(
               onTap: () {
-                _scaffoldKey.currentState!.openEndDrawer();
+                _scaffoldKey.currentState!.openDrawer();
               },
             ),
           ),
         ),
       ),
-      body: Padding(
+      
+      
+      body: state.getHistoriesState==RequestState.loading?
+      Center(child: LoadingWidget(height: 55, color: homeColor)):
+    
+      Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 27),
         child: Column(children: [
           // tabs
@@ -55,23 +76,32 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 borderRadius: BorderRadius.circular(25)),
             child: Row(
               children: [
-                TabHistoryWidget(
-                  title: Strings.coming,
-                  textColor: index == 0 ? Colors.white : Color(0xffA5A5A5),
-                  containerColor: index == 0 ? textColor : Colors.transparent,
-                  onTap: () {},
-                ),
+                // TabHistoryWidget(
+                //   title: Strings.coming,
+                //   textColor: index == 0 ? Colors.white : Color(0xffA5A5A5),
+                //   containerColor: index == 0 ? textColor : Colors.transparent,
+                //   onTap: () {},
+                // ),
                 TabHistoryWidget(
                   title: Strings.done,
                   textColor: index == 1 ? Colors.white : Color(0xffA5A5A5),
                   containerColor: index == 1 ? textColor : Colors.transparent,
-                  onTap: () {},
+                  onTap: () {
+                    setState(() {
+                      index=1;
+                    });
+                  },
                 ),
                 TabHistoryWidget(
                   title: Strings.canceled,
                   textColor: index == 2 ? Colors.white : Color(0xffA5A5A5),
                   containerColor: index == 2 ? textColor : Colors.transparent,
-                  onTap: () {},
+                  onTap: () {
+
+                    setState(() {
+                      index=2;
+                    });
+                  },
                 ),
               ],
             ),
@@ -80,200 +110,227 @@ class _HistoryScreenState extends State<HistoryScreen> {
           // list Of history
           ,
           Expanded(
-            child: ListView.builder(
-                itemCount: 3,
-                padding: EdgeInsets.only(top: 14),
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.only(bottom: 30),
-                    height: 275,
-                    child: Stack(
-                      children: [
-                        // details trip
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Container(
-                            height: 262,
-                            width: double.infinity,
-                            decoration: BoxDecoration(color: Color(0xffF7F7F7)),
-                            child: Column(children: [
-                              sizedHeight(24),
-                              ContainerDetailsTrip(
-                                colorIcon: buttonsColor,
-                                time: "١١:٠٠ ص",
-                                value:
-                                    "3482+V2, Al Mendassah 44289, Saudi Arabia",
-                                title: Strings.starting,
-                              ),
-                              ContainerDetailsTrip(
-                                colorIcon: textColor,
-                                time: "١١:٠٠ ص",
-                                value: "44299, Saudi Arabia",
-                                title: Strings.arrive,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 15),
-                                child: Row(
-                                  children: [
-                                    Texts(
-                                        title: Strings.details,
-                                        textColor: textColor3,
-                                        fontSize: 12,
-                                        weight: FontWeight.bold,
-                                        align: TextAlign.start)
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 15, right: 15),
-                                height: 30,
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: Color(0xff707070)),
-                                        top: BorderSide(
-                                            color: Color(0xff707070)))),
-                                child: Center(
-                                  child: Row(
-                                    children: [
-                                      Texts(
-                                          title: Strings.cost,
-                                          textColor: Color(0xffA0A0A0),
-                                          fontSize: 12,
-                                          weight: FontWeight.bold,
-                                          align: TextAlign.center),
-                                      sizedWidth(23),
-                                      Expanded(
-                                        child: Texts(
-                                            title: "290 ر.س",
-                                            textColor: textColor3,
-                                            fontSize: 10,
-                                            weight: FontWeight.normal,
-                                            align: TextAlign.start),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 15, right: 15),
-                                height: 30,
-                                decoration: BoxDecoration(
-                                    border: Border(
-                                  bottom: BorderSide(color: Color(0xff707070)),
-                                )),
-                                child: Center(
-                                  child: Row(
-                                    children: [
-                                      Texts(
-                                          title: Strings.driver,
-                                          textColor: Color(0xffA0A0A0),
-                                          fontSize: 12,
-                                          weight: FontWeight.bold,
-                                          align: TextAlign.center),
-                                      sizedWidth(23),
-                                      CircleImageWidget(
-                                          height: 19,
-                                          width: 19,
-                                          image: "assets/images/person.png"),
-                                      sizedWidth(14),
-                                      Expanded(
-                                        child: Texts(
-                                            title: "عنديش حميد رانو",
-                                            textColor: textColor3,
-                                            fontSize: 10,
-                                            weight: FontWeight.normal,
-                                            align: TextAlign.start),
-                                      ),
-                                      Image.asset(
-                                        "assets/images/imag1.png",
-                                        width: 44,
-                                        height: 23,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Spacer(),
-                              Container(
-                                decoration:
-                                    BoxDecoration(color: Color(0xffEAEAEA)),
-                                height: 40,
-                                padding: EdgeInsets.symmetric(horizontal: 15),
-                                child: Center(
-                                  child: Row(
-                                    children: [
-                                      RowItemWidget(
-                                      onTap: () {
-
-                                      },
-                                      color: Colors.red,
-                                      icon:  "assets/icons/download_cell.svg",
-                                      text: Strings.downloadInvoice,
-                                    ) ,
-
-                                    DividerHorizontal(
-                                      height: double.infinity,
-                                      width: 1,
-                                      color:  Color(0xff707070),
-                                    ),
-                                    RowItemWidget(
-                                      onTap: () {
-
-                                      },
-                                      color: Colors.black,
-                                      icon:  "assets/icons/repeat.svg",
-                                      text: Strings.repetition,
-                                    ) ,
-                                     DividerHorizontal(
-                                      height: double.infinity,
-                                      width: 1,
-                                      color:  Color(0xff707070),
-                                    ),
-                                    RowItemWidget(
-                                      onTap: () {
-
-                                      },
-                                      color: Colors.black,
-                                      icon:  "assets/icons/share.svg",
-                                      text: Strings.share,
-                                    ) ,
-
-
-
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ]),
-                          ),
-                        ),
-
-                        // container date
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Container(
-                            alignment: Alignment.center,
-                            height: 26,
-                            width: 110,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                color: Color(0xffDBDBDB)),
-                            child: Texts(
-                                title: Strings.today,
-                                textColor: Colors.black,
-                                fontSize: 12,
-                                weight: FontWeight.normal,
-                                align: TextAlign.center),
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                }),
+            child:index==1 ? DoneTripsList(
+              list : state.histories!.doneTrips!
+            ) : DoneTripsList(
+                list : state.histories!.canceledTrips!
+            )
           )
         ]),
+      ),
+    );
+  },
+);
+  }
+}
+
+class DoneTripsList extends StatelessWidget {
+final List<HistoryModel> list;
+DoneTripsList({required this.list});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: list.length,
+        padding: EdgeInsets.only(top: 14),
+        itemBuilder: (context, index) {
+          HistoryModel historyModel=list[index];
+          return ItemListHistory(historyModel);
+        });
+  }
+}
+
+class ItemListHistory extends StatelessWidget {
+ final HistoryModel historyModel;
+  const ItemListHistory(this.historyModel);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 30),
+      height: 275,
+      child: Stack(
+        children: [
+          // details trip
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: 262,
+              width: double.infinity,
+              decoration: BoxDecoration(color: Color(0xffF7F7F7)),
+              child: Column(children: [
+                sizedHeight(24),
+                ContainerDetailsTrip(
+                  colorIcon: buttonsColor,
+                  time: historyModel.trip!.createdAt.split("T")[1],
+                  value:
+                  historyModel.trip!.startAddress,
+                  title: Strings.starting,
+                ),
+                ContainerDetailsTrip(
+                  colorIcon: textColor,
+                  time:  historyModel.trip!.createdAt.split("T")[1],
+                  value:  historyModel.trip!.endAddress,
+                  title: Strings.arrive,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 15, horizontal: 15),
+                  child: Row(
+                    children: [
+                      Texts(
+                          title: Strings.details,
+                          textColor: textColor3,
+                          fontSize: 12,
+                          weight: FontWeight.bold,
+                          align: TextAlign.start)
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 15, right: 15),
+                  height: 30,
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              color: Color(0xff707070)),
+                          top: BorderSide(
+                              color: Color(0xff707070)))),
+                  child: Center(
+                    child: Row(
+                      children: [
+                        Texts(
+                            title: Strings.cost,
+                            textColor: Color(0xffA0A0A0),
+                            fontSize: 12,
+                            weight: FontWeight.bold,
+                            align: TextAlign.center),
+                        sizedWidth(23),
+                        Expanded(
+                          child: Texts(
+                              title:  historyModel.trip!.price.toString(),
+                              textColor: textColor3,
+                              fontSize: 10,
+                              weight: FontWeight.normal,
+                              align: TextAlign.start),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                historyModel.driver != null ?    Container(
+                  margin: EdgeInsets.only(left: 15, right: 15),
+                  height: 30,
+                  decoration: BoxDecoration(
+                      border: Border(
+                    bottom: BorderSide(color: Color(0xff707070)),
+                  )),
+                  child: Center(
+                    child: Row(
+                      children: [
+                        Texts(
+                            title: Strings.driver,
+                            textColor: Color(0xffA0A0A0),
+                            fontSize: 12,
+                            weight: FontWeight.bold,
+                            align: TextAlign.center),
+                        sizedWidth(23),
+                        CircleImageWidget(
+                            height: 19,
+                            width: 19,
+                            image: ApiConstants.imageUrl( historyModel.userDetailDiver!.profileImage!)),
+                        sizedWidth(14),
+                        Expanded(
+                          child: Texts(
+                              title: historyModel.userDetailDiver!.fullName!,
+                              textColor: textColor3,
+                              fontSize: 10,
+                              weight: FontWeight.normal,
+                              align: TextAlign.start),
+                        ),
+
+                        CircleImageWidget(
+                            height: 44,
+                            width: 23,
+                            image: ApiConstants.imageUrl( historyModel.driver!.carImage)),
+                      ],
+                    ),
+                  ),
+                ):SizedBox(),
+                Spacer(),
+                Container(
+                  decoration:
+                      BoxDecoration(color: Color(0xffEAEAEA)),
+                  height: 40,
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  child: Center(
+                    child: Row(
+                      children: [
+                        RowItemWidget(
+                        onTap: () {
+
+                        },
+                        color: Colors.red,
+                        icon:  "assets/icons/download_cell.svg",
+                        text: Strings.downloadInvoice,
+                      ) ,
+
+                      DividerHorizontal(
+                        height: double.infinity,
+                        width: 1,
+                        color:  Color(0xff707070),
+                      ),
+                      RowItemWidget(
+                        onTap: () {
+
+                        },
+                        color: Colors.black,
+                        icon:  "assets/icons/repeat.svg",
+                        text: Strings.repetition,
+                      ) ,
+                       DividerHorizontal(
+                        height: double.infinity,
+                        width: 1,
+                        color:  Color(0xff707070),
+                      ),
+                      RowItemWidget(
+                        onTap: () {
+
+                        },
+                        color: Colors.black,
+                        icon:  "assets/icons/share.svg",
+                        text: Strings.share,
+                      ) ,
+
+
+
+                      ],
+                    ),
+                  ),
+                )
+              ]),
+            ),
+          ),
+
+          // container date
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              alignment: Alignment.center,
+              height: 26,
+              width: 110,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  color: Color(0xffDBDBDB)),
+              child: Texts(
+                  title: Strings.today,
+                  textColor: Colors.black,
+                  fontSize: 12,
+                  weight: FontWeight.normal,
+                  align: TextAlign.center),
+            ),
+          )
+        ],
       ),
     );
   }

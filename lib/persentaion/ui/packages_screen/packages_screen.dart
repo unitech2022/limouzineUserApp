@@ -10,6 +10,7 @@ import 'package:taxi/core/widgets/button_widget.dart';
 import 'package:taxi/core/widgets/circle_icon_button.dart';
 import 'package:taxi/core/widgets/container.divider.dart';
 
+import '../../../core/helpers/functions.dart';
 import '../../../core/styles/colors.dart';
 import '../../../core/widgets/texts.dart';
 import '../home_screen/components/app_bar_home.dart';

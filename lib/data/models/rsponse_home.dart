@@ -10,11 +10,13 @@ class ResponseHome {
   final Driver? driver;
   final bool tripActive;
   final UserDetail? userDetail;
+   final UserDetail? driverDetail;
 
   ResponseHome(
       {required this.trip,
       required this.tripActive,
       this.driver,
+      this.driverDetail,
       this.userDetail});
 
   factory ResponseHome.fromJson(Map<String, dynamic> json) => ResponseHome(
@@ -23,6 +25,9 @@ class ResponseHome {
           json['driver'] != null ? DriverModel.fromJson(json['driver']) : null,
       userDetail: json['userDetail'] != null
           ? UserDetail.fromJson(json['userDetail'])
+          : null,
+           driverDetail: json['driverDetails'] != null
+          ? UserDetail.fromJson(json['driverDetails'])
           : null,
       tripActive: json['tripActive']);
 }

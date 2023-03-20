@@ -23,7 +23,7 @@ class ItemMenu extends StatelessWidget {
       child: Row(
 
         children: [
-          SvgPicture.asset(icon),
+          SvgPicture.asset(icon,width: 25,height: 25,),
           sizedWidth(18),
           Texts(
               title: text,

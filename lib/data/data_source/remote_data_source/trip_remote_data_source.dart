@@ -56,7 +56,7 @@ class TripRemoteDataSource extends BaseTripRemoteDataSource {
     });
 
     http.StreamedResponse response = await request.send();
-    print(response.statusCode.toString() + "sssss");
+    print(response.statusCode.toString() + "add Trip");
     if (response.statusCode == 200) {
       String jsonsDataString = await response.stream.bytesToString();
       final jsonData = jsonDecode(jsonsDataString);
@@ -69,8 +69,6 @@ class TripRemoteDataSource extends BaseTripRemoteDataSource {
     }
   }
 
-
-
   @override
   Future<ResponseHome> homeTrip({userId}) async {
     var request =
@@ -79,6 +77,7 @@ class TripRemoteDataSource extends BaseTripRemoteDataSource {
 
     http.StreamedResponse response = await request.send();
 
+    print(response.statusCode.toString() + "  getHome");
     if (response.statusCode == 200) {
       String jsonsDataString = await response.stream.bytesToString();
       final jsonData = jsonDecode(jsonsDataString);

@@ -1,13 +1,18 @@
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:taxi/core/helpers/functions.dart';
 import 'package:taxi/core/routers/routers.dart';
+import 'package:taxi/persentaion/ui/splash_screen/splash_screen.dart';
 
 import '../../../../core/helpers/helper_functions.dart';
 import '../../../../core/styles/colors.dart';
+import '../../../../core/utlis/api_constatns.dart';
+import '../../../../core/utlis/app_model.dart';
 import '../../../../core/utlis/strings.dart';
 import '../../../../core/widgets/texts.dart';
 
+import '../../../controller/app_cubit/cubit/app_cubit.dart';
 import 'item_menu.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -20,10 +25,12 @@ class DrawerWidget extends StatelessWidget {
       alignment: Alignment.centerRight,
       padding: const EdgeInsets.only(left: 24, right: 24, top: 38),
       width: widthScreen(context) - 70,
-      decoration: const BoxDecoration(
+      decoration:  BoxDecoration(
         borderRadius: BorderRadius.only(
-          topRight: Radius.circular(80),
-          bottomRight: Radius.circular(80),
+          topRight: AppModel.lang == "ar" ? Radius.circular(0) : Radius.circular(80),
+          bottomRight: AppModel.lang == "ar" ? Radius.circular(0) : Radius.circular(80),
+          topLeft: AppModel.lang == "en" ? Radius.circular(0) : Radius.circular(80),
+          bottomLeft: AppModel.lang == "en" ? Radius.circular(0) : Radius.circular(80),
         ),
         color: Color(0xff0B1B2F),
       ),
@@ -33,7 +40,7 @@ class DrawerWidget extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                scaffoldKey.currentState!.closeEndDrawer();
+                scaffoldKey.currentState!.closeDrawer();
               },
               child: Container(
                 height: 36,
@@ -42,7 +49,7 @@ class DrawerWidget extends StatelessWidget {
                     shape: BoxShape.circle,
                     color: Color.fromARGB(42, 255, 255, 255)),
                 child: const Icon(
-                  Icons.arrow_forward,
+                  Icons.arrow_back,
                   color: Colors.white,
                 ),
               ),
@@ -51,9 +58,9 @@ class DrawerWidget extends StatelessWidget {
         ),
         sizedHeight(25),
         Row(
-          children: const [
+          children:  [
             Texts(
-                title: Strings.menu,
+                title: Strings.menu.tr(),
                 textColor: Colors.white,
                 fontSize: 35,
                 weight: FontWeight.normal,
@@ -61,9 +68,9 @@ class DrawerWidget extends StatelessWidget {
           ],
         ),
         Row(
-          children: const [
+          children:  [
             Texts(
-                title: Strings.main,
+                title: Strings.main.tr(),
                 textColor: textColor,
                 fontSize: 35,
                 weight: FontWeight.normal,
@@ -72,7 +79,7 @@ class DrawerWidget extends StatelessWidget {
         ),
         sizedHeight(35),
         ItemMenu(
-          text: Strings.main,
+          text: Strings.main.tr(),
           icon: "assets/icons/home_menu.svg",
           child: const SizedBox(),
           onTap: () {
@@ -81,7 +88,7 @@ class DrawerWidget extends StatelessWidget {
         ),
         sizedHeight(25),
         ItemMenu(
-          text: Strings.account,
+          text: Strings.account.tr(),
           icon: "assets/icons/acount.svg",
           child: const Texts(
               title: "٩٥٠ ر.س",
@@ -96,22 +103,47 @@ class DrawerWidget extends StatelessWidget {
         ),
         sizedHeight(25),
         ItemMenu(
-          text: Strings.lang,
+          text: Strings.lang.tr(),
           icon: "assets/icons/translate.svg",
-          child: const Texts(
-              title: "العربية",
+          child:  Texts(
+              title:AppModel.lang == "ar"? "العربية":"English",
               textColor: Color(0xffA5A5A5),
               fontSize: 16,
               weight: FontWeight.normal,
               align: TextAlign.center),
-          onTap: () {},
+          onTap: () {
+            showMyDialog(
+                context: context,
+                title: "",
+                body: AppModel.lang == "ar"
+                    ? "تغيير الى اللغة الانجليزية "
+                    : "Translate to Arabic",
+                founction: () async {
+                  if (AppModel.lang == "ar") {
+                    AppModel.lang = "en";
+                    context.setLocale(Locale('en'));
+                    await saveData(ApiConstants.langKey, 'en');
+                    pop(context);
+                    Navigator.pushNamed(context, splash);
+                  } else {
+                    AppModel.lang = "ar";
+                    context.setLocale(Locale('ar'));
+                    await saveData(ApiConstants.langKey, 'ar');
+                    pop(context);
+                    Navigator.pushNamed(context, splash);
+                  }
+                });
+          },
         ),
+       
+
         sizedHeight(25),
+
         ItemMenu(
-          text: Strings.history,
+          text: Strings.history.tr(),
           icon: "assets/icons/history.svg",
           child: const Texts(
-              title: "١٢٠ رحله",
+              title: "",
               textColor: Color(0xffA5A5A5),
               fontSize: 16,
               weight: FontWeight.normal,
@@ -121,21 +153,43 @@ class DrawerWidget extends StatelessWidget {
             Navigator.pushNamed(context, history);
           },
         ),
-        sizedHeight(25),
+        // sizedHeight(25),
+        // ItemMenu(
+        //   text: Strings.schoolPlan,
+        //   icon: "assets/icons/school_menu.svg",
+        //   child: const SizedBox(),
+        //   onTap: () {
+        //     Navigator.pushNamed(context, packages);
+        //   },
+        // ),
+       
+         sizedHeight(25),
         ItemMenu(
-          text: Strings.schoolPlan,
-          icon: "assets/icons/school_menu.svg",
-          child: const SizedBox(),
+          text: Strings.notys,
+          icon: "assets/icons/notifications.svg",
+          child:SizedBox(),
+          //  Container(
+          //     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+          //     decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(15), color: buttonsColor),
+          //     child: const Texts(
+          //         title: "١٢ جديد",
+          //         textColor: Color(0xffA5A5A5),
+          //         fontSize: 11,
+          //         weight: FontWeight.normal,
+          //         align: TextAlign.center)),
           onTap: () {
-            Navigator.pushNamed(context, packages);
+            pop(context);
+            Navigator.pushNamed(context, notifications);
           },
         ),
+     
         sizedHeight(25),
         ItemMenu(
-          text: Strings.myPlan,
+          text: Strings.myPlan.tr(),
           icon: "assets/icons/my_plan.svg",
           child: const Texts(
-              title: "13 يوم متبقي",
+              title: "",
               textColor: Color(0xffA5A5A5),
               fontSize: 16,
               weight: FontWeight.normal,
@@ -146,7 +200,7 @@ class DrawerWidget extends StatelessWidget {
         ),
         sizedHeight(25),
         ItemMenu(
-          text: Strings.sittings,
+          text: Strings.sittings.tr(),
           icon: "assets/icons/sittings.svg",
           child: const SizedBox(),
           onTap: () {
@@ -155,7 +209,7 @@ class DrawerWidget extends StatelessWidget {
         ),
         sizedHeight(25),
         ItemMenu(
-          text: Strings.support,
+          text: Strings.support.tr(),
           icon: "assets/icons/help.svg",
           child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
@@ -171,7 +225,7 @@ class DrawerWidget extends StatelessWidget {
         ),
         sizedHeight(25),
         ItemMenu(
-          text: Strings.privacy,
+          text: Strings.privacy.tr(),
           icon: "assets/icons/aboute.svg",
           child: const SizedBox(),
           onTap: () {},
@@ -194,8 +248,8 @@ class DrawerWidget extends StatelessWidget {
                   height: 24,
                 ),
                 sizedWidth(18),
-                const Texts(
-                    title: Strings.logout,
+                 Texts(
+                    title: Strings.logout.tr(),
                     textColor: buttonsColor,
                     fontSize: 16,
                     weight: FontWeight.normal,

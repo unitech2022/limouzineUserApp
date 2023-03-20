@@ -26,5 +26,25 @@
   "اركب الآن":  "Ride Now",
   "حدد من اين تبدا الرحلة":"Select where the journey begins",
   "الي اين تريد الذهاب":"Where do you want to go?",
-  "ابحث عن توصيلة":"look for a ride"
+  "ابحث عن توصيلة":"look for a ride",
+
+  "القائمة":"Menu",
+  "الرئــــــيسية":"Main",
+
+
+  "الحساب الشخصي": "Personal Account",
+
+  "اللغة":"Language",
+  "سجل التاريخ": "History Record",
+  "اشتراكاتي": "My Subscriptions",
+
+  "الاعدادات": "Settings",
+  "الدعم و الشكاوى": "Support",
+  "سياسات التطبيق": "App policies",
+  "تسجيل الخروج":"Logout",
+  "الغاء الرحلة":"Cancel Trip",
+  "جارى البحث عن أقرب سائق لك ":"Searching for the nearest driver to you"
+,
+"لا توجد اشعارات":  "There are no Notifications",
+"لا يوجد سائقين في الوقت الحالي":"There are no drivers at the moment"
 }
