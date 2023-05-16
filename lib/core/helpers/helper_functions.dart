@@ -1,9 +1,13 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:taxi/core/styles/colors.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../utlis/app_model.dart';
+import '../utlis/strings.dart';
 
 // pushPage(context, page) {
 //   Navigator.push(
@@ -23,6 +27,17 @@ pushPageRoutName(context, route) {
   );
 }
 
+  showSheet(BuildContext context, child) {
+    showModalBottomSheet(
+      context: context,
+      clipBehavior: Clip.antiAlias,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (BuildContext bc) {
+        return child;
+      },
+    );
+  }
 pushPageRoutNameReplaced(context, route) {
   Navigator.pushReplacementNamed(
     context,
@@ -67,41 +82,66 @@ void firebaseCloudMessaging_Listeners() {
 
 
 }
-Future<void> showMyDialog({context ,title ,body ,founction}) async {
+
+Future<void> showMyDialog({context ,title ,body ,founction,child}) async {
   return showDialog<void>(
+
     context: context,
-    barrierDismissible: false, // user must tap button!
+    
+    barrierDismissible: false,
+     // user must tap button!
     builder: (BuildContext context) {
       return AlertDialog(
-        title:  Text(title,style: TextStyle(fontSize: 20,color: Colors.black),),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: [
-            
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(body,style: TextStyle(fontSize: 20,color: Colors.black),textAlign: TextAlign.center,),
-                ],
-              ),
-            ],
+        
+        insetPadding: EdgeInsets.symmetric(horizontal: 20),
+        title:  Text(title,style: TextStyle(fontSize: 20,color:buttonsColor),),
+        content: Container(
+          width: widthScreen(context),
+          child: SingleChildScrollView(
+            child: ListBody(
+              children: [
+              
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(child: Text(body,style: TextStyle(fontSize: 20,color: Colors.black),textAlign: TextAlign.center,)),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
         actions: <Widget>[
-          TextButton(
-            child: const Text("الغاء",style: TextStyle(fontSize: 14,color: Colors.black)),
+
+
+           MaterialButton(
+            color: homeColor,
+              padding: EdgeInsets.all(5),
+            child:  Text(Strings.change.tr(),style: TextStyle(fontSize: 16,color: Colors.white)),
+            onPressed: founction,
+          ),
+       
+          MaterialButton(
+            padding: EdgeInsets.all(5),
+            color: Colors.red,
+            child:  Text(Strings.cancle.tr(),style: TextStyle(fontSize: 14,color: Colors.white)),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
 
-           TextButton(
-            child: const Text("تغيير",style: TextStyle(fontSize: 16,color: Colors.black)),
-            onPressed: founction,
-          ),
+          
         ],
       );
     },
   );
+
+
 }
 
+showTopMessage({context, customBar}) {
+  showTopSnackBar(
+    Overlay.of(context),
+    customBar,
+  );
+}

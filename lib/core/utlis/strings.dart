@@ -47,6 +47,7 @@ class Strings {
   static const String returnGo = "ذهاب/عودة";
   static const String starting = "البداية";
   static const String end = "الوجهة";
+  static const String send = "ارسال";
   static const String whenStarting = "حدد من اين تبدا الرحلة";
   static const String whenEnd = "الي اين تريد الذهاب";
   static const String searchAboutTrip = "اركب الآن";
@@ -141,9 +142,25 @@ class Strings {
    static const String searchTodriver = "جارى البحث عن أقرب سائق لك ";
 
     static const String notNoty = "لا توجد اشعارات";
+
+
+    static const String notTrips = "لا توجد رحلات";
+    
       static const String descPolicy =
       "سياسات الاستخدام و الخصوصية و مشاركة البيانات";
         static const String policy = "سياسة التطبيق";
 static const String thereNotDriver = "لا يوجد سائقين في الوقت الحالي";
-        
+
+  static const String enterComments = "اترك تعليقا";
+
+ static const String selsctTypeCar = "من فضلك اختار نوع السيارة";
+ static const String price ="السعر";
+ static const String theExpectedTime ="الوقت المتوقع";
+         static const String date ="تاريخ الرحلة";
+static const String call ="اتصال";
+static const String whatsApp ="WhatsApp";
+static const String help ="التواصل مع الدعم الفني";
+static const String change ="تغيير";
+static const String cancle ="الغاء";
+         
 }

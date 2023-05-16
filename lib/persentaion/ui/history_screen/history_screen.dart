@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,6 +16,7 @@ import 'package:taxi/persentaion/ui/login_screen/login_screen.dart';
 import '../../../core/helpers/helper_functions.dart';
 import '../../../core/utlis/enums.dart';
 import '../../../data/models/history_response.dart';
+import '../notifications_screen/notifications_screen.dart';
 
 class HistoryScreen extends StatefulWidget {
   @override
@@ -83,7 +85,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 //   onTap: () {},
                 // ),
                 TabHistoryWidget(
-                  title: Strings.done,
+                  title: Strings.done.tr(),
                   textColor: index == 1 ? Colors.white : Color(0xffA5A5A5),
                   containerColor: index == 1 ? textColor : Colors.transparent,
                   onTap: () {
@@ -93,7 +95,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   },
                 ),
                 TabHistoryWidget(
-                  title: Strings.canceled,
+                  title: Strings.canceled.tr(),
                   textColor: index == 2 ? Colors.white : Color(0xffA5A5A5),
                   containerColor: index == 2 ? textColor : Colors.transparent,
                   onTap: () {
@@ -130,7 +132,10 @@ DoneTripsList({required this.list});
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return list.isEmpty? ListEmptyWidget(
+                          title: Strings.notTrips.tr(),
+                          textColor: homeColor,
+                        ):  ListView.builder(
         itemCount: list.length,
         padding: EdgeInsets.only(top: 14),
         itemBuilder: (context, index) {
@@ -165,13 +170,13 @@ class ItemListHistory extends StatelessWidget {
                   time: historyModel.trip!.createdAt.split("T")[1],
                   value:
                   historyModel.trip!.startAddress,
-                  title: Strings.starting,
+                  title: Strings.starting.tr(),
                 ),
                 ContainerDetailsTrip(
                   colorIcon: textColor,
                   time:  historyModel.trip!.createdAt.split("T")[1],
                   value:  historyModel.trip!.endAddress,
-                  title: Strings.arrive,
+                  title: Strings.arrive.tr(),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -179,7 +184,7 @@ class ItemListHistory extends StatelessWidget {
                   child: Row(
                     children: [
                       Texts(
-                          title: Strings.details,
+                          title: Strings.details.tr(),
                           textColor: textColor3,
                           fontSize: 12,
                           weight: FontWeight.bold,
@@ -200,7 +205,7 @@ class ItemListHistory extends StatelessWidget {
                     child: Row(
                       children: [
                         Texts(
-                            title: Strings.cost,
+                            title: Strings.cost.tr(),
                             textColor: Color(0xffA0A0A0),
                             fontSize: 12,
                             weight: FontWeight.bold,
@@ -229,7 +234,7 @@ class ItemListHistory extends StatelessWidget {
                     child: Row(
                       children: [
                         Texts(
-                            title: Strings.driver,
+                            title: Strings.driver.tr(),
                             textColor: Color(0xffA0A0A0),
                             fontSize: 12,
                             weight: FontWeight.bold,
@@ -272,7 +277,7 @@ class ItemListHistory extends StatelessWidget {
                         },
                         color: Colors.red,
                         icon:  "assets/icons/download_cell.svg",
-                        text: Strings.downloadInvoice,
+                        text: Strings.downloadInvoice.tr(),
                       ) ,
 
                       DividerHorizontal(
@@ -286,7 +291,7 @@ class ItemListHistory extends StatelessWidget {
                         },
                         color: Colors.black,
                         icon:  "assets/icons/repeat.svg",
-                        text: Strings.repetition,
+                        text: Strings.repetition.tr(),
                       ) ,
                        DividerHorizontal(
                         height: double.infinity,
@@ -299,7 +304,7 @@ class ItemListHistory extends StatelessWidget {
                         },
                         color: Colors.black,
                         icon:  "assets/icons/share.svg",
-                        text: Strings.share,
+                        text: Strings.share.tr(),
                       ) ,
 
 
@@ -323,7 +328,7 @@ class ItemListHistory extends StatelessWidget {
                   borderRadius: BorderRadius.circular(25),
                   color: Color(0xffDBDBDB)),
               child: Texts(
-                  title: Strings.today,
+                  title: Strings.today.tr(),
                   textColor: Colors.black,
                   fontSize: 12,
                   weight: FontWeight.normal,
@@ -369,17 +374,20 @@ class RowItemWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+           sizedWidth(9),
           SvgPicture.asset(
            icon,
             color: color,
           ),
           sizedWidth(9),
-          Texts(
-              title:text,
-              textColor:color,
-              fontSize: 10,
-              weight: FontWeight.bold,
-              align: TextAlign.start),
+          Expanded(
+            child: Texts(
+                title:text,
+                textColor:color,
+                fontSize: 10,
+                weight: FontWeight.bold,
+                align: TextAlign.start),
+          ),
         ],
       ),
     ));

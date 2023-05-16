@@ -34,7 +34,7 @@ class UserDetail {
     fullName = json['fullName'];
     userName = json['userName'];
     email = json['email'];
-    profileImage = json['profileImage'];
+    profileImage = json['profileImage']??"";
     role = json['role'];
     deviceToken = json['deviceToken'];
     status = json['status'].toString();

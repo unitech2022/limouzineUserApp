@@ -101,12 +101,18 @@ class _TripSummeryScreenState extends State<TripSummeryScreen> {
                     ],
                   ),
                   sizedHeight(6),
-                  const ContainerTripSummery(
+                   ContainerTripSummery(
+                    onTap: () {
+                      
+                    },
                     title: Strings.starting,
                     value: "3482+V2, Al Mendassah 44289, Saudi Arabia",
                   ),
                    sizedHeight(6),
-                   const ContainerTripSummery(
+                    ContainerTripSummery(
+                      onTap: () {
+                      
+                      },
                     title: Strings.arrive,
                     value: "44299, Saudi Arabia",
                   ),

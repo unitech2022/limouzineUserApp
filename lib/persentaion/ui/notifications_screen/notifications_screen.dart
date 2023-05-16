@@ -5,7 +5,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-
 import '../../../core/helpers/helper_functions.dart';
 import '../../../core/styles/colors.dart';
 import '../../../core/utlis/enums.dart';
@@ -39,27 +38,33 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       drawer: DrawerWidget(
         scaffoldKey: _scaffoldKey,
       ),
-      // appBar: PreferredSize(
-      //     preferredSize: Size.fromHeight(50.0),
-      //     child: AppBarHome(
-      //       title: Strings.notys,
-      //       onTap: () {
-      //         _scaffoldKey.currentState!.openDrawer();
-      //       },
-      //       child: Container(
-      //         margin: EdgeInsets.all(12),
-      //         height: 16,
-      //         width: 26,
-      //         child: SvgPicture.asset(
-      //           "assets/icons/login.svg",
-      //           color: Colors.white,
-      //           height: 16,
-      //           width: 26,
-      //         ),
-      //       ),
-      //     )),
-     
-     
+      appBar: AppBar(
+        centerTitle: true,
+        title: Texts(
+            title: Strings.notys.tr(),
+            textColor: Color(0xffFFFFFF),
+            fontSize: 16,
+            weight: FontWeight.bold,
+            align: TextAlign.right),
+        leading: GestureDetector(
+          onTap: () {
+            _scaffoldKey.currentState!.openDrawer();
+          },
+          child: Container(
+            height: 40,
+            width: 40,
+            margin: EdgeInsets.all(8),
+            decoration:
+                const BoxDecoration(color: textColor, shape: BoxShape.circle),
+            child: const Center(
+              child: Icon(
+                Icons.menu,
+                color: homeColor,
+              ),
+            ),
+          ),
+        ),
+      ),
       body: BlocBuilder<NotificationsCubit, NotificationsState>(
         builder: (context, state) {
           return state.getNotificationsState == RequestState.loading

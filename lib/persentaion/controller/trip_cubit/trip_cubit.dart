@@ -9,6 +9,7 @@ import 'package:taxi/core/helpers/functions.dart';
 import 'package:taxi/core/utlis/app_model.dart';
 import 'package:taxi/core/utlis/enums.dart';
 import 'package:taxi/data/data_source/local_data/models/UserDetalsPref.dart';
+import 'package:taxi/data/models/address_model.dart';
 import 'package:taxi/data/models/rsponse_home.dart';
 import 'package:http/http.dart' as http;
 import 'package:taxi/domin/entities/address_model.dart';
@@ -33,16 +34,23 @@ class TripCubit extends Cubit<TripState> {
   static TripCubit get(context) => BlocProvider.of<TripCubit>(context);
 
   changeIndexTypeTrip(int newIndex) {
+    print(newIndex.toString() + "====== > type trip just");
     emit(state.copyWith(currentIndexTypeTrip: newIndex));
   }
 
   getEndLocation(AddressModel value, {context}) async {
     print(value.label + "VVVVVVVVVVVVV");
 
-    emit(state.copyWith(endPoint: value, statues: 1));
-    MapCubit.get(context).drawPolyline(
-        LatLng(state.startPoint!.lat, state.startPoint!.lng),
-        LatLng(value.lat, value.lng));
+    emit(state.copyWith(endPoint: value));
+    // MapCubit.get(context).drawPolyline(
+    //     LatLng(state.startPoint!.lat, state.startPoint!.lng),
+    //     LatLng(value.lat, value.lng));
+  }
+
+  changeStatusScreen(int status, {context}) async {
+    print(status.toString() + "stause screen");
+
+    emit(state.copyWith(statues: status));
   }
 
   getStartLocation(AddressModel value, {context}) async {
@@ -127,9 +135,31 @@ class TripCubit extends Cubit<TripState> {
     emit(state.copyWith(isActiveTimer: false));
   }
 
-  addTrip(Trip trip) async {
+
+// move Map
+ 
+  String detailsAddress = "";
+  bool loading = false;
+  Future getAddresses(double lat, double long) async {
+    loading = true;
+ emit(state.copyWith(movMapState: RequestState.loading));
+    List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
+
+    detailsAddress =
+        "${placemarks[0].name},${placemarks[0].country},${placemarks[0].street}";
+    
+    // print( detailsAddress+
+    // "====== > address");
+
+    loading = false;
+     emit(state.copyWith(movMapState: RequestState.loaded));
+  }
+
+  //////////
+
+  addTrip(Trip trip, {type}) async {
     emit(state.copyWith(addTripState: RequestState.loading));
-    final result = await addTripUseCase.execute(trip);
+    final result = await addTripUseCase.execute(trip, type: type);
     result.fold((l) => emit(state.copyWith(carTypesState: RequestState.error)),
         (r) {
       changeStatusHome(0);
@@ -146,18 +176,27 @@ class TripCubit extends Cubit<TripState> {
     final result = await homeTripUseCase.execute(userId: currentUser.id);
     result.fold((l) => emit(state.copyWith(homeState: RequestState.error)),
         (r) {
+      if (r.trip != null && r.trip!.status != 0 && timer != null) {
+        _start = 0;
+        cancelTimer();
+      }
       //  print(r.userDetail!.fullName! +"home");
-      currentUser.email = r.userDetail!.email;
-      currentUser.fullName = r.userDetail!.fullName;
-      currentUser.profileImage = r.userDetail!.profileImage;
-      currentUser.deviceToken = r.userDetail!.deviceToken;
+      if (r.userDetail != null) {
+        currentUser.email =
+            r.userDetail!.email != null ? r.userDetail!.email : "";
+        currentUser.fullName = r.userDetail!.fullName;
+        currentUser.profileImage = r.userDetail!.profileImage != null
+            ? r.userDetail!.profileImage
+            : "";
+        currentUser.deviceToken = r.userDetail!.deviceToken;
+      }
 
       emit(state.copyWith(homeState: RequestState.loaded, responseHome: r));
     });
   }
 
   /// Todo : refactor
-  changeStatusTrip({tripId, status, userId, isState = 0}) async {
+  Future changeStatusTrip({tripId, status, userId, isState = 0}) async {
     emit(state.copyWith(changeStatusTrip: RequestState.loading));
     var request = http.MultipartRequest(
         'POST', Uri.parse(ApiConstants.changeStatusTripPath));
@@ -172,8 +211,10 @@ class TripCubit extends Cubit<TripState> {
     if (response.statusCode == 200) {
       print(response.statusCode.toString());
       emit(state.copyWith(changeStatusTrip: RequestState.loaded));
+      _start = 0;
       if (isState == 0) {
         print("hoooooooooome");
+
         homeTrip();
       }
     } else {
@@ -223,6 +264,55 @@ class TripCubit extends Cubit<TripState> {
     } else {
       print(response.reasonPhrase);
       emit(state.copyWith(getHistoriesState: RequestState.error));
+    }
+  }
+
+// add new address
+  addNewAddress(AddressResponse addressResponse) async {
+    emit(state.copyWith(addNewAddressState: RequestState.loading));
+    var request =
+        http.MultipartRequest('POST', Uri.parse(ApiConstants.addNewAddress));
+    request.fields.addAll({
+      'UserId': addressResponse.userId!,
+      'Label': addressResponse.label!,
+      'Lat': addressResponse.lat.toString(),
+      'Lang': addressResponse.lang.toString(),
+    });
+
+    http.StreamedResponse response = await request.send();
+    print("add new address ====>  " + response.statusCode.toString());
+    if (response.statusCode == 200) {
+      emit(state.copyWith(addNewAddressState: RequestState.loaded));
+      // homeTrip();
+    } else {
+      print(response.reasonPhrase);
+      emit(state.copyWith(addNewAddressState: RequestState.error));
+    }
+  }
+
+//todo : add rate
+  addRateDriver(
+      {driverId, comment, tripId, stare, context, status, driverUserId}) async {
+    emit(state.copyWith(addRateState: RequestState.loading));
+    var request =
+        http.MultipartRequest('POST', Uri.parse(ApiConstants.addRatePath));
+    request.fields.addAll({
+      'DriverId': driverId.toString(),
+      'UserId': currentUser.id!,
+      'Comment': 'thanks',
+      'Stare': state.toString(),
+      'tripId': tripId.toString()
+    });
+
+    http.StreamedResponse response = await request.send();
+    print(response.statusCode.toString() + " =======> addRateDriver");
+    if (response.statusCode == 200) {
+      pop(context);
+      emit(state.copyWith(addRateState: RequestState.loaded));
+      TripCubit.get(context).changeStatusTrip(
+          tripId: tripId, status: status + 1, userId: driverUserId);
+    } else {
+      emit(state.copyWith(addRateState: RequestState.error));
     }
   }
 }

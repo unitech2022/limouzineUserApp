@@ -10,7 +10,7 @@ import '../../core/failur/failure.dart';
 abstract class BaseTripRepository{
   Future<Either<Failure, List<CartType>>> getCarTypes();
 
- Future<Either<Failure, Trip>> addTrip(Trip trip);
+ Future<Either<Failure, Trip>> addTrip(Trip trip,{type});
 
   Future<Either<Failure, ResponseHome>> homeTrip({userId});
 }

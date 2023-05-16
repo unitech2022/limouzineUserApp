@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -40,13 +41,13 @@ class ItemTripType extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Texts(
-                title: typeTrip.title,
+                title: typeTrip.title.tr(),
                 textColor: currentIndex==typeTrip.id?Colors.white:textColor,
                 fontSize: 14,
                 weight: FontWeight.normal,
                 align: TextAlign.right),
             Texts(
-                title: typeTrip.desc,
+                title: typeTrip.desc.tr(),
                 textColor: currentIndex==typeTrip.id?Colors.white:Colors.grey,
                 fontSize: 11,
                 weight: FontWeight.normal,

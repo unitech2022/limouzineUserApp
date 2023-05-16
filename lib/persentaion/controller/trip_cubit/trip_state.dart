@@ -6,6 +6,7 @@ class TripState extends Equatable {
   final List<CartType> carTypes;
   final RequestState? carTypesState;
    final RequestState? changeStatusTrip;
+      final RequestState? movMapState;
    //timer 
       final int? timerTrip;
       final bool? isActiveTimer;
@@ -21,6 +22,12 @@ final RequestState? updateDeviceTokenState;
   // grt histories
   final RequestState? getHistoriesState;
   final ResponseHistory? histories;
+  // address
+   final RequestState? addNewAddressState;
+   // rating
+   final RequestState? addRateState;
+   // map
+     
 
   TripState(
       {this.endPoint,
@@ -37,9 +44,12 @@ final RequestState? updateDeviceTokenState;
       this.carTypesState = RequestState.loading,
       this.startPoint,
       this.updateDeviceTokenState,
-      this.currentIndexTypeTrip = 1,
+      this.currentIndexTypeTrip = 0,
+      this.movMapState,
       this.getHistoriesState,
-        this.histories
+        this.histories,
+        this.addNewAddressState,
+        this.addRateState
 
 
       });
@@ -50,6 +60,7 @@ final RequestState? updateDeviceTokenState;
           final RequestState? carTypesState,
           final RequestState? addTripState,
           final statues,
+           final RequestState? movMapState,
           final bool? isActiveTimer,
           final int? timerTrip,
            final RequestState? updateDeviceTokenState,
@@ -58,13 +69,16 @@ final RequestState? updateDeviceTokenState;
           final RequestState? homeState,
           final int? selectedRadio,
           final List<CartType>? carTypes,
-          final currentIndexTypeTrip,
+          final int? currentIndexTypeTrip,
           final AddressModel? startPoint,
             final RequestState? getHistoriesState,
-            final ResponseHistory? histories
+            final ResponseHistory? histories,
+            final RequestState? addNewAddressState,
+             final RequestState? addRateState
 
           }) =>
       TripState(
+          movMapState: movMapState ?? this.movMapState,
           homeState: homeState ?? this.homeState,
           responseHome: responseHome ?? this.responseHome,
           changeStatusTrip: changeStatusTrip??this.changeStatusTrip,
@@ -83,6 +97,8 @@ final RequestState? updateDeviceTokenState;
           getHistoriesState: getHistoriesState ?? this.getHistoriesState,
           histories: histories ?? this.histories,
           isActiveTimer: isActiveTimer ?? this.isActiveTimer,
+           addNewAddressState: addNewAddressState ?? this.addNewAddressState,
+           addRateState: addRateState ?? this.addRateState,
 
       );
 
@@ -100,6 +116,9 @@ final RequestState? updateDeviceTokenState;
         responseHome,changeStatusTrip,statues,timerTrip,
     histories,
     getHistoriesState,
-    isActiveTimer
+    isActiveTimer,
+    addNewAddressState,
+    addRateState,
+    movMapState
       ];
 }

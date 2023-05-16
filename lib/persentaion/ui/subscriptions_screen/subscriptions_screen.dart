@@ -28,7 +28,7 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      endDrawer: DrawerWidget(scaffoldKey: _scaffoldKey),
+      drawer: DrawerWidget(scaffoldKey: _scaffoldKey),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100.0),
         child: Container(
@@ -39,7 +39,7 @@ class _SubscriptionsScreenState extends State<SubscriptionsScreen> {
             padding: const EdgeInsets.only(left: 24, right: 24, top: 30),
             child: AppBarHome(
               onTap: () {
-                _scaffoldKey.currentState!.openEndDrawer();
+                _scaffoldKey.currentState!.openDrawer();
               },
             ),
           ),

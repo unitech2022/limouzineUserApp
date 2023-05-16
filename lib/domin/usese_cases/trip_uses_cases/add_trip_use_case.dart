@@ -11,8 +11,8 @@ class AddTripUseCase{
 
   AddTripUseCase(this.repository);
 
-  Future<Either<Failure,Trip>> execute(Trip trip)async{
+  Future<Either<Failure,Trip>> execute(Trip trip,{type})async{
 
-    return await repository.addTrip(trip);
+    return await repository.addTrip(trip,type:type);
   }
 }

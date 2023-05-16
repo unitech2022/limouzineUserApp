@@ -75,6 +75,7 @@ class _ChoseLangScreenState extends State<ChoseLangScreen> {
                           isBorder: true,
                           onPress: () {
                             context.setLocale(Locale('ar'));
+                            
                             AppCubit.get(context).changeLang("ar", context);
                           },
                           color: Colors.white,

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:taxi/core/helpers/functions.dart';
 import 'package:taxi/core/routers/routers.dart';
 import 'package:taxi/persentaion/ui/splash_screen/splash_screen.dart';
@@ -15,22 +16,31 @@ import '../../../../core/widgets/texts.dart';
 import '../../../controller/app_cubit/cubit/app_cubit.dart';
 import 'item_menu.dart';
 
-class DrawerWidget extends StatelessWidget {
+class DrawerWidget extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   const DrawerWidget({super.key, required this.scaffoldKey});
 
+  @override
+  State<DrawerWidget> createState() => _DrawerWidgetState();
+}
+
+class _DrawerWidgetState extends State<DrawerWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.centerRight,
       padding: const EdgeInsets.only(left: 24, right: 24, top: 38),
       width: widthScreen(context) - 70,
-      decoration:  BoxDecoration(
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-          topRight: AppModel.lang == "ar" ? Radius.circular(0) : Radius.circular(80),
-          bottomRight: AppModel.lang == "ar" ? Radius.circular(0) : Radius.circular(80),
-          topLeft: AppModel.lang == "en" ? Radius.circular(0) : Radius.circular(80),
-          bottomLeft: AppModel.lang == "en" ? Radius.circular(0) : Radius.circular(80),
+          topRight:
+              AppModel.lang == "ar" ? Radius.circular(0) : Radius.circular(80),
+          bottomRight:
+              AppModel.lang == "ar" ? Radius.circular(0) : Radius.circular(80),
+          topLeft:
+              AppModel.lang == "en" ? Radius.circular(0) : Radius.circular(80),
+          bottomLeft:
+              AppModel.lang == "en" ? Radius.circular(0) : Radius.circular(80),
         ),
         color: Color(0xff0B1B2F),
       ),
@@ -40,7 +50,7 @@ class DrawerWidget extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                scaffoldKey.currentState!.closeDrawer();
+                widget.scaffoldKey.currentState!.closeDrawer();
               },
               child: Container(
                 height: 36,
@@ -58,7 +68,7 @@ class DrawerWidget extends StatelessWidget {
         ),
         sizedHeight(25),
         Row(
-          children:  [
+          children: [
             Texts(
                 title: Strings.menu.tr(),
                 textColor: Colors.white,
@@ -68,7 +78,7 @@ class DrawerWidget extends StatelessWidget {
           ],
         ),
         Row(
-          children:  [
+          children: [
             Texts(
                 title: Strings.main.tr(),
                 textColor: textColor,
@@ -91,7 +101,7 @@ class DrawerWidget extends StatelessWidget {
           text: Strings.account.tr(),
           icon: "assets/icons/acount.svg",
           child: const Texts(
-              title: "٩٥٠ ر.س",
+              title: "",
               textColor: Color(0xffA5A5A5),
               fontSize: 16,
               weight: FontWeight.normal,
@@ -105,8 +115,8 @@ class DrawerWidget extends StatelessWidget {
         ItemMenu(
           text: Strings.lang.tr(),
           icon: "assets/icons/translate.svg",
-          child:  Texts(
-              title:AppModel.lang == "ar"? "العربية":"English",
+          child: Texts(
+              title: AppModel.lang == "ar" ? "العربية" : "English",
               textColor: Color(0xffA5A5A5),
               fontSize: 16,
               weight: FontWeight.normal,
@@ -114,10 +124,13 @@ class DrawerWidget extends StatelessWidget {
           onTap: () {
             showMyDialog(
                 context: context,
-                title: "",
+                
+                title:AppModel.lang == "ar"
+                    ? "تغيير اللغة"
+                    : "Change Language ?",
                 body: AppModel.lang == "ar"
-                    ? "تغيير الى اللغة الانجليزية "
-                    : "Translate to Arabic",
+                    ? "هل تريد تغيير لغة التطبيق  ؟"
+                    :"Do you want to change the language of the application?",
                 founction: () async {
                   if (AppModel.lang == "ar") {
                     AppModel.lang = "en";
@@ -135,7 +148,6 @@ class DrawerWidget extends StatelessWidget {
                 });
           },
         ),
-       
 
         sizedHeight(25),
 
@@ -162,12 +174,12 @@ class DrawerWidget extends StatelessWidget {
         //     Navigator.pushNamed(context, packages);
         //   },
         // ),
-       
-         sizedHeight(25),
+
+        sizedHeight(25),
         ItemMenu(
-          text: Strings.notys,
+          text: Strings.notys.tr(),
           icon: "assets/icons/notifications.svg",
-          child:SizedBox(),
+          child: SizedBox(),
           //  Container(
           //     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
           //     decoration: BoxDecoration(
@@ -183,7 +195,7 @@ class DrawerWidget extends StatelessWidget {
             Navigator.pushNamed(context, notifications);
           },
         ),
-     
+
         sizedHeight(25),
         ItemMenu(
           text: Strings.myPlan.tr(),
@@ -199,29 +211,33 @@ class DrawerWidget extends StatelessWidget {
           },
         ),
         sizedHeight(25),
-        ItemMenu(
-          text: Strings.sittings.tr(),
-          icon: "assets/icons/sittings.svg",
-          child: const SizedBox(),
-          onTap: () {
-            Navigator.pushNamed(context, settings);
-          },
-        ),
-        sizedHeight(25),
+        // ItemMenu(
+        //   text: Strings.sittings.tr(),
+        //   icon: "assets/icons/sittings.svg",
+        //   child: const SizedBox(),
+        //   onTap: () {
+        //     Navigator.pushNamed(context, settings);
+        //   },
+        // ),
+        // sizedHeight(25),
         ItemMenu(
           text: Strings.support.tr(),
           icon: "assets/icons/help.svg",
-          child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15), color: buttonsColor),
-              child: const Texts(
-                  title: "١٢ جديد",
-                  textColor: Color(0xffA5A5A5),
-                  fontSize: 11,
-                  weight: FontWeight.normal,
-                  align: TextAlign.center)),
-          onTap: () {},
+          child:SizedBox(),
+          //  Container(
+          //     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+          //     decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(15), color: buttonsColor),
+          //     child: const Texts(
+          //         title: "١٢ جديد",
+          //         textColor: Color(0xffA5A5A5),
+          //         fontSize: 11,
+          //         weight: FontWeight.normal,
+          //         align: TextAlign.center)
+          //         ),
+          onTap: () {
+            showSheet(context, selectCall(context));
+          },
         ),
         sizedHeight(25),
         ItemMenu(
@@ -240,21 +256,26 @@ class DrawerWidget extends StatelessWidget {
                 fontSize: 16,
                 weight: FontWeight.normal,
                 align: TextAlign.center),
-            Row(
-              children: [
-                SvgPicture.asset(
-                  "assets/icons/logout.svg",
-                  width: 24,
-                  height: 24,
-                ),
-                sizedWidth(18),
-                 Texts(
-                    title: Strings.logout.tr(),
-                    textColor: buttonsColor,
-                    fontSize: 16,
-                    weight: FontWeight.normal,
-                    align: TextAlign.right),
-              ],
+            GestureDetector(
+              onTap: () {
+                signOut(ctx: context);
+              },
+              child: Row(
+                children: [
+                  SvgPicture.asset(
+                    "assets/icons/logout.svg",
+                    width: 24,
+                    height: 24,
+                  ),
+                  sizedWidth(18),
+                  Texts(
+                      title: Strings.logout.tr(),
+                      textColor: buttonsColor,
+                      fontSize: 16,
+                      weight: FontWeight.normal,
+                      align: TextAlign.right),
+                ],
+              ),
             )
           ],
         ),
@@ -262,4 +283,138 @@ class DrawerWidget extends StatelessWidget {
       ]),
     );
   }
+
+  selectCall(BuildContext context) {
+    return Container(
+      height: 200,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 18.0,
+        ),
+        child: Column(
+          children: [
+            const SizedBox(height: 10),
+            Container(
+              width: 24,
+              height: 3,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.5),
+                color: const Color(0xFFDCDCDF),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Texts(
+                title: Strings.help,
+                textColor: buttonsColor,
+                fontSize: 16,
+                weight: FontWeight.bold,
+                align: TextAlign.center),
+            const SizedBox(
+              height: 30,
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        pop(context);
+                        // HelperFunction.slt.launchWhatsapp(
+                        //     number: AppCubit.get(context)
+                        //         .homeModel
+                        //         .sittings![14]
+                        //         .value!,
+                        //     context: context);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: const Color(0xFFF6F2F2),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const FaIcon(
+                              FontAwesomeIcons.whatsapp,
+                              size: 30,
+                              color: Colors.green,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Texts(
+                                title: Strings.whatsApp,
+                                textColor: buttonsColor,
+                                fontSize: 16,
+                                weight: FontWeight.bold,
+                                align: TextAlign.center)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () async {
+                        pop(context);
+                        // HelperFunction.slt.openDialPad(AppCubit.get(context)
+                        //     .homeModel
+                        //     .sittings![14]
+                        //     .value!);
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: const Color(0xFFF6F2F2),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.call,
+                              size: 30,
+                              color: Colors.blue,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Texts(
+                                title: Strings.call,
+                                textColor: buttonsColor,
+                                fontSize: 16,
+                                weight: FontWeight.bold,
+                                align: TextAlign.center)
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+
 }

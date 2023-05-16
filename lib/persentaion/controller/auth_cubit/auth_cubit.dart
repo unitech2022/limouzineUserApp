@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:taxi/core/helpers/functions.dart';
@@ -17,6 +18,8 @@ import 'package:taxi/persentaion/ui/home_screen/home_screen.dart';
 import 'package:taxi/persentaion/ui/home_screen/tabs_screens/start_trip_screen/start_trip_screen.dart';
 import 'package:taxi/persentaion/ui/otp_screen/otp_screen.dart';
 import 'package:taxi/persentaion/ui/sign_up_screen/signup_screen.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import '../../../core/helpers/helper_functions.dart';
 import '../../../domin/entities/response_signup.dart';
 import '../../../domin/usese_cases/app_use_case/app_use_case.dart';
 import '../../../domin/usese_cases/auth_uses_cases/signup_usecase.dart';
@@ -67,6 +70,8 @@ class AuthCubit extends Cubit<AuthState> {
       // print(r);
 
       token = "Bearer " + r.token;
+
+      currentUser..token = r.token;
       currentUser..profileImage = r.profileImage;
       currentUser..userName = r.userName;
       currentUser..id = r.id;
@@ -91,10 +96,19 @@ class AuthCubit extends Cubit<AuthState> {
       if (r.status) {
         pushPage(context: context, page: OtpScreen(phone: user.userName));
       } else {
-        showSnakeBar(
-          message: r.message,
+        // showSnakeBar(
+        //   message: r.message,
+        //   context: context,
+        // );
+
+
+        showTopMessage(
           context: context,
-        );
+          customBar:  CustomSnackBar.error(
+            backgroundColor: Color.fromARGB(255, 211, 161, 11),
+            message:  r.message,
+            textStyle: TextStyle(
+                fontFamily: "font", fontSize: 16, color: Colors.white)));
       }
       emit(state.copyWith(responseSignUp: r, signUpStet: RequestState.loaded));
     });
@@ -143,11 +157,14 @@ class AuthCubit extends Cubit<AuthState> {
     if (response.statusCode == 200) {
       String jsonsDataString = await response.stream.bytesToString();
       final jsonData = jsonDecode(jsonsDataString);
+      print(jsonData.toString() + " ========= > user");
       userDetail = UserDetail.fromJson(jsonData);
-      currentUser.email = userDetail!.email;
-      currentUser.fullName = userDetail!.fullName;
-      currentUser.profileImage = userDetail!.profileImage;
-      currentUser.deviceToken = userDetail!.deviceToken;
+      if (userDetail != null) {
+        currentUser.email = userDetail!.email;
+        currentUser.fullName = userDetail!.fullName;
+        currentUser.profileImage = userDetail!.profileImage;
+        currentUser.deviceToken = userDetail!.deviceToken;
+      }
       emit(state.copyWith(
           getUserState: RequestState.loaded, getUserDetails: userDetail));
     } else {
@@ -156,7 +173,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
- Future updateUser({fullName, email, image}) async {
+  Future updateUser({fullName, email, image}) async {
     emit(state.copyWith(updateUserState: RequestState.loading));
     var headers = {'Authorization': currentUser.token!};
 
@@ -187,7 +204,4 @@ class AuthCubit extends Cubit<AuthState> {
       emit(state.copyWith(updateUserState: RequestState.error));
     }
   }
-
-
-
 }

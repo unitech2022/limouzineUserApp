@@ -1,5 +1,4 @@
 
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -9,8 +8,10 @@ import 'package:location/location.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taxi/core/utlis/api_constatns.dart';
 import 'package:taxi/core/utlis/app_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../domin/entities/user.dart';
+import '../../persentaion/ui/login_screen/login_screen.dart';
 
 
 
@@ -114,14 +115,14 @@ getLocation() async {
   print("${locData.latitude} lat:${locData.longitude} LNG:");
 }
 
-// signOut({ctx}) async {
-//   const storage = FlutterSecureStorage();
+signOut({ctx}) async {
+  const storage = FlutterSecureStorage();
 
-//   token = "";
-//   await storage.delete(key: "token");
-//   // await storage.delete(key: "id");
-//   replacePage(context: ctx, page: const LoginScreen());
-// }
+  currentUser.token = "";
+  await storage.delete(key: "token");
+  // await storage.delete(key: "id");
+  replacePage(context: ctx, page:  LoginScreen());
+}
 
 
 // int createUniqueId() {
@@ -201,3 +202,17 @@ showToast({message}){
 //     },
 //   );
 // }
+openGoogleMapLocation({lat, lng}) async {
+    String mapOptions = [
+      'saddr=${locData.latitude},${locData.longitude}',
+      'daddr=$lat,$lng',
+      'dir_action=navigate'
+    ].join('&');
+
+    String url = 'https://www.google.com/maps?$mapOptions';
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }

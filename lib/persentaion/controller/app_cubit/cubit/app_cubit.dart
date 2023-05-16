@@ -13,6 +13,7 @@ class AppCubit extends Cubit<AppState> {
   AppCubit() : super(AppState());
   static AppCubit get(context) => BlocProvider.of<AppCubit>(context);
   changeLang(lang, context) async {
+    AppModel.lang = lang;
     await saveData(ApiConstants.langKey, lang);
     // EasyLocalization.of(context)?.setLocale(Locale(lang, ''));
 
@@ -52,4 +53,6 @@ class AppCubit extends Cubit<AppState> {
       emit(AppState(page: "done"));
     });
   }
+
+
 }

@@ -104,9 +104,9 @@ class _AccountScreenState extends State<AccountScreen> {
                                           height: 120,
                                           width: 120,
                                           image: state.image == ""
-                                              ? ApiConstants.imageUrl(state
+                                              ? ApiConstants.imageUrl(state.getUserDetails!=null?state
                                                   .getUserDetails!
-                                                  .profileImage!)
+                                                  .profileImage!:"")
                                               : ApiConstants.imageUrl(
                                                   state.image)),
                                 ),

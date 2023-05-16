@@ -1,13 +1,14 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:taxi/core/utlis/strings.dart';
 
 List<TypeTrip> typesTrip = [
   TypeTrip(
-      id: 1,
+      id: 0,
       title: Strings.internal,
       desc: Strings.betweenRegions,
       icon: "assets/icons/city.svg"),
   TypeTrip(
-      id: 2,
+      id: 1,
       title: Strings.externalString,
       desc: Strings.betweenCities,
       icon: "assets/icons/external.svg"),

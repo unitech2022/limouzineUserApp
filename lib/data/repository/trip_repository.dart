@@ -30,8 +30,8 @@ class TripRepository extends BaseTripRepository {
   }
 
   @override
-  Future<Either<Failure, Trip>> addTrip(Trip trip) async{
-   final result = await baseRemoteDataSource.addTrip(trip);
+  Future<Either<Failure, Trip>> addTrip(Trip trip,{type}) async{
+   final result = await baseRemoteDataSource.addTrip(trip,type:type);
 
     try {
       return Right(result);

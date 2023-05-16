@@ -11,7 +11,7 @@ import '../../../core/utlis/api_constatns.dart';
 
 abstract class BaseTripRemoteDataSource {
   Future<List<CarTypeModel>> getCarTypes();
-  Future<TripModel> addTrip(Trip trip);
+  Future<TripModel> addTrip(Trip trip,{type});
 
   Future<ResponseHome> homeTrip({userId});
 }
@@ -37,7 +37,7 @@ class TripRemoteDataSource extends BaseTripRemoteDataSource {
   }
 
   @override
-  Future<TripModel> addTrip(Trip trip) async {
+  Future<TripModel> addTrip(Trip trip,{type}) async {
     var request =
         http.MultipartRequest('POST', Uri.parse(ApiConstants.addTripPath));
     request.fields.addAll({
@@ -52,7 +52,8 @@ class TripRemoteDataSource extends BaseTripRemoteDataSource {
       'startAddress': trip.startAddress,
       'endAddress': trip.endAddress,
       'OTP': trip.otp,
-      'payment': '0'
+      'payment': '0',
+      'type': type.toString()
     });
 
     http.StreamedResponse response = await request.send();
