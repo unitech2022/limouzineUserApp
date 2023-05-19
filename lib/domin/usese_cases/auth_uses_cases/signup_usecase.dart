@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
-
 import '../../../core/failur/failure.dart';
-import '../../entities/response_login.dart';
+
 import '../../entities/response_signup.dart';
 import '../../repository/base_auth_repository.dart';
 

@@ -1,16 +1,14 @@
 
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:location/location.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:taxi/core/utlis/api_constatns.dart';
+
 import 'package:taxi/core/utlis/app_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../domin/entities/user.dart';
 import '../../persentaion/ui/login_screen/login_screen.dart';
 
 

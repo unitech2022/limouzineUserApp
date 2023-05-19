@@ -4,16 +4,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:taxi/core/helpers/functions.dart';
 import 'package:taxi/core/routers/routers.dart';
-import 'package:taxi/persentaion/ui/splash_screen/splash_screen.dart';
-
 import '../../../../core/helpers/helper_functions.dart';
 import '../../../../core/styles/colors.dart';
 import '../../../../core/utlis/api_constatns.dart';
 import '../../../../core/utlis/app_model.dart';
 import '../../../../core/utlis/strings.dart';
 import '../../../../core/widgets/texts.dart';
-
-import '../../../controller/app_cubit/cubit/app_cubit.dart';
 import 'item_menu.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -111,6 +107,21 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             Navigator.pushNamed(context, account);
           },
         ),
+         sizedHeight(25),
+        ItemMenu(
+          text: Strings.tripExternal.tr(),
+          icon: "assets/icons/my_plan.svg",
+          child: const Texts(
+              title: "",
+              textColor: Color(0xffA5A5A5),
+              fontSize: 16,
+              weight: FontWeight.normal,
+              align: TextAlign.center),
+          onTap: () {
+            pop(context);
+            Navigator.pushNamed(context, externalTrip);
+          },
+        ),
         sizedHeight(25),
         ItemMenu(
           text: Strings.lang.tr(),
@@ -197,20 +208,20 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         ),
 
         sizedHeight(25),
-        ItemMenu(
-          text: Strings.myPlan.tr(),
-          icon: "assets/icons/my_plan.svg",
-          child: const Texts(
-              title: "",
-              textColor: Color(0xffA5A5A5),
-              fontSize: 16,
-              weight: FontWeight.normal,
-              align: TextAlign.center),
-          onTap: () {
-            Navigator.pushNamed(context, subscription);
-          },
-        ),
-        sizedHeight(25),
+        // ItemMenu(
+        //   text: Strings.myPlan.tr(),
+        //   icon: "assets/icons/my_plan.svg",
+        //   child: const Texts(
+        //       title: "",
+        //       textColor: Color(0xffA5A5A5),
+        //       fontSize: 16,
+        //       weight: FontWeight.normal,
+        //       align: TextAlign.center),
+        //   onTap: () {
+        //     Navigator.pushNamed(context, subscription);
+        //   },
+        // ),
+        // sizedHeight(25),
         // ItemMenu(
         //   text: Strings.sittings.tr(),
         //   icon: "assets/icons/sittings.svg",

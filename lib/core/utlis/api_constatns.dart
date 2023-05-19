@@ -3,7 +3,7 @@ class ApiConstants {
 static const googleKey = "AIzaSyCHcAKXFZuQ8WhkAvW1zv3MTVibHU9EuF0";
   
   // static const baseUrl ="";
-// static const baseUrl = "https://7ed8-154-183-219-157.ngrok-free.app";
+//  static const baseUrl = "http://8c76-154-183-216-173.ngrok-free.app";
 static const baseUrl = "https://Limousine.urapp.site";
   static const baseUrlImages = "$baseUrl/images/";
   static const checkUserPath = "$baseUrl/check-username";
@@ -41,9 +41,9 @@ static const getHistoriesPath =
   static const getTripsPath =
     "$baseUrl/trips/add-trip";
   static const addNewAddress = "$baseUrl/address/add-address";
-  // static const getPlaceDetailsPath = "$baseUrl/places/get-placeDetails?";
+   static const addGroupPath = "$baseUrl/group/add-group-location";
 
-  // static const addNewAddress = "$baseUrl/cities/search_city?";
+   static const getGroupsPath = "$baseUrl/group/get-groups-locations-by-userId?";
 
   static const getFavoritesPath = "$baseUrl/Favorite/get-favorites?";
   static String imageUrl(path) => baseUrlImages+path;

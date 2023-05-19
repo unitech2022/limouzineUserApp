@@ -1,4 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
+
 import 'package:taxi/core/utlis/strings.dart';
 
 List<TypeTrip> typesTrip = [

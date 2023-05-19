@@ -198,7 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 context: context,
                                 customBar: CustomSnackBar.error(
                                     backgroundColor: Colors.red,
-                                    message: Strings.pleasEnterName.tr(),
+                                    message: Strings.pleasEnterPhone.tr(),
                                     textStyle: TextStyle(
                                         fontFamily: "font",
                                         fontSize: 16,

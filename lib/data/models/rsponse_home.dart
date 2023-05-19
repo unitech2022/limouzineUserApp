@@ -2,7 +2,7 @@ import 'package:taxi/data/models/address_model.dart';
 import 'package:taxi/data/models/driver_model.dart';
 import 'package:taxi/data/models/trip_model.dart';
 import 'package:taxi/data/models/user_response.dart';
-import 'package:taxi/domin/entities/address_model.dart';
+
 import 'package:taxi/domin/entities/trip.dart';
 
 import '../../domin/entities/driver.dart';

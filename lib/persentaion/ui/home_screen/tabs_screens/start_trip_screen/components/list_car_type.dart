@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../../../core/helpers/helper_functions.dart';
 import '../../../../../../core/styles/colors.dart';
 import '../../../../../../core/utlis/api_constatns.dart';
@@ -11,7 +9,7 @@ import '../../../../../../domin/entities/car_type.dart';
 import '../../../../../controller/app_cubit/cubit/app_cubit.dart';
 
 class ListCarTypes extends StatefulWidget {
-  List<CartType> carTypes;
+  final List<CartType> carTypes;
   final Function(int) carTypeId;
   ListCarTypes(this.carTypes, this.carTypeId);
 

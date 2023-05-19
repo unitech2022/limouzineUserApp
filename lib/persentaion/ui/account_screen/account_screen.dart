@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:taxi/core/helpers/helper_functions.dart';
 import 'package:taxi/core/styles/colors.dart';
 import 'package:taxi/core/utlis/api_constatns.dart';
-import 'package:taxi/core/utlis/app_model.dart';
+
 import 'package:taxi/core/utlis/enums.dart';
 import 'package:taxi/core/widgets/circle_image_widget.dart';
 import 'package:taxi/core/widgets/text_form_field.dart';

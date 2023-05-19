@@ -1,14 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_maps_webservice/directions.dart';
+
 import 'package:taxi/core/helpers/functions.dart';
+import 'package:taxi/core/helpers/helper_functions.dart';
 import 'package:taxi/core/utlis/app_model.dart';
 import 'package:taxi/core/utlis/enums.dart';
-import 'package:taxi/data/data_source/local_data/models/UserDetalsPref.dart';
+
 import 'package:taxi/data/models/address_model.dart';
 import 'package:taxi/data/models/rsponse_home.dart';
 import 'package:http/http.dart' as http;
@@ -16,10 +18,15 @@ import 'package:taxi/domin/entities/address_model.dart';
 import 'package:taxi/domin/entities/trip.dart';
 import 'package:taxi/domin/usese_cases/trip_uses_cases/add_trip_use_case.dart';
 import 'package:taxi/domin/usese_cases/trip_uses_cases/home_trip_use_case.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import '../../../core/utlis/api_constatns.dart';
+import '../../../core/utlis/strings.dart';
+import '../../../data/models/group_location.dart';
 import '../../../data/models/history_response.dart';
 import '../../../domin/entities/car_type.dart';
+import '../../../domin/entities/city.dart';
 import '../../../domin/usese_cases/trip_uses_cases/get_car_types_use_case.dart';
+import '../../ui/waiting_trip_screen/waiting_trip_screen.dart';
 import '../map_cubit copy/map_cubit.dart';
 
 part 'trip_state.dart';
@@ -67,7 +74,7 @@ class TripCubit extends Cubit<TripState> {
 
     AddressModel addressModel =
         AddressModel(label: address, lat: lat, lng: lng);
-
+    getCities();
     emit(state.copyWith(startPoint: addressModel));
     MapCubit.get(context).getStartLocation(addressModel);
   }
@@ -135,24 +142,23 @@ class TripCubit extends Cubit<TripState> {
     emit(state.copyWith(isActiveTimer: false));
   }
 
-
 // move Map
- 
+
   String detailsAddress = "";
   bool loading = false;
   Future getAddresses(double lat, double long) async {
     loading = true;
- emit(state.copyWith(movMapState: RequestState.loading));
+    emit(state.copyWith(movMapState: RequestState.loading));
     List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
 
     detailsAddress =
         "${placemarks[0].name},${placemarks[0].country},${placemarks[0].street}";
-    
+
     // print( detailsAddress+
     // "====== > address");
 
     loading = false;
-     emit(state.copyWith(movMapState: RequestState.loaded));
+    emit(state.copyWith(movMapState: RequestState.loaded));
   }
 
   //////////
@@ -172,6 +178,7 @@ class TripCubit extends Cubit<TripState> {
   }
 
   homeTrip() async {
+    await getCities();
     emit(state.copyWith(homeState: RequestState.loading));
     final result = await homeTripUseCase.execute(userId: currentUser.id);
     result.fold((l) => emit(state.copyWith(homeState: RequestState.error)),
@@ -287,6 +294,76 @@ class TripCubit extends Cubit<TripState> {
     } else {
       print(response.reasonPhrase);
       emit(state.copyWith(addNewAddressState: RequestState.error));
+    }
+  }
+
+//** external trip  */
+  setCityPoint(City city, String type) {
+    if (type == "start") {
+      emit(state.copyWith(startCity: city));
+    } else {
+      emit(state.copyWith(endCity: city));
+    }
+    print(city.name);
+  }
+
+  List<City> filteredList = [];
+  searchCity(String search) {
+    filteredList = [];
+    // emit(state.copyWith(searchCity: RequestState.loading));
+    filteredList = cities
+        .where((element) => element.name!.toString().contains(search.trim()))
+        .toList();
+    emit(state.copyWith(searchCity: RequestState.loaded));
+  }
+
+  // add group
+  addGroup({startCity, endCity, context}) async {
+    emit(state.copyWith(addTripState: RequestState.loading));
+    var request =
+        http.MultipartRequest('POST', Uri.parse(ApiConstants.addGroupPath));
+    request.fields.addAll({
+      'userId': currentUser.id!,
+      'startlocation': startCity,
+      'endlocation': endCity
+    });
+
+    http.StreamedResponse response = await request.send();
+    print(response.statusCode.toString() + "====== > addGroup");
+    if (response.statusCode == 200) {
+      pushPage(context: context, page: WaitingTripScreen());
+      showTopMessage(
+          context: context,
+          customBar: CustomSnackBar.error(
+              backgroundColor: Colors.green,
+              message: Strings.sendOrder.tr(),
+              textStyle: TextStyle(
+                  fontFamily: "font", fontSize: 16, color: Colors.white)));
+      emit(state.copyWith(addTripState: RequestState.loaded));
+    } else {
+      emit(state.copyWith(addTripState: RequestState.loaded));
+    }
+  }
+
+// get group
+
+  getGroups({userId}) async {
+    emit(state.copyWith(getGroupsState: RequestState.loading));
+    var request = http.MultipartRequest(
+        'GET', Uri.parse('${ApiConstants.getGroupsPath}userId=$userId'));
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      String jsonDataString = await response.stream.bytesToString();
+      final jsonData = jsonDecode(jsonDataString);
+
+      emit(state.copyWith(
+          getGroupsState: RequestState.loaded,
+          groupsLocation: List<GroupLocation>.from(
+              (jsonData as List).map((e) => GroupLocation.fromJson(e)))));
+    } else {
+      emit(state.copyWith(getGroupsState: RequestState.error));
     }
   }
 

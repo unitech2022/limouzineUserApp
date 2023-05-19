@@ -8,13 +8,13 @@ import 'package:taxi/core/helpers/functions.dart';
 import 'package:taxi/core/utlis/api_constatns.dart';
 import 'package:taxi/core/utlis/app_model.dart';
 import 'package:taxi/core/utlis/enums.dart';
-import 'package:taxi/data/data_source/local_data/models/UserDetalsPref.dart';
+
 import 'package:taxi/data/models/user_response.dart';
 import 'package:taxi/domin/entities/response_login.dart';
 import 'package:taxi/domin/entities/user.dart';
 import 'package:taxi/domin/usese_cases/auth_uses_cases/check_user_name_usecase.dart';
 import 'package:taxi/domin/usese_cases/auth_uses_cases/login_usecase.dart';
-import 'package:taxi/persentaion/ui/home_screen/home_screen.dart';
+
 import 'package:taxi/persentaion/ui/home_screen/tabs_screens/start_trip_screen/start_trip_screen.dart';
 import 'package:taxi/persentaion/ui/otp_screen/otp_screen.dart';
 import 'package:taxi/persentaion/ui/sign_up_screen/signup_screen.dart';

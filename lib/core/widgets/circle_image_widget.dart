@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-
 import 'package:flutter/material.dart';
-import 'package:taxi/core/routers/routers.dart';
+
 
 class CircleImageWidget extends StatelessWidget {
   final double height, width;

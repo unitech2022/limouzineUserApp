@@ -37,10 +37,12 @@ class AppCubit extends Cubit<AppState> {
     emit(AppState(selectedRadio: selectedRadio));
   }
 
-  getPage(context) {
+  getPage(context)  {
+  
     Future.delayed(const Duration(seconds: 5), () {
       print(AppModel.lang);
       firebaseCloudMessaging_Listeners();
+     
       if (AppModel.lang == "") {
         Navigator.pushReplacementNamed(context, lang);
       } else {

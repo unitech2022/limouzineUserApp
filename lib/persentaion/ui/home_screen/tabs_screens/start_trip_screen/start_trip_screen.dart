@@ -1,50 +1,22 @@
-import 'dart:ffi';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_map_markers/custom_map_markers.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:flutter_svg/svg.dart';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:taxi/core/helpers/functions.dart';
-import 'package:taxi/core/helpers/helper_functions.dart';
-import 'package:taxi/core/routers/routers.dart';
 import 'package:taxi/core/utlis/api_constatns.dart';
 import 'package:taxi/core/utlis/app_model.dart';
-import 'package:taxi/core/utlis/data.dart';
-import 'package:taxi/core/utlis/enums.dart';
 import 'package:taxi/core/widgets/circle_image_widget.dart';
-import 'package:taxi/data/models/address_model.dart';
 import 'package:taxi/domin/entities/address_model.dart';
-import 'package:taxi/domin/entities/car_type.dart';
-import 'package:taxi/domin/entities/trip.dart';
-import 'package:taxi/persentaion/controller/app_cubit/cubit/app_cubit.dart';
-import 'package:taxi/persentaion/controller/home_cubit/cubit/home_cubit.dart';
 import 'package:taxi/persentaion/controller/map_cubit%20copy/map_cubit.dart';
 import 'package:taxi/persentaion/controller/trip_cubit/trip_cubit.dart';
-import 'package:taxi/persentaion/ui/login_screen/login_screen.dart';
-import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import '../../../../../core/styles/colors.dart';
 import '../../../../../core/thems/them.dart';
-import '../../../../../core/utlis/strings.dart';
-import '../../../../../core/widgets/button_widget.dart';
-import '../../../../../core/widgets/container.divider.dart';
-import '../../../../../core/widgets/texts.dart';
 import '../../components/app_bar_home.dart';
 import '../../components/drawer_widget.dart';
-import '../../map_screen.dart';
-import '../trip_summary_screen/components/container_trip_summery.dart';
-import 'components/container_input_address.dart';
 import 'components/internal_trip_widget.dart';
-import 'components/item_saved_addresses.dart';
-import 'components/item_trip_type.dart';
+
 
 class StartTripScreen extends StatefulWidget {
   const StartTripScreen({super.key});

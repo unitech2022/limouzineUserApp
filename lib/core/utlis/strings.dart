@@ -162,5 +162,15 @@ static const String whatsApp ="WhatsApp";
 static const String help ="التواصل مع الدعم الفني";
 static const String change ="تغيير";
 static const String cancle ="الغاء";
-         
+
+
+
+
+static const String starTrip ="طلب الرحلة";
+static const String sendOrder ="تم ارسال الطلب";
+
+static const String tripExternal ="رحلاتي الخارجية";
+static const String numberTrip ="رحلة رقم :";
+static const String myTrip ="رحلاتى";
+
 }

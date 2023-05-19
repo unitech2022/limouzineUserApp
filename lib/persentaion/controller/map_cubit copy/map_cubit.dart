@@ -1,28 +1,13 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:taxi/core/helpers/functions.dart';
-import 'package:taxi/core/styles/colors.dart';
-import 'package:taxi/core/utlis/app_model.dart';
 import 'package:taxi/core/utlis/enums.dart';
-import 'package:taxi/data/data_source/local_data/models/UserDetalsPref.dart';
-import 'package:taxi/data/models/rsponse_home.dart';
 import 'package:http/http.dart' as http;
 import 'package:taxi/domin/entities/address_model.dart';
-import 'package:taxi/domin/entities/trip.dart';
-import 'package:taxi/domin/usese_cases/trip_uses_cases/add_trip_use_case.dart';
-import 'package:taxi/domin/usese_cases/trip_uses_cases/home_trip_use_case.dart';
 import '../../../core/utlis/api_constatns.dart';
-import '../../../data/models/history_response.dart';
 import '../../../data/models/polyline_response.dart';
-import '../../../domin/entities/car_type.dart';
-import '../../../domin/usese_cases/trip_uses_cases/get_car_types_use_case.dart';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 part 'map_state.dart';
 
 class MapCubit extends Cubit<MapState> {

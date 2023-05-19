@@ -63,7 +63,12 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TripCubit, TripState>(
+    return BlocConsumer<TripCubit, TripState>(
+      listener: (context, state) {
+        if (state.movMapState == RequestState.loaded) {
+          _controllertext.text = TripCubit.get(context).detailsAddress;
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           backgroundColor: Colors.white,
@@ -87,14 +92,11 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                   zoomGesturesEnabled: true,
                   myLocationEnabled: true,
                   onCameraIdle: (() {
-                   TripCubit.get(context).getAddresses(
-                       latitude, longitude);
+                    TripCubit.get(context).getAddresses(latitude, longitude);
                   }),
                   onCameraMove: (object) {
-                    
                     latitude = object.target.latitude;
                     longitude = object.target.longitude;
-                   
                   },
                   onMapCreated: (GoogleMapController controller) {
                     _controller.complete(controller);
@@ -158,7 +160,9 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                                             onTap: () async {
                                               print(address.label! +
                                                   "-=======> label");
-                                             TripCubit.get(context).detailsAddress = address.label!;
+                                              TripCubit.get(context)
+                                                      .detailsAddress =
+                                                  address.label!;
                                               latitude = address.lat;
                                               longitude = address.lang;
                                               CameraPosition position =
@@ -201,7 +205,8 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                           ],
                         ),
                       ),
-                      state.addNewAddressState == RequestState.loading || TripCubit.get(context).loading
+                      state.addNewAddressState == RequestState.loading ||
+                              TripCubit.get(context).loading
                           ? LoadingWidget(height: 45, color: buttonsColor)
                           : MaterialButton(
                               onPressed: () async {
@@ -209,14 +214,16 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                                   // print(TripCubit.get(context).detailsAddress + "======> deta");
                                   if (widget.type == 0) {
                                     AddressModel addressModel = AddressModel(
-                                        label: TripCubit.get(context).detailsAddress,
+                                        label: TripCubit.get(context)
+                                            .detailsAddress,
                                         lat: latitude,
                                         lng: longitude);
                                     Navigator.of(context).pop(addressModel);
                                   } else {
                                     AddressResponse addressModel =
                                         AddressResponse(
-                                            label:TripCubit.get(context).detailsAddress,
+                                            label: TripCubit.get(context)
+                                                .detailsAddress,
                                             lat: latitude,
                                             userId: currentUser.id,
                                             lang: longitude);
@@ -255,8 +262,6 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
       },
     );
   }
-
- 
 
   bool validate(context) {
     if (latitude == null || longitude == null) {

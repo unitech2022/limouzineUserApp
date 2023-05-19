@@ -19,6 +19,7 @@ const subscription = "/subscription";
 const settings = "/settings";
 const lang = "/lang";
 const notifications = "/notifications";
+const externalTrip = "/externalTrip";
 
 
 

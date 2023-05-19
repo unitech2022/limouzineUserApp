@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:taxi/core/helpers/helper_functions.dart';
-import 'package:taxi/core/styles/colors.dart';
-import 'package:taxi/core/widgets/texts.dart';
+
 import 'package:taxi/persentaion/controller/home_cubit/cubit/home_cubit.dart';
 import 'package:taxi/persentaion/ui/home_screen/tabs_screens/offers_trip_screen/offers_trip_screen.dart';
 import 'package:taxi/persentaion/ui/home_screen/tabs_screens/running_trip_screen/running_trip_screen.dart';

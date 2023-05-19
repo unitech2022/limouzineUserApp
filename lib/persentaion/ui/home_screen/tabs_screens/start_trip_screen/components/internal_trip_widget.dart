@@ -18,13 +18,14 @@ import '../../../../../../core/widgets/container.divider.dart';
 import '../../../../../../core/widgets/texts.dart';
 import '../../../../../../data/models/address_model.dart';
 import '../../../../../../domin/entities/address_model.dart';
+
 import '../../../../../../domin/entities/trip.dart';
 import '../../../../../controller/map_cubit copy/map_cubit.dart';
 import '../../../../../controller/trip_cubit/trip_cubit.dart';
 import '../../../../login_screen/login_screen.dart';
 import '../../../map_screen.dart';
 import '../../trip_summary_screen/components/container_trip_summery.dart';
-import '../start_trip_screen.dart';
+
 import 'container_input_address.dart';
 import 'item_saved_addresses.dart';
 import 'item_trip_type.dart';
@@ -44,7 +45,6 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
   final _controller = TextEditingController();
   @override
   void dispose() {
-  
     super.dispose();
     _controller.dispose();
   }
@@ -198,10 +198,10 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                 ContainerTripSummery(
                                   onTap: () {
                                     openGoogleMapLocation(
-                                      lat:widget
-                                      .state.responseHome!.trip!.startPointLat,
-                                       lng:widget
-                                      .state.responseHome!.trip!.startPointLng,
+                                      lat: widget.state.responseHome!.trip!
+                                          .startPointLat,
+                                      lng: widget.state.responseHome!.trip!
+                                          .startPointLng,
                                     );
                                   },
                                   title: Strings.starting.tr(),
@@ -212,14 +212,12 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                 // end point
                                 ContainerTripSummery(
                                   onTap: () {
-                               
-                                openGoogleMapLocation(
-                                      lat:widget
-                                      .state.responseHome!.trip!.startPointLat,
-                                       lng:widget
-                                      .state.responseHome!.trip!.endPointLng,
+                                    openGoogleMapLocation(
+                                      lat: widget.state.responseHome!.trip!
+                                          .startPointLat,
+                                      lng: widget.state.responseHome!.trip!
+                                          .endPointLng,
                                     );
-
                                   },
                                   title: Strings.arrive.tr(),
                                   value: widget
@@ -496,36 +494,56 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                     alignment: Alignment.topCenter,
                                     child: ContainerInputAddress(
                                       title: Strings.starting.tr(),
-                                      value: widget.state.startPoint != null
-                                          ? widget.state.startPoint!.label
-                                          : Strings.whenStarting.tr(),
+                                      value: widget
+                                                  .state.currentIndexTypeTrip ==
+                                              0
+                                          ? widget.state.startPoint != null
+                                              ? widget.state.startPoint!.label
+                                              : Strings.whenStarting.tr()
+                                          : widget.state.startCity != null
+                                              ? widget.state.startCity!.name!
+                                              : Strings.whenStarting.tr(),
                                       addAddressWidget: const SizedBox(),
                                       onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          // Create the SelectionScreen in the next step.
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SelectAddressScreen(
-                                                      0,
-                                                      widget.state.responseHome!
-                                                          .addresses)),
-                                        ).then((value) {
-                                          TripCubit.get(context)
-                                              .getStartLocation(
-                                                  value as AddressModel);
-                                          MapCubit.get(context)
-                                              .getStartLocation(value);
-                                        });
+                                        if (widget.state.currentIndexTypeTrip ==
+                                            0) {
+                                          Navigator.push(
+                                            context,
+                                            // Create the SelectionScreen in the next step.
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SelectAddressScreen(
+                                                        0,
+                                                        widget
+                                                            .state
+                                                            .responseHome!
+                                                            .addresses)),
+                                          ).then((value) {
+                                            TripCubit.get(context)
+                                                .getStartLocation(
+                                                    value as AddressModel);
+                                            MapCubit.get(context)
+                                                .getStartLocation(value);
+                                          });
+                                        } else {
+                                          TripCubit.get(context).filteredList =
+                                              cities;
+                                          showCitySheet(type: "start");
+                                        }
                                       },
                                     )),
                                 Align(
                                     alignment: Alignment.bottomCenter,
                                     child: ContainerInputAddress(
                                       title: Strings.end.tr(),
-                                      value: widget.state.endPoint != null
-                                          ? widget.state.endPoint!.label
-                                          : Strings.whenEnd.tr(),
+                                      value:
+                                          widget.state.currentIndexTypeTrip == 0
+                                              ? widget.state.endPoint != null
+                                                  ? widget.state.endPoint!.label
+                                                  : Strings.whenEnd.tr()
+                                              : widget.state.endCity != null
+                                                  ? widget.state.endCity!.name!
+                                                  : Strings.whenStarting.tr(),
                                       addAddressWidget: Container(
                                         height: 36,
                                         width: 36,
@@ -540,23 +558,31 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                         ),
                                       ),
                                       onTap: () async {
-                                        print("object");
-
-                                        Navigator.push(
-                                          context,
-                                          // Create the SelectionScreen in the next step.
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SelectAddressScreen(
-                                                      0,
-                                                      widget.state.responseHome!
-                                                          .addresses)),
-                                        ).then((value) {
-                                          print(
-                                              value.label + "========> label");
-                                          TripCubit.get(context).getEndLocation(
-                                              value as AddressModel);
-                                        });
+                                        if (widget.state.currentIndexTypeTrip ==
+                                            0) {
+                                          Navigator.push(
+                                            context,
+                                            // Create the SelectionScreen in the next step.
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SelectAddressScreen(
+                                                        0,
+                                                        widget
+                                                            .state
+                                                            .responseHome!
+                                                            .addresses)),
+                                          ).then((value) {
+                                            print(value.label +
+                                                "========> label");
+                                            TripCubit.get(context)
+                                                .getEndLocation(
+                                                    value as AddressModel);
+                                          });
+                                        } else {
+                                          TripCubit.get(context).filteredList =
+                                              cities;
+                                          showCitySheet(type: "end");
+                                        }
                                       },
                                     )),
 
@@ -582,6 +608,7 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
 
                           sizedHeight(13),
                           // list saved Addresses
+                      widget.state.currentIndexTypeTrip==0?
                           widget.state.responseHome!.addresses.isEmpty
                               ? InkWell(
                                   onTap: () {
@@ -692,20 +719,31 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                           ),
                                         );
                                       }),
-                                ),
-
+                                ):SizedBox(),
                           const Spacer()
                           // button search
                           ,
-                          ButtonWidget(
+                      ( widget.state.currentIndexTypeTrip==1 && widget.state.addTripState==RequestState.loading)?
+                      
+                      LoadingWidget(height: 55, color: buttonsColor)
+                      
+                      :   ButtonWidget(
                               height: 55,
                               color: buttonsColor,
                               onPress: () {
-                                print("object");
-
-                                if (validateAddressSelector(widget.state)) {
-                                  TripCubit.get(context).changeStatusScreen(1);
+                                if (widget.state.currentIndexTypeTrip == 0) {
+                                  if (validateAddressSelector(widget.state)) {
+                                    TripCubit.get(context)
+                                        .changeStatusScreen(1);
+                                  }
+                                } else {
+                                  if (validateGroup(widget.state)) {
+                                    TripCubit.get(context).addGroup(
+                                        startCity: widget.state.startCity!.name!,
+                                        endCity: widget.state.endCity!.name!,context: context);
+                                  }
                                 }
+
                                 // if (state.startPoint != null) {
                                 //   Navigator.push(
                                 //     context,
@@ -724,7 +762,9 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                 // }
                               },
                               child: Texts(
-                                  title: Strings.searchAboutTrip.tr(),
+                                  title: widget.state.currentIndexTypeTrip == 0
+                                      ? Strings.searchAboutTrip.tr()
+                                      : Strings.starTrip.tr(),
                                   textColor: Colors.white,
                                   fontSize: 14,
                                   weight: FontWeight.normal,
@@ -883,6 +923,110 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
       showToast(message: "اختار البداية".tr());
       return false;
     } else if (state.endPoint == null) {
+      showToast(message: "اختار الوجهة".tr());
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+// SHOW CITIES
+  showCitySheet({type}) => showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setStat) {
+          return Container(
+              // height: 300,
+
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30))),
+              padding: const EdgeInsets.all(20),
+              child: ListView.separated(
+                separatorBuilder: (BuildContext context, int index) {
+                  return const Divider();
+                },
+                itemBuilder: (ctx, i) => i == 0
+                    ? Row(
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                pop(context);
+                              },
+                              icon: const Icon(Icons.arrow_back)),
+                          //   Expanded(
+                          //     child: TextFormField(
+                          //       onChanged: (v) {
+
+                          //          TripCubit.get(context).searchCity(v.toString());
+
+                          //       },
+                          //       keyboardType: TextInputType.text,
+                          //       style: const TextStyle(
+                          //           color: Colors.black, fontSize: 18),
+                          //       decoration: const InputDecoration(
+                          //           isDense: true,
+                          //           //to reduce the size of icon, use if you want. I used, because my custom font icon is big
+                          //           labelText: "ابحث باسم المدينة",
+                          //           contentPadding: EdgeInsets.only(left: 0),
+                          //           //to make the base line of icon & text in same
+                          //           labelStyle: TextStyle(color: Colors.grey),
+                          //           prefixIcon: Icon(Icons.search)),
+                          //     ),
+                          //   ),
+                        ],
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          pop(context);
+                          TripCubit.get(context).setCityPoint(
+                              TripCubit.get(context).filteredList[i - 1], type);
+                        },
+                        child: Container(
+                          height: 50,
+                          color: Colors.white,
+                          width: double.infinity,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              // Icon(Icons.point)
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+
+                              Text(
+                                TripCubit.get(context)
+                                    .filteredList[i - 1]
+                                    .name!,
+                                style: const TextStyle(
+                                  fontSize: 18.0,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  height: 1.92,
+                                ),
+                                textAlign: TextAlign.right,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                itemCount: TripCubit.get(context).filteredList.length + 1,
+              ));
+        });
+      });
+
+  bool validateGroup(TripState state) {
+    if (state.startCity == null) {
+      showToast(message: "اختار البداية".tr());
+      return false;
+    } else if (state.endCity == null) {
       showToast(message: "اختار الوجهة".tr());
       return false;
     } else {

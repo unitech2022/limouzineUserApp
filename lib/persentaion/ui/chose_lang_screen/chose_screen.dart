@@ -4,12 +4,12 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'package:taxi/core/styles/colors.dart';
 import 'package:taxi/persentaion/controller/app_cubit/cubit/app_cubit.dart';
 
 import '../../../core/helpers/helper_functions.dart';
-import '../../../core/routers/routers.dart';
+
 import '../../../core/utlis/strings.dart';
 import '../../../core/widgets/button_widget.dart';
 import '../../../core/widgets/texts.dart';
