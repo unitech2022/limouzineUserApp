@@ -11,6 +11,7 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../domin/entities/city.dart';
 import '../utlis/app_model.dart';
 import '../utlis/strings.dart';
+import 'functions.dart';
 
 // pushPage(context, page) {
 //   Navigator.push(
@@ -144,11 +145,17 @@ showTopMessage({context, customBar}) {
 }
 
 Future<void> getCities() async {
-  cities = [];
   final String response =
       await rootBundle.loadString('assets/jsons/cities.json');
   final data = await json.decode(response);
+  cities = [];
   data.forEach((element) {
     cities.add(City.fromJson(element));
   });
+}
+
+Future subscribeToken() async {
+  if (isRegistered()) {
+    await FirebaseMessaging.instance.subscribeToTopic('user');
+  }
 }

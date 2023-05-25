@@ -72,5 +72,13 @@
   "تم ارسال الطلب": "Request sent",
   "رحلاتي الخارجية": "My External Trips",
   "رحلة رقم :": "Trip No.:",
-  "رحلاتى": "My Trips"
+  "رحلاتى": "My Trips",
+  "ابحث باسم المدينة":"Search by city name",
+  "جارى البحث عن سائق":"Looking for a Driver",
+  "تم قبول الرحلة":"Trip accepted",
+  "رحلة منتهية":"Finished Trip",
+  "تم الغاء الرحلة":"Trip Canceled",
+ 
+  "ادخل رقم جوالك هنا": "Enter your phone"
 }
+

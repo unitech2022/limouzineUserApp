@@ -173,4 +173,6 @@ static const String tripExternal ="رحلاتي الخارجية";
 static const String numberTrip ="رحلة رقم :";
 static const String myTrip ="رحلاتى";
 
+static const String searchWithCityName ="ابحث باسم المدينة";
+  static const String enterNumber = "ادخل رقم جوالك هنا";
 }

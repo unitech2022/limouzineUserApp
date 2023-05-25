@@ -1,10 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:taxi/core/helpers/functions.dart';
 import 'package:taxi/core/helpers/helper_functions.dart';
 import 'package:taxi/core/utlis/strings.dart';
 import 'package:taxi/core/widgets/texts.dart';
-
 import '../../../core/routers/routers.dart';
 import '../../../core/styles/colors.dart';
 import '../../../core/widgets/button_widget.dart';

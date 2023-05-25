@@ -501,7 +501,7 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                               ? widget.state.startPoint!.label
                                               : Strings.whenStarting.tr()
                                           : widget.state.startCity != null
-                                              ? widget.state.startCity!.name!
+                                              ? AppModel.lang=="ar"?widget.state.startCity!.name!:widget.state.startCity!.name_eng!
                                               : Strings.whenStarting.tr(),
                                       addAddressWidget: const SizedBox(),
                                       onTap: () {
@@ -542,7 +542,7 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                                   ? widget.state.endPoint!.label
                                                   : Strings.whenEnd.tr()
                                               : widget.state.endCity != null
-                                                  ? widget.state.endCity!.name!
+                                                  ?AppModel.lang=="ar"? widget.state.endCity!.name!:widget.state.endCity!.name_eng!
                                                   : Strings.whenStarting.tr(),
                                       addAddressWidget: Container(
                                         height: 36,
@@ -934,8 +934,8 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
   showCitySheet({type}) => showModalBottomSheet(
       context: context,
       builder: (context) {
-        return StatefulBuilder(
-            builder: (BuildContext context, StateSetter setStat) {
+        return BlocBuilder<TripCubit,TripState>(
+            builder: ( context,  stat) {
           return Container(
               // height: 300,
 
@@ -956,26 +956,26 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                 pop(context);
                               },
                               icon: const Icon(Icons.arrow_back)),
-                          //   Expanded(
-                          //     child: TextFormField(
-                          //       onChanged: (v) {
+                            Expanded(
+                              child: TextFormField(
+                                onChanged: (v) {
 
-                          //          TripCubit.get(context).searchCity(v.toString());
+                                   TripCubit.get(context).searchCity(v.toString());
 
-                          //       },
-                          //       keyboardType: TextInputType.text,
-                          //       style: const TextStyle(
-                          //           color: Colors.black, fontSize: 18),
-                          //       decoration: const InputDecoration(
-                          //           isDense: true,
-                          //           //to reduce the size of icon, use if you want. I used, because my custom font icon is big
-                          //           labelText: "ابحث باسم المدينة",
-                          //           contentPadding: EdgeInsets.only(left: 0),
-                          //           //to make the base line of icon & text in same
-                          //           labelStyle: TextStyle(color: Colors.grey),
-                          //           prefixIcon: Icon(Icons.search)),
-                          //     ),
-                          //   ),
+                                },
+                                keyboardType: TextInputType.text,
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 18),
+                                decoration:  InputDecoration(
+                                    isDense: true,
+                                    //to reduce the size of icon, use if you want. I used, because my custom font icon is big
+                                    labelText: Strings.searchWithCityName.tr(),
+                                    contentPadding: EdgeInsets.only(left: 0),
+                                    //to make the base line of icon & text in same
+                                    labelStyle: TextStyle(color: Colors.grey),
+                                    prefixIcon: Icon(Icons.search)),
+                              ),
+                            ),
                         ],
                       )
                     : GestureDetector(
@@ -1002,9 +1002,11 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                               ),
 
                               Text(
-                                TripCubit.get(context)
+                                AppModel.lang=="ar"?TripCubit.get(context)
                                     .filteredList[i - 1]
-                                    .name!,
+                                    .name!:TripCubit.get(context)
+                                    .filteredList[i - 1]
+                                    .name_eng!,
                                 style: const TextStyle(
                                   fontSize: 18.0,
                                   color: Colors.black,

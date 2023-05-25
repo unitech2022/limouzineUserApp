@@ -1,18 +1,13 @@
 import 'dart:async';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:flutter_svg/svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:taxi/core/styles/colors.dart';
 import 'package:taxi/core/utlis/enums.dart';
 import 'package:taxi/persentaion/controller/auth_cubit/auth_cubit.dart';
 import 'package:taxi/persentaion/ui/login_screen/login_screen.dart';
-
 import '../../../core/helpers/helper_functions.dart';
-import '../../../core/routers/routers.dart';
 import '../../../core/utlis/strings.dart';
 import '../../../core/widgets/button_widget.dart';
 import '../../../core/widgets/texts.dart';
@@ -35,7 +30,7 @@ class _OtpScreenState extends State<OtpScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
+  
     super.initState();
     startTimer();
   }
@@ -46,6 +41,7 @@ class _OtpScreenState extends State<OtpScreen> {
     _timer = new Timer.periodic(
       oneSec,
       (Timer timer) {
+      
         if (_start == 0) {
           setState(() {
             timer.cancel();
@@ -134,13 +130,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                     ],
                     animationType: AnimationType.fade,
-                    validator: (v) {
-                      // if (v.toString().length < 3) {
-                      //   return "";
-                      // } else {
-                      //   return null;
-                      // }
-                    },
+                  
                     pinTheme: PinTheme(
                       fieldOuterPadding: const EdgeInsets.only(left: 2),
                       shape: PinCodeFieldShape.box,
@@ -175,23 +165,21 @@ class _OtpScreenState extends State<OtpScreen> {
                     weight: FontWeight.normal,
                     align: TextAlign.center),
                 sizedHeight(18),
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      if (_start == 0) {
-                       
-                      }else{
-                        
-                      }
-                    },
-                    child: Texts(
-                        title: Strings.reSend.tr(),
-                        textColor:
-                            _start == 0 ? Colors.blue : Color(0xffA5A5A5),
-                        fontSize: 14,
-                        weight: FontWeight.normal,
-                        align: TextAlign.center),
-                  ),
+                InkWell(
+                  onTap: () {
+                    if (_start == 0) {
+                     
+                    }else{
+                      
+                    }
+                  },
+                  child: Texts(
+                      title: Strings.reSend.tr(),
+                      textColor:
+                          _start == 0 ? Colors.blue : Color(0xffA5A5A5),
+                      fontSize: 14,
+                      weight: FontWeight.normal,
+                      align: TextAlign.center),
                 ),
                 sizedHeight(100),
                 state.loginStet == RequestState.loading

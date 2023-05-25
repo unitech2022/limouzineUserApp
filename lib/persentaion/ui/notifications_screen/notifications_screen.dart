@@ -4,7 +4,6 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../../core/helpers/helper_functions.dart';
 import '../../../core/styles/colors.dart';
 import '../../../core/utlis/enums.dart';
@@ -12,7 +11,6 @@ import '../../../core/utlis/strings.dart';
 import '../../../core/widgets/texts.dart';
 import '../../../data/models/notification.dart';
 import '../../controller/notifictions_cubit/cubit/notifications_cubit.dart';
-import '../home_screen/components/app_bar_home.dart';
 import '../home_screen/components/drawer_widget.dart';
 import '../login_screen/login_screen.dart';
 

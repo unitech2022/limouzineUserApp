@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:taxi/core/widgets/circle_image_widget.dart';
+
 import 'package:taxi/persentaion/ui/home_screen/tabs_screens/offers_trip_screen/components/item_offers_list.dart';
 
 import '../../../../../core/helpers/helper_functions.dart';

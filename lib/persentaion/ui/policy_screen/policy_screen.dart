@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_svg/svg.dart';
-
 import '../../../core/helpers/helper_functions.dart';
 import '../../../core/styles/colors.dart';
 import '../../../core/utlis/data.dart';

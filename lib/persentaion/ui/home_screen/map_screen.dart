@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 
-import 'package:geocoding/geocoding.dart';
 import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/directions.dart';
 import 'package:google_maps_webservice/places.dart';
-import 'package:taxi/core/routers/routers.dart';
+
 import 'package:taxi/core/utlis/api_constatns.dart';
 import 'package:taxi/core/utlis/app_model.dart';
 import 'package:taxi/core/utlis/enums.dart';
@@ -22,7 +21,7 @@ import 'package:taxi/persentaion/ui/login_screen/login_screen.dart';
 import '../../../core/helpers/functions.dart';
 import '../../../core/styles/colors.dart';
 import '../../../domin/entities/address_model.dart';
-import '../../controller/map_cubit copy/map_cubit.dart';
+
 
 class SelectAddressScreen extends StatefulWidget {
   final int type;

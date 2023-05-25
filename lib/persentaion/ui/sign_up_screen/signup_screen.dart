@@ -9,7 +9,6 @@ import 'package:taxi/domin/entities/user.dart';
 import 'package:taxi/persentaion/controller/auth_cubit/auth_cubit.dart';
 import 'package:taxi/persentaion/ui/login_screen/login_screen.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
-import '../../../core/helpers/functions.dart';
 import '../../../core/helpers/helper_functions.dart';
 import '../../../core/styles/colors.dart';
 import '../../../core/utlis/strings.dart';
@@ -151,96 +150,64 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: _controllerEmail,
                 ),
                 sizedHeight(21),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      boxShadow: const [
-                        BoxShadow(
-                          offset: Offset(0, 0),
-                          blurRadius: 3,
-                          spreadRadius: 3,
-                          color: Color.fromARGB(13, 0, 0, 0),
-                        ),
-                      ]),
-                  child: Directionality(
+                Directionality(
                     textDirection: ui.TextDirection.ltr,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset("assets/images/flag.png"),
-                        sizedWidth(8),
-                        const Texts(
-                            title: Strings.codeNumber,
-                            textColor: Color(0xff464646),
-                            fontSize: 12,
-                            weight: FontWeight.bold,
-                            align: TextAlign.center),
-                        sizedWidth(4),
-                        Expanded(
-                          child: SizedBox(
-                            height: 40,
-                            child: Directionality(
-                              textDirection: ui.TextDirection.ltr,
-                              child: PinCodeTextField(
-                                controller: _controllerPhone,
-                                appContext: context,
-                                pastedTextStyle: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                length: 9,
-                                obscureText: false,
-                                obscuringCharacter: '*',
-                                textStyle: const TextStyle(color: Colors.black),
-                                blinkWhenObscuring: true,
-                                animationType: AnimationType.fade,
-                                validator: (v) {
-                                  return null;
-
-                                  // if (v.toString().length < 3) {
-                                  //   return "";
-                                  // } else {
-                                  //   return null;
-                                  // }
-                                },
-                                pinTheme: PinTheme(
-                                  fieldOuterPadding:
-                                      const EdgeInsets.only(left: 2),
-                                  shape: PinCodeFieldShape.box,
-                                  borderRadius: BorderRadius.circular(4),
-                                  fieldHeight: 40,
-                                  fieldWidth: 25,
-                                  inactiveColor: const Color(0xFFE2E2E2),
-                                  inactiveFillColor: const Color(0xFFE2E2E2),
-                                  borderWidth: 1,
-                                  selectedFillColor: const Color(0xFFE2E2E2),
-                                  activeFillColor: Colors.white,
-                                ),
-                                cursorColor: Colors.black,
-                                animationDuration:
-                                    const Duration(milliseconds: 300),
-                                backgroundColor: Colors.transparent,
-                                enableActiveFill: true,
-                                keyboardType: TextInputType.number,
-                                onCompleted: (v) {},
-                                onChanged: (value) {},
-                                beforeTextPaste: (text) {
-                                  return true;
-                                },
-                              ),
-                            ),
+                    child: Container(
+                      height: 55,
+                      padding: EdgeInsets.symmetric(horizontal: 25),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                  
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: const[
+                          BoxShadow(
+                              color: Color.fromARGB(70, 158, 158, 158), //New
+                              blurRadius: 20.0,
+                              offset: Offset(1, 1))
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          sizedWidth(8),
+                          Image.asset("assets/images/flag.png"),
+                          sizedWidth(8),
+                          const Texts(
+                              title: Strings.codeNumber,
+                              textColor: Color(0xff464646),
+                              fontSize: 14,
+                              weight: FontWeight.bold,
+                              align: TextAlign.center),
+                          sizedWidth(8),
+                          Expanded(
+                            child: SizedBox(
+                                height: 60,
+                                child: Center(
+                                  child: TextField(
+                                    controller: _controllerPhone,
+                                    keyboardType: TextInputType.number,
+                                    cursorColor: Colors.grey,
+                                    maxLength: 9,
+                                    decoration: InputDecoration(
+                                        counterText: "",
+                                        hintStyle: TextStyle(fontSize: 14),
+                                        isDense: true,
+                                        hintText: Strings.enterNumber.tr(),
+                                        border: InputBorder.none
+                                    ),
+                                  ),
+                                )),
                           ),
-                        ),
-                      ],
+                          sizedWidth(8),
+                  
+                  
+                        ],
+                      ),
+                  
                     ),
-                  ),
-                ),
-                sizedHeight(21),
+                  )
+             , sizedHeight(21),
                 state.signUpStet == RequestState.loading
                     ? LoadingWidget(
                         height: 55,

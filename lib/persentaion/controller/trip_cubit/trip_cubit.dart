@@ -309,10 +309,16 @@ class TripCubit extends Cubit<TripState> {
 
   List<City> filteredList = [];
   searchCity(String search) {
+   
     filteredList = [];
-    // emit(state.copyWith(searchCity: RequestState.loading));
+    
+    emit(state.copyWith(searchCity: RequestState.loading));
     filteredList = cities
-        .where((element) => element.name!.toString().contains(search.trim()))
+        .where((element) => AppModel.lang == "ar"
+            ? element.name!.toLowerCase().contains(search.trim().toLowerCase())
+            : element.name_eng!
+                .toLowerCase()
+                .contains(search.trim().toLowerCase()))
         .toList();
     emit(state.copyWith(searchCity: RequestState.loaded));
   }

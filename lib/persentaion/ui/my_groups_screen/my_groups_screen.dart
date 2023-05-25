@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taxi/core/helpers/functions.dart';
 import 'package:taxi/core/utlis/enums.dart';
 import 'package:taxi/data/models/group_location.dart';
 import 'package:taxi/persentaion/controller/trip_cubit/trip_cubit.dart';
@@ -13,6 +12,7 @@ import '../../../core/utlis/app_model.dart';
 import '../../../core/utlis/strings.dart';
 import '../../../core/widgets/icon_back_button.dart';
 import '../../../core/widgets/texts.dart';
+import '../../../domin/entities/city.dart';
 import '../home_screen/components/drawer_widget.dart';
 import '../home_screen/tabs_screens/trip_summary_screen/components/container_trip_summery.dart';
 
@@ -66,6 +66,11 @@ class _MyGroupsScreenState extends State<MyGroupsScreen> {
                       itemBuilder: (ctx, index) {
                         GroupLocation groupLocation =
                             state.groupsLocation[index];
+
+                        City startCity = cities.firstWhere((element) => element.name!
+                              .contains(groupLocation.startLocation),);
+                     City endCity = cities.firstWhere((element) => element.name!
+                              .contains(groupLocation.endLocation),);
                         return Container(
                             margin: EdgeInsets.only(bottom: 15),
                             padding: EdgeInsets.all(20),
@@ -116,18 +121,19 @@ class _MyGroupsScreenState extends State<MyGroupsScreen> {
                                 ContainerTripSummery(
                                   onTap: () {},
                                   title: Strings.starting.tr(),
-                                  value: groupLocation.startLocation,
+                                  value:AppModel.lang=="ar"?startCity.name!:startCity.name_eng! ,
                                 ),
                                 sizedHeight(6),
                                 // end point
                                 ContainerTripSummery(
                                   onTap: () {},
                                   title: Strings.arrive.tr(),
-                                  value: groupLocation.endLocation,
+                                  value:AppModel.lang=="ar"?endCity.name!:endCity.name_eng! ,
                                 ),
                                 sizedHeight(20),
                                 Texts(
-                                    title: statusTrip[groupLocation.status],
+                                    title:
+                                        statusTrip[groupLocation.status].tr(),
                                     textColor:
                                         statusTripColor[groupLocation.status],
                                     fontSize: 16,
@@ -141,8 +147,6 @@ class _MyGroupsScreenState extends State<MyGroupsScreen> {
     );
   }
 }
-
-
 
 List<String> statusTrip = [
   "جارى البحث عن سائق",

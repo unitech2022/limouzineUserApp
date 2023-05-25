@@ -7,14 +7,14 @@ import 'package:taxi/persentaion/ui/home_screen/tabs_screens/running_trip_screen
 import 'package:taxi/persentaion/ui/home_screen/tabs_screens/start_trip_screen/start_trip_screen.dart';
 import 'package:taxi/persentaion/ui/home_screen/tabs_screens/trip_summary_screen/trip_summery_screen.dart';
 import '../../../core/services/services_locator.dart';
-import '../../../core/utlis/strings.dart';
+
 import 'components/app_bar_home.dart';
 import 'components/drawer_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  List<Widget> screens = [
+ final List<Widget> screens = [
     const StartTripScreen(),
     const TripSummeryScreen(),
     const OffersTripScreen(),

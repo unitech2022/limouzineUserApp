@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:taxi/core/helpers/functions.dart';
-
 import 'package:taxi/core/styles/colors.dart';
-import 'package:taxi/core/utlis/app_model.dart';
 import 'package:taxi/persentaion/controller/app_cubit/cubit/app_cubit.dart';
-
 import '../../../core/utlis/strings.dart';
-
 import '../../../core/widgets/texts.dart';
 
 class SplashScreen extends StatefulWidget {

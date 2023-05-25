@@ -1,12 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:taxi/core/helpers/helper_functions.dart';
 import 'package:taxi/core/routers/routers.dart';
 import 'package:taxi/core/styles/colors.dart';
-import 'package:taxi/core/utlis/app_model.dart';
-
 import '../../../core/utlis/strings.dart';
 import '../../../core/widgets/button_widget.dart';
 import '../../../core/widgets/texts.dart';
@@ -15,7 +12,6 @@ import 'componts/ttitle_app.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
