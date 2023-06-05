@@ -33,7 +33,7 @@ import 'package:taxi/persentaion/ui/chose_lang_screen/chose_screen.dart';
 import 'package:taxi/persentaion/ui/splash_screen/splash_screen.dart';
 import 'package:taxi/persentaion/ui/welcome_screen/welcome_screen.dart';
 import 'package:taxi/persentaion/ui/subscriptions_screen/subscriptions_screen.dart';
-
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'core/routers/routers.dart';
 import 'core/services/services_locator.dart';
 
@@ -58,6 +58,7 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_messageHandler);
   FirebaseMessaging.onMessageOpenedApp;
   await getLocation();
+  initLocalNotification();
   runApp(
     EasyLocalization(
         supportedLocales: const [Locale("ar"), Locale("en")],
@@ -67,6 +68,24 @@ void main() async {
         startLocale: const Locale("ar"),
         child: MyApp()),
   );
+}
+
+void initLocalNotification() {
+  AwesomeNotifications().initialize('resource://drawable/logo', [
+    NotificationChannel(
+      channelKey: 'limozin',
+      channelName: 'limozin',
+      channelDescription: "Notification nawte",
+      defaultColor: Colors.transparent,
+      ledColor: Colors.blue,
+      channelShowBadge: true,
+
+      importance: NotificationImportance.High,
+      // playSound: true,
+      // enableLights:true,
+      // enableVibration: false
+    )
+  ]);
 }
 
 class MyApp extends StatelessWidget {

@@ -32,8 +32,20 @@ class TripState extends Equatable {
   final City? endCity;
   final RequestState? searchCity;
   final RequestState? getGroupsState;
+    final String? dateTrip;
   final List<GroupLocation> groupsLocation;
+  // final  String createdAt;
+final List<ExternalTrip>? externalTrips;
+  final RequestState? getExternalTripsState;
+    final RequestState? getGroupDetailsState;
+  final ExternalDetails? groupDetails;
 
+  // booking
+   final RequestState? addBookingState;
+  final RequestState? acceptExternalTrip;
+
+   final RequestState? getBookingsState;
+    final List<BookingResponse>? responseBookings;
   TripState(
       {this.endPoint,
       this.carTypes = const [],
@@ -59,7 +71,17 @@ class TripState extends Equatable {
       this.endCity,
       this.searchCity,
       this.groupsLocation = const [],
-      this.getGroupsState});
+      this.getGroupsState, 
+        this.dateTrip,
+            this.externalTrips,
+      this.getExternalTripsState,
+       this.getGroupDetailsState,
+      this.groupDetails,
+     this.addBookingState, 
+        this.acceptExternalTrip,
+         this.getBookingsState, 
+        this.responseBookings
+      });
 
   TripState copyWith(
           {final AddressModel? endPoint,
@@ -86,7 +108,18 @@ class TripState extends Equatable {
           final City? endCity,
           final RequestState? searchCity,
           final List<GroupLocation>? groupsLocation,
-          final RequestState? getGroupsState}) =>
+             final RequestState? acceptExternalTrip,
+
+          final RequestState? getGroupsState,
+            final String? dateTrip,
+            final List<ExternalTrip>? externalTrips,
+          final RequestState? getExternalTripsState,
+           final RequestState? getGroupDetailsState,
+          final ExternalDetails? groupDetails,
+            final RequestState? addBookingState,
+               final RequestState? getBookingsState,
+    final List<BookingResponse>? responseBookings
+            }) =>
       TripState(
         movMapState: movMapState ?? this.movMapState,
         homeState: homeState ?? this.homeState,
@@ -99,8 +132,9 @@ class TripState extends Equatable {
             updateDeviceTokenState ?? this.updateDeviceTokenState,
         carTypesState: carTypesState ?? this.carTypesState,
         startPoint: startPoint ?? this.startPoint,
+          endPoint: endPoint ?? this.endPoint,
         selectedRadio: selectedRadio ?? this.selectedRadio,
-        endPoint: endPoint ?? this.endPoint,
+      
         addTripState: addTripState ?? this.addTripState,
         currentIndex: currentIndex ?? this.currentIndex,
         currentIndexTypeTrip: currentIndexTypeTrip ?? this.currentIndexTypeTrip,
@@ -114,6 +148,17 @@ class TripState extends Equatable {
         searchCity: searchCity ?? this.searchCity,
         getGroupsState: getGroupsState ?? this.getGroupsState,
         groupsLocation: groupsLocation ?? this.groupsLocation,
+        dateTrip: dateTrip ?? this.dateTrip,
+           externalTrips: externalTrips ?? this.externalTrips,
+        getExternalTripsState:
+            getExternalTripsState ?? this.getExternalTripsState,
+             groupDetails: groupDetails ?? this.groupDetails,
+        getGroupDetailsState: getGroupDetailsState ?? this.getGroupDetailsState,
+        addBookingState: addBookingState ?? this.addBookingState,
+         acceptExternalTrip: acceptExternalTrip ?? this.acceptExternalTrip,
+  getBookingsState: getBookingsState ?? this.getBookingsState,
+         responseBookings: responseBookings ?? this.responseBookings,
+
       );
 
   @override
@@ -141,6 +186,15 @@ class TripState extends Equatable {
         endCity,
         searchCity,
         getGroupsState,
-        groupsLocation
+        groupsLocation,
+        dateTrip,
+          externalTrips,
+        getExternalTripsState,
+         getGroupDetailsState,
+        groupDetails,
+        addBookingState,
+                acceptExternalTrip,
+
+getBookingsState,responseBookings
       ];
 }

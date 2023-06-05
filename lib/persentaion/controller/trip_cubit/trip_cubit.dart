@@ -18,9 +18,13 @@ import 'package:taxi/domin/entities/address_model.dart';
 import 'package:taxi/domin/entities/trip.dart';
 import 'package:taxi/domin/usese_cases/trip_uses_cases/add_trip_use_case.dart';
 import 'package:taxi/domin/usese_cases/trip_uses_cases/home_trip_use_case.dart';
+import 'package:taxi/persentaion/ui/booking_screen/booking_screen.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import '../../../core/utlis/api_constatns.dart';
 import '../../../core/utlis/strings.dart';
+import '../../../data/models/booking_response.dart';
+import '../../../data/models/external_details.dart';
+import '../../../data/models/external_trip.dart';
 import '../../../data/models/group_location.dart';
 import '../../../data/models/history_response.dart';
 import '../../../domin/entities/car_type.dart';
@@ -309,9 +313,8 @@ class TripCubit extends Cubit<TripState> {
 
   List<City> filteredList = [];
   searchCity(String search) {
-   
     filteredList = [];
-    
+
     emit(state.copyWith(searchCity: RequestState.loading));
     filteredList = cities
         .where((element) => AppModel.lang == "ar"
@@ -321,6 +324,125 @@ class TripCubit extends Cubit<TripState> {
                 .contains(search.trim().toLowerCase()))
         .toList();
     emit(state.copyWith(searchCity: RequestState.loaded));
+  }
+
+  setTimeTrip(String value, int type) async {
+    emit(state.copyWith(dateTrip: value));
+  }
+
+  //** get externalTrips */
+  Future getExternalTrips({date, startCity, endCity}) async {
+    emit(state.copyWith(getExternalTripsState: RequestState.loading));
+    var request = http.MultipartRequest('GET',
+        Uri.parse('${ApiConstants.baseUrl}/extrips/search-external-trip'));
+    request.fields
+        .addAll({'startCity': startCity, 'endCity': endCity, 'date': date});
+
+    http.StreamedResponse response = await request.send();
+    print(response.statusCode.toString() + " =======> getExternalTrips");
+    if (response.statusCode == 200) {
+      String jsonDataString = await response.stream.bytesToString();
+      final jsonData = jsonDecode(jsonDataString);
+
+      emit(state.copyWith(
+          getExternalTripsState: RequestState.loaded,
+          externalTrips: List<ExternalTrip>.from(
+              (jsonData as List).map((e) => ExternalTrip.fromJson(e)))));
+    } else {
+      emit(state.copyWith(getExternalTripsState: RequestState.error));
+    }
+  }
+
+//** details external trip */
+  getExternalTripDetails({groupId}) async {
+    emit(state.copyWith(getGroupDetailsState: RequestState.loading));
+    var request = http.MultipartRequest(
+        'GET',
+        Uri.parse(
+            ApiConstants.baseUrl + "/extrips/get-external-trip-Details-user"));
+
+    request.fields
+        .addAll({'tripId': groupId.toString(), "userId": currentUser.id!});
+    http.StreamedResponse response = await request.send();
+
+    print(response.statusCode.toString() + " ====== > getGroupDetails");
+    if (response.statusCode == 200) {
+      String jsonDataString = await response.stream.bytesToString();
+      final jsonData = jsonDecode(jsonDataString);
+
+      emit(state.copyWith(
+          getGroupDetailsState: RequestState.loaded,
+          groupDetails: ExternalDetails.fromJson(jsonData)));
+    } else {
+      emit(state.copyWith(getGroupDetailsState: RequestState.error));
+    }
+  }
+
+// ** booking ===================================================  booking
+
+//** add booking */
+  Future addBooking({driverId, externalTripId, context}) async {
+    emit(state.copyWith(addBookingState: RequestState.loading));
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('${ApiConstants.baseUrl}/Bookings/add-booking'));
+    request.fields.addAll({
+      'userId': currentUser.id!,
+      'driverId': driverId.toString(),
+      'externalTripId': externalTripId.toString()
+    });
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      pushPage(context: context, page: BookingScreen());
+      emit(state.copyWith(addBookingState: RequestState.loaded));
+      getExternalTripDetails(groupId: externalTripId);
+    } else {
+      emit(state.copyWith(addBookingState: RequestState.error));
+    }
+  }
+
+// ** getMyBooking
+
+  Future getMyBookings() async {
+    emit(state.copyWith(getBookingsState: RequestState.loading));
+    var request = http.MultipartRequest('GET',
+        Uri.parse(ApiConstants.baseUrl + "/Bookings/get-Bookings-by-userId"));
+
+    request.fields.addAll({"userId": currentUser.id!});
+    http.StreamedResponse response = await request.send();
+
+    print(response.statusCode.toString() + " ====== > getGroupDetails");
+    if (response.statusCode == 200) {
+      String jsonDataString = await response.stream.bytesToString();
+      final jsonData = jsonDecode(jsonDataString);
+
+      emit(state.copyWith(
+          getBookingsState: RequestState.loaded,
+          responseBookings: List<BookingResponse>.from(
+              (jsonData as List).map((e) => BookingResponse.fromJson(e)))));
+    } else {
+      emit(state.copyWith(getBookingsState: RequestState.error));
+    }
+  }
+
+//** accept external trip */
+  Future acceptExternalTrip({bookingId, status, tripId}) async {
+    emit(state.copyWith(acceptExternalTrip: RequestState.loading));
+    var request = http.MultipartRequest('POST',
+        Uri.parse('${ApiConstants.baseUrl}/Bookings/change-status-booking'));
+    request.fields.addAll(
+        {'bookingId': bookingId.toString(), 'status': status.toString(),'type': "0",});
+
+    http.StreamedResponse response = await request.send();
+    print(response.statusCode.toString() + " ========> acceptExternalTrip");
+    if (response.statusCode == 200) {
+      emit(state.copyWith(acceptExternalTrip: RequestState.loaded));
+      getExternalTripDetails(groupId: tripId);
+      getMyBookings();  
+    } else {
+      emit(state.copyWith(acceptExternalTrip: RequestState.error));
+    }
   }
 
   // add group

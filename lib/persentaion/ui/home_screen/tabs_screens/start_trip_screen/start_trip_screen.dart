@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:custom_map_markers/custom_map_markers.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -16,7 +17,6 @@ import '../../../../../core/thems/them.dart';
 import '../../components/app_bar_home.dart';
 import '../../components/drawer_widget.dart';
 import 'components/internal_trip_widget.dart';
-
 
 class StartTripScreen extends StatefulWidget {
   const StartTripScreen({super.key});
@@ -101,18 +101,25 @@ class _StartTripScreenState extends State<StartTripScreen> {
               },
             ),
 
-            BlocBuilder<TripCubit, TripState>(
-              builder: (context, state) {
-                return WillPopScope(
-                    onWillPop: () async {
-                      if (state.statues != 0) {
-                        TripCubit.get(context)
-                            .changeStatusScreen(state.statues - 1);
-                      }
-                      return false;
-                    },
-                    child: InternalTripWidget(state));
-              },
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: BlocBuilder<TripCubit, TripState>(
+                builder: (context, state) {
+                  return WillPopScope(
+                      onWillPop: () async {
+                        if (state.statues != 0) {
+                          TripCubit.get(context)
+                              .changeStatusScreen(state.statues - 1);
+                        }
+                        return false;
+                      },
+                      child: SizedBox(
+                          height: state.currentIndexTypeTrip == 0
+                              ? MediaQuery.of(context).size.height / 2
+                              : MediaQuery.of(context).size.height / 1.7,
+                          child: InternalTripWidget(state)));
+                },
+              ),
             )
             // app bar
             ,
@@ -160,38 +167,19 @@ class _StartTripScreenState extends State<StartTripScreen> {
         //       // largeIcon: "asset://assets/images/logo_final.png"
         //     ));
 
-        // AwesomeNotifications().initialize(
-        //     "asset://assets/images/logo_final",
-        //     [
-        //       NotificationChannel(
-        //           channelKey: 'key1',
-        //           channelName: 'chat',
-        //           channelDescription: "Notification example",
-        //           defaultColor: Colors.blue,
-        //           ledColor: Colors.blue,
-        //           channelShowBadge: true,
-        //           playSound: true,
-        //           enableLights:true,
-        //           enableVibration: false
-        //       )
-        //     ]
-        // );
+        AwesomeNotifications().createNotification(
+            content: NotificationContent(
+          id: createUniqueId(),
 
-/*        flutterLocalNotificationsPlugin!.show(
-            notification.hashCode,
-            "تم اضافة اعلان في الاعلانات المعلقة",
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel!.id,
-                channel!.name,
-                // channel!.description,
+          color: Colors.blue,
 
-                // TODO add a proper drawable resource to android, for now using
-                //      one that already exists in example app.
-                icon: '@mipmap/ic_launcher',
-              ),
-            ));*/
+          channelKey: 'limozin',
+          title: notification.title,
+          body: notification.body,
+
+          notificationLayout: NotificationLayout.BigPicture,
+          // largeIcon: "asset://assets/images/logo_final.png"
+        ));
 
         print("aaaaaaaaaaaawww${message.data["desc"]}");
       }
@@ -236,3 +224,6 @@ class _StartTripScreenState extends State<StartTripScreen> {
   }
 }
 
+int createUniqueId() {
+  return DateTime.now().millisecondsSinceEpoch.remainder(100000);
+}

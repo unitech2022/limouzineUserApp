@@ -79,6 +79,61 @@
   "رحلة منتهية":"Finished Trip",
   "تم الغاء الرحلة":"Trip Canceled",
  
-  "ادخل رقم جوالك هنا": "Enter your phone"
+  "ادخل رقم جوالك هنا": "Enter your phone",
+
+  "الحجوزات": "Bookings",
+"محطة الذهاب": "Going station",
+"محطة الوصول": "Arrival station",
+"تاريخ الرحلة": "Trip Date",
+"عدد الركاب": "Number of Passengers",
+"الموقع": "Location",
+"الذهاب": "Go",
+"تعديل": "Update",
+"في الانتظار":"Waiting",
+"مؤكد": "confirmed",
+"مرفوض": "rejected",
+"رفض": "refuse",
+"رقم الهاتف":"phone number",
+"لا توجد حجوزات": "no Bookings",
+"عنوان الرحلة": "Trip address",
+"اختار": "Select",
+"وقت  الذهاب": "Time to go",
+"حدد وقت الذهاب": "Set time to go",
+"وقت  الوصول": "Arrival time",
+"حدد وقت الوصول": "Select the time of arrival",
+"إضافة الرحلة": "Add Trip",
+"تعديل الرحلة": "Trip Update",
+
+"اكتب عنوان الرحلة": "Enter Trip address",
+"اختار قرية الوصول": "Select the arrival City",
+"اختار موقع الذهاب": "Choose the location to go",
+"اختار وقت الذهاب": "Choose when to go",
+"اختار وقت الوصول":  "Select arrival time",
+"إضافة": "Add",
+"عرض": "Display",
+"تم اضافة الرحلة بنجاح":"The Trip was added successfully",
+"تم التعديل  بنجاح": "Update Successfully",
+"تم الحذف بنجاح": "Deleted Successfully",
+"الرحلات الخارجية":"External Trips",
+"اختيار":"Select",
+"تفاصيل الرحلة":"Details Trip",
+"حذف":"Delete",
+"أونلاين":"Online",
+"اوفلاين":"Ofline",
+"الحالة : ":"Status : ",
+
+
+
+"الغاء الحجز": "Cancel Booking",
+"احجز الآن": "Book now",
+"حجوزاتى": "My Bookings",
+"الاسم": "The Name",
+"ملغي": "Canceled",
+"نتائج البحث":"search results" 
+
+,"تاريخ  الذهاب":"Date of to go",
+"عرض النتائج":"View Results",
+"وقت الرحلة":"Trip Time"
+
 }
 

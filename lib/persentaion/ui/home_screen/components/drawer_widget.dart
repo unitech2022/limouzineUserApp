@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:taxi/core/helpers/functions.dart';
 import 'package:taxi/core/routers/routers.dart';
+import 'package:taxi/persentaion/ui/booking_screen/booking_screen.dart';
 import '../../../../core/helpers/helper_functions.dart';
 import '../../../../core/styles/colors.dart';
 import '../../../../core/utlis/api_constatns.dart';
@@ -107,9 +108,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             Navigator.pushNamed(context, account);
           },
         ),
-         sizedHeight(25),
+        sizedHeight(25),
         ItemMenu(
-          text: Strings.tripExternal.tr(),
+          text: "حجوزاتى".tr(),
           icon: "assets/icons/my_plan.svg",
           child: const Texts(
               title: "",
@@ -119,7 +120,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               align: TextAlign.center),
           onTap: () {
             pop(context);
-            Navigator.pushNamed(context, externalTrip);
+            pushPage(context: context, page: BookingScreen());
           },
         ),
         sizedHeight(25),
@@ -135,13 +136,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           onTap: () {
             showMyDialog(
                 context: context,
-                
-                title:AppModel.lang == "ar"
-                    ? "تغيير اللغة"
-                    : "Change Language ?",
+                title:
+                    AppModel.lang == "ar" ? "تغيير اللغة" : "Change Language ?",
                 body: AppModel.lang == "ar"
                     ? "هل تريد تغيير لغة التطبيق  ؟"
-                    :"Do you want to change the language of the application?",
+                    : "Do you want to change the language of the application?",
                 founction: () async {
                   if (AppModel.lang == "ar") {
                     AppModel.lang = "en";
@@ -234,7 +233,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         ItemMenu(
           text: Strings.support.tr(),
           icon: "assets/icons/help.svg",
-          child:SizedBox(),
+          child: SizedBox(),
           //  Container(
           //     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
           //     decoration: BoxDecoration(
@@ -426,6 +425,4 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       ),
     );
   }
-
-
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:taxi/persentaion/ui/external_trip_screen/external_trip_screen.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import '../../../../../../core/helpers/functions.dart';
 import '../../../../../../core/helpers/helper_functions.dart';
@@ -51,441 +52,443 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: widget.state.homeState == RequestState.loading
-          ? LoadingWidget(height: 380, color: buttonsColor)
-          : widget.state.responseHome!.tripActive
-              ? Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  // width: double.infinity,
-                  // height: 400,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15)),
-                      color: Colors.white),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      sizedHeight(13),
-                      const ContainerDivider(
-                        color: Color(0xffBEBEBE),
-                        height: 3,
-                        width: 120,
-                      ),
-                      sizedHeight(13),
+    return widget.state.homeState == RequestState.loading
+        ? LoadingWidget(height: 380, color: buttonsColor)
+        : widget.state.responseHome!.tripActive
+            ? Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                // width: double.infinity,
+                // height: 400,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15)),
+                    color: Colors.white),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    sizedHeight(13),
+                    const ContainerDivider(
+                      color: Color(0xffBEBEBE),
+                      height: 3,
+                      width: 120,
+                    ),
+                    sizedHeight(13),
 
-                      // show trip details
-                      widget.state.responseHome!.trip!.driverId != 0 &&
-                              widget.state.responseHome!.trip!.status != 0
-                          ? Column(
-                              children: [
-                                Texts(
-                                    title: widget.state.responseHome!.trip!
-                                                .status ==
-                                            2
-                                        ? Strings.ridWiyh +
-                                            "  " +
-                                            widget.state.responseHome!
-                                                .driverDetail!.fullName!
-                                        : statuesTrip[widget
-                                            .state.responseHome!.trip!.status],
-                                    textColor: Colors.black,
-                                    fontSize: 16,
-                                    weight: FontWeight.bold,
-                                    align: TextAlign.center),
-                                sizedHeight(13),
+                    // show trip details
+                    widget.state.responseHome!.trip!.driverId != 0 &&
+                            widget.state.responseHome!.trip!.status != 0
+                        ? Column(
+                            children: [
+                              Texts(
+                                  title: widget.state.responseHome!.trip!
+                                              .status ==
+                                          2
+                                      ? Strings.ridWiyh +
+                                          "  " +
+                                          widget.state.responseHome!
+                                              .driverDetail!.fullName!
+                                      : statuesTrip[widget
+                                          .state.responseHome!.trip!.status],
+                                  textColor: Colors.black,
+                                  fontSize: 16,
+                                  weight: FontWeight.bold,
+                                  align: TextAlign.center),
+                              sizedHeight(13),
 
-                                // details driver
-                                Row(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(25),
-                                      child: CachedNetworkImage(
-                                        imageUrl: ApiConstants.imageUrl(widget
-                                            .state
-                                            .responseHome!
-                                            .driverDetail!
-                                            .profileImage),
-                                        fit: BoxFit.cover,
-                                        width: 50,
-                                        height: 50,
-                                      ),
+                              // details driver
+                              Row(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(25),
+                                    child: CachedNetworkImage(
+                                      imageUrl: ApiConstants.imageUrl(widget
+                                          .state
+                                          .responseHome!
+                                          .driverDetail!
+                                          .profileImage),
+                                      fit: BoxFit.cover,
+                                      width: 50,
+                                      height: 50,
                                     ),
-                                    sizedWidth(20),
-                                    Expanded(
-                                      child: Texts(
-                                          title: widget.state.responseHome!
-                                                  .driverDetail!.fullName! +
-                                              "  ",
-                                          textColor: Colors.black,
-                                          fontSize: 16,
-                                          weight: FontWeight.bold,
-                                          align: TextAlign.start),
-                                    )
-                                  ],
-                                )
-
-                                // details trip
-                                ,
-                                sizedHeight(18),
-                                // price
-                                Row(
-                                  children: [
-                                    Texts(
-                                        title: Strings.price + " : ",
+                                  ),
+                                  sizedWidth(20),
+                                  Expanded(
+                                    child: Texts(
+                                        title: widget.state.responseHome!
+                                                .driverDetail!.fullName! +
+                                            "  ",
                                         textColor: Colors.black,
-                                        fontSize: 14,
+                                        fontSize: 16,
                                         weight: FontWeight.bold,
                                         align: TextAlign.start),
-                                    sizedWidth(10),
-                                    Texts(
-                                        title: widget
-                                            .state.responseHome!.trip!.price
-                                            .toString(),
-                                        textColor: Colors.black.withOpacity(.5),
-                                        fontSize: 14,
-                                        weight: FontWeight.bold,
-                                        align: TextAlign.start)
-                                  ],
-                                ),
+                                  )
+                                ],
+                              )
 
-                                sizedHeight(5),
-                                // time
-                                Row(
-                                  children: [
-                                    Texts(
-                                        title: Strings.theExpectedTime + " : ",
-                                        textColor: Colors.black,
-                                        fontSize: 14,
-                                        weight: FontWeight.bold,
-                                        align: TextAlign.start),
-                                    sizedWidth(10),
-                                    Texts(
-                                        title: "1:00 د",
-                                        textColor: Colors.black.withOpacity(.5),
-                                        fontSize: 14,
-                                        weight: FontWeight.bold,
-                                        align: TextAlign.start)
-                                  ],
-                                ),
+                              // details trip
+                              ,
+                              sizedHeight(18),
+                              // price
+                              Row(
+                                children: [
+                                  Texts(
+                                      title: Strings.price + " : ",
+                                      textColor: Colors.black,
+                                      fontSize: 14,
+                                      weight: FontWeight.bold,
+                                      align: TextAlign.start),
+                                  sizedWidth(10),
+                                  Texts(
+                                      title: widget
+                                          .state.responseHome!.trip!.price
+                                          .toString(),
+                                      textColor: Colors.black.withOpacity(.5),
+                                      fontSize: 14,
+                                      weight: FontWeight.bold,
+                                      align: TextAlign.start)
+                                ],
+                              ),
 
-                                // date
-                                sizedHeight(5),
-                                Row(
-                                  children: [
-                                    Texts(
-                                        title: Strings.date + " : ",
-                                        textColor: Colors.black,
-                                        fontSize: 14,
-                                        weight: FontWeight.bold,
-                                        align: TextAlign.start),
-                                    sizedWidth(10),
-                                    Texts(
-                                        title: widget
-                                            .state.responseHome!.trip!.createdAt
-                                            .split("T")[0],
-                                        textColor: Colors.black.withOpacity(.5),
-                                        fontSize: 14,
-                                        weight: FontWeight.bold,
-                                        align: TextAlign.start)
-                                  ],
-                                ),
+                              sizedHeight(5),
+                              // time
+                              Row(
+                                children: [
+                                  Texts(
+                                      title: Strings.theExpectedTime + " : ",
+                                      textColor: Colors.black,
+                                      fontSize: 14,
+                                      weight: FontWeight.bold,
+                                      align: TextAlign.start),
+                                  sizedWidth(10),
+                                  Texts(
+                                      title: "1:00 د",
+                                      textColor: Colors.black.withOpacity(.5),
+                                      fontSize: 14,
+                                      weight: FontWeight.bold,
+                                      align: TextAlign.start)
+                                ],
+                              ),
 
-                                sizedHeight(15),
-                                // starting point
-                                ContainerTripSummery(
-                                  onTap: () {
-                                    openGoogleMapLocation(
-                                      lat: widget.state.responseHome!.trip!
-                                          .startPointLat,
-                                      lng: widget.state.responseHome!.trip!
-                                          .startPointLng,
-                                    );
-                                  },
-                                  title: Strings.starting.tr(),
-                                  value: widget
-                                      .state.responseHome!.trip!.startAddress,
-                                ),
-                                sizedHeight(6),
-                                // end point
-                                ContainerTripSummery(
-                                  onTap: () {
-                                    openGoogleMapLocation(
-                                      lat: widget.state.responseHome!.trip!
-                                          .startPointLat,
-                                      lng: widget.state.responseHome!.trip!
-                                          .endPointLng,
-                                    );
-                                  },
-                                  title: Strings.arrive.tr(),
-                                  value: widget
-                                      .state.responseHome!.trip!.endAddress,
-                                ),
-                                sizedHeight(40),
-                                widget.state.responseHome!.trip!.status < 3 ||
-                                        widget.state.responseHome!.trip!
-                                                .status ==
-                                            5
-                                    ? widget.state.changeStatusTrip ==
-                                            RequestState.loading
-                                        ? LoadingWidget(
-                                            height: 55, color: homeColor)
-                                        : ButtonWidget(
-                                            height: 55,
-                                            color: buttonsColor,
-                                            onPress: () {
-                                              print(widget.state.statues
-                                                      .toString() +
-                                                  "ojnbj");
+                              // date
+                              sizedHeight(5),
+                              Row(
+                                children: [
+                                  Texts(
+                                      title: Strings.date + " : ",
+                                      textColor: Colors.black,
+                                      fontSize: 14,
+                                      weight: FontWeight.bold,
+                                      align: TextAlign.start),
+                                  sizedWidth(10),
+                                  Texts(
+                                      title: widget
+                                          .state.responseHome!.trip!.createdAt
+                                          .split("T")[0],
+                                      textColor: Colors.black.withOpacity(.5),
+                                      fontSize: 14,
+                                      weight: FontWeight.bold,
+                                      align: TextAlign.start)
+                                ],
+                              ),
 
-                                              if (widget.state.responseHome!
-                                                      .trip!.status ==
-                                                  5) {
-                                                rateDriver(context);
-                                              } else {
-                                                TripCubit.get(context)
-                                                    .changeStatusTrip(
-                                                        tripId:
-                                                            widget
-                                                                .state
-                                                                .responseHome!
-                                                                .trip!
-                                                                .id,
-                                                        status: widget
-                                                                .state
-                                                                .responseHome!
-                                                                .trip!
-                                                                .status +
-                                                            1,
-                                                        userId: widget
-                                                            .state
-                                                            .responseHome!
-                                                            .driver!
-                                                            .userId);
-                                              }
-                                            },
-                                            child: Texts(
-                                                title: getStatusText(widget
-                                                    .state
-                                                    .responseHome!
-                                                    .trip!
-                                                    .status),
-                                                textColor: Colors.white,
-                                                fontSize: 14,
-                                                weight: FontWeight.normal,
-                                                align: TextAlign.center))
-                                    : SizedBox(),
-                                sizedHeight(6),
-                              ],
-                            )
+                              sizedHeight(15),
+                              // starting point
+                              ContainerTripSummery(
+                                onTap: () {
+                                  openGoogleMapLocation(
+                                    lat: widget.state.responseHome!.trip!
+                                        .startPointLat,
+                                    lng: widget.state.responseHome!.trip!
+                                        .startPointLng,
+                                  );
+                                },
+                                title: Strings.starting.tr(),
+                                value: widget
+                                    .state.responseHome!.trip!.startAddress,
+                              ),
+                              sizedHeight(6),
+                              // end point
+                              ContainerTripSummery(
+                                onTap: () {
+                                  openGoogleMapLocation(
+                                    lat: widget.state.responseHome!.trip!
+                                        .startPointLat,
+                                    lng: widget.state.responseHome!.trip!
+                                        .endPointLng,
+                                  );
+                                },
+                                title: Strings.arrive.tr(),
+                                value: widget
+                                    .state.responseHome!.trip!.endAddress,
+                              ),
+                              sizedHeight(40),
+                              widget.state.responseHome!.trip!.status < 3 ||
+                                      widget.state.responseHome!.trip!
+                                              .status ==
+                                          5
+                                  ? widget.state.changeStatusTrip ==
+                                          RequestState.loading
+                                      ? LoadingWidget(
+                                          height: 55, color: homeColor)
+                                      : ButtonWidget(
+                                          height: 55,
+                                          color: buttonsColor,
+                                          onPress: () {
+                                            print(widget.state.statues
+                                                    .toString() +
+                                                "ojnbj");
 
-                          // todo :trip waiting
-                          : SizedBox(
-                              child: Column(
-                              children: [
-                                sizedHeight(40),
-                                Texts(
-                                    title: widget.state.timerTrip == 100
-                                        ? Strings.thereNotDriver.tr()
-                                        : Strings.searchTodriver.tr(),
-                                    textColor: Colors.black,
-                                    fontSize: 14,
-                                    weight: FontWeight.normal,
-                                    align: TextAlign.center),
-                                sizedHeight(40),
-                                LinearPercentIndicator(
-                                  padding: EdgeInsets.zero,
-                                  barRadius: Radius.circular(30),
-                                  width: 300,
-                                  lineHeight: 8,
-                                  backgroundColor: Colors.grey,
-                                  progressColor: homeColor,
-                                  percent: double.parse(
-                                          "${widget.state.timerTrip}") /
-                                      100,
-                                ),
-                                sizedHeight(100),
-                                widget.state.changeStatusTrip ==
-                                        RequestState.loading
-                                    ? LoadingWidget(
-                                        height: 55, color: homeColor)
-                                    : ButtonWidget(
-                                        height: 55,
-                                        color: buttonsColor,
-                                        onPress: () {
-                                          print(
-                                              widget.state.statues.toString() +
-                                                  "ojnbj");
-
-                                          if (TripCubit.get(context)
-                                              .timer!
-                                              .isActive) {
-                                            TripCubit.get(context)
-                                                .cancelTimer();
-                                          }
-                                          TripCubit.get(context)
-                                              .changeStatusTrip(
-                                                  tripId:
-                                                      widget.state.responseHome!
-                                                          .trip!.id,
-                                                  status: 7,
-                                                  isState: 0,
-                                                  userId: widget
+                                            if (widget.state.responseHome!
+                                                    .trip!.status ==
+                                                5) {
+                                              rateDriver(context);
+                                            } else {
+                                              TripCubit.get(context)
+                                                  .changeStatusTrip(
+                                                      tripId:
+                                                          widget
                                                               .state
                                                               .responseHome!
                                                               .trip!
-                                                              .driverId ==
-                                                          0
-                                                      ? currentUser.id!
-                                                      : widget
+                                                              .id,
+                                                      status: widget
+                                                              .state
+                                                              .responseHome!
+                                                              .trip!
+                                                              .status +
+                                                          1,
+                                                      userId: widget
                                                           .state
                                                           .responseHome!
                                                           .driver!
                                                           .userId);
-                                        },
-                                        child: Texts(
-                                            title: Strings.cancelTrip.tr(),
-                                            textColor: Colors.white,
-                                            fontSize: 14,
-                                            weight: FontWeight.normal,
-                                            align: TextAlign.center)),
-                                sizedHeight(20)
-                              ],
-                            )),
-                    ],
-                  ),
-                )
-              :
+                                            }
+                                          },
+                                          child: Texts(
+                                              title: getStatusText(widget
+                                                  .state
+                                                  .responseHome!
+                                                  .trip!
+                                                  .status),
+                                              textColor: Colors.white,
+                                              fontSize: 14,
+                                              weight: FontWeight.normal,
+                                              align: TextAlign.center))
+                                  : SizedBox(),
+                              sizedHeight(6),
+                            ],
+                          )
 
-              // TODO : no trip active
-              Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 18),
-                  width: double.infinity,
-                  height: 370,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25)),
-                  ),
-                  child: widget.state.statues == 1
-                      ? Column(
-                          children: [
-                            sizedHeight(13),
-                            const ContainerDivider(
-                              color: Color(0xffBEBEBE),
-                              height: 3,
-                              width: 120,
-                            ),
-                            sizedHeight(20),
-                            Row(
-                              children: [
-                                Texts(
-                                    title: "اختار نوع السيارة".tr(),
-                                    textColor: Colors.black,
-                                    fontSize: 15,
-                                    weight: FontWeight.normal,
-                                    align: TextAlign.start),
-                              ],
-                            ),
-                            sizedHeight(0),
-                            Expanded(
-                              child:
-                                  ListCarTypes(widget.state.carTypes, (typeId) {
-                                carTypeId = typeId;
-                              }),
-                            ),
-                            widget.state.addTripState == RequestState.loading
-                                ? LoadingWidget(
-                                    color: buttonsColor,
-                                    height: 55,
-                                  )
-                                : ButtonWidget(
-                                    height: 55,
-                                    color: buttonsColor,
-                                    onPress: () {
-                                      if (carTypeId != 0) {
-                                        Trip trip = Trip(
-                                            carId: carTypeId,
-                                            startPointLat:
-                                                widget.state.startPoint!.lat,
-                                            startPointLng:
-                                                widget.state.startPoint!.lng,
-                                            endPointLat:
-                                                widget.state.endPoint!.lat,
-                                            endPointLng:
-                                                widget.state.endPoint!.lng,
-                                            startAddress:
-                                                widget.state.startPoint!.label,
-                                            endAddress:
-                                                widget.state.endPoint!.label,
-                                            otp: "000",
-                                            status: 0,
-                                            payment: 0,
-                                            price: 30,
-                                            createdAt: '',
-                                            driverId: 0,
-                                            id: 0,
-                                            userId: currentUser.id!);
+                        // todo :trip waiting
+                        : SizedBox(
+                            child: Column(
+                            children: [
+                              sizedHeight(40),
+                              Texts(
+                                  title: widget.state.timerTrip == 100
+                                      ? Strings.thereNotDriver.tr()
+                                      : Strings.searchTodriver.tr(),
+                                  textColor: Colors.black,
+                                  fontSize: 14,
+                                  weight: FontWeight.normal,
+                                  align: TextAlign.center),
+                              sizedHeight(40),
+                              LinearPercentIndicator(
+                                padding: EdgeInsets.zero,
+                                barRadius: Radius.circular(30),
+                                width: 300,
+                                lineHeight: 8,
+                                backgroundColor: Colors.grey,
+                                progressColor: homeColor,
+                                percent: double.parse(
+                                        "${widget.state.timerTrip}") /
+                                    100,
+                              ),
+                              sizedHeight(100),
+                              widget.state.changeStatusTrip ==
+                                      RequestState.loading
+                                  ? LoadingWidget(
+                                      height: 55, color: homeColor)
+                                  : ButtonWidget(
+                                      height: 55,
+                                      color: buttonsColor,
+                                      onPress: () {
+                                        print(
+                                            widget.state.statues.toString() +
+                                                "ojnbj");
 
-                                        TripCubit.get(context).addTrip(trip,
-                                            type: widget
-                                                .state.currentIndexTypeTrip);
-                                      } else {
-                                        showTopMessage(
-                                            context: context,
-                                            customBar: CustomSnackBar.error(
-                                                backgroundColor: buttonsColor,
-                                                message:
-                                                    Strings.selsctTypeCar.tr(),
-                                                textStyle: TextStyle(
-                                                    fontFamily: "font",
-                                                    fontSize: 16,
-                                                    color: Colors.white)));
-                                      }
+                                        if (TripCubit.get(context)
+                                            .timer!
+                                            .isActive) {
+                                          TripCubit.get(context)
+                                              .cancelTimer();
+                                        }
+                                        TripCubit.get(context)
+                                            .changeStatusTrip(
+                                                tripId:
+                                                    widget.state.responseHome!
+                                                        .trip!.id,
+                                                status: 7,
+                                                isState: 0,
+                                                userId: widget
+                                                            .state
+                                                            .responseHome!
+                                                            .trip!
+                                                            .driverId ==
+                                                        0
+                                                    ? currentUser.id!
+                                                    : widget
+                                                        .state
+                                                        .responseHome!
+                                                        .driver!
+                                                        .userId);
+                                      },
+                                      child: Texts(
+                                          title: Strings.cancelTrip.tr(),
+                                          textColor: Colors.white,
+                                          fontSize: 14,
+                                          weight: FontWeight.normal,
+                                          align: TextAlign.center)),
+                              sizedHeight(20)
+                            ],
+                          )),
+                  ],
+                ),
+              )
+            :
 
-                                      //todo : addTrip
-                                    },
-                                    child: Texts(
-                                        title: Strings.searchAboutTrip.tr(),
-                                        textColor: Colors.white,
-                                        fontSize: 14,
-                                        weight: FontWeight.normal,
-                                        align: TextAlign.center)),
-                          ],
-                        )
-                      : Column(children: [
+            // TODO : no trip active
+            Container(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                width: double.infinity,
+                height: 370,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25)),
+                ),
+                child: widget.state.statues == 1
+                    ? Column(
+                        children: [
                           sizedHeight(13),
                           const ContainerDivider(
                             color: Color(0xffBEBEBE),
                             height: 3,
                             width: 120,
                           ),
-                          sizedHeight(15),
-
-                          // List Type Trip
-                          SizedBox(
-                            height: 65,
-                            child: ListView.builder(
-                                itemCount: typesTrip.length,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                                  TypeTrip typeTrip = typesTrip[index];
-                                  return InkWell(
-                                      onTap: () {
-                                        TripCubit.get(context)
-                                            .changeIndexTypeTrip(typeTrip.id);
-                                      },
-                                      child: ItemTripType(
-                                          typeTrip: typeTrip,
-                                          currentIndex: widget
-                                              .state.currentIndexTypeTrip));
-                                }),
+                          sizedHeight(20),
+                          Row(
+                            children: [
+                              Texts(
+                                  title: "اختار نوع السيارة".tr(),
+                                  textColor: Colors.black,
+                                  fontSize: 15,
+                                  weight: FontWeight.normal,
+                                  align: TextAlign.start),
+                            ],
                           ),
-                          sizedHeight(13),
+                          sizedHeight(0),
+                          Expanded(
+                            child:
+                                ListCarTypes(widget.state.carTypes, (typeId) {
+                              carTypeId = typeId;
+                            }),
+                          ),
+                          widget.state.addTripState == RequestState.loading
+                              ? LoadingWidget(
+                                  color: buttonsColor,
+                                  height: 55,
+                                )
+                              : ButtonWidget(
+                                  height: 55,
+                                  color: buttonsColor,
+                                  onPress: () {
+                                    if (carTypeId != 0) {
+                                      Trip trip = Trip(
+                                          carId: carTypeId,
+                                          startPointLat:
+                                              widget.state.startPoint!.lat,
+                                          startPointLng:
+                                              widget.state.startPoint!.lng,
+                                          endPointLat:
+                                              widget.state.endPoint!.lat,
+                                          endPointLng:
+                                              widget.state.endPoint!.lng,
+                                          startAddress:
+                                              widget.state.startPoint!.label,
+                                          endAddress:
+                                              widget.state.endPoint!.label,
+                                          otp: "000",
+                                          status: 0,
+                                          payment: 0,
+                                          price: 30,
+                                          createdAt: '',
+                                          driverId: 0,
+                                          id: 0,
+                                          userId: currentUser.id!);
 
+                                      TripCubit.get(context).addTrip(trip,
+                                          type: widget
+                                              .state.currentIndexTypeTrip);
+                                    } else {
+                                      showTopMessage(
+                                          context: context,
+                                          customBar: CustomSnackBar.error(
+                                              backgroundColor: buttonsColor,
+                                              message:
+                                                  Strings.selsctTypeCar.tr(),
+                                              textStyle: TextStyle(
+                                                  fontFamily: "font",
+                                                  fontSize: 16,
+                                                  color: Colors.white)));
+                                    }
+
+                                    //todo : addTrip
+                                  },
+                                  child: Texts(
+                                      title: Strings.searchAboutTrip.tr(),
+                                      textColor: Colors.white,
+                                      fontSize: 14,
+                                      weight: FontWeight.normal,
+                                      align: TextAlign.center)),
+                        ],
+                      )
+                    : Column(children: [
+                        sizedHeight(13),
+                        const ContainerDivider(
+                          color: Color(0xffBEBEBE),
+                          height: 3,
+                          width: 120,
+                        ),
+                        sizedHeight(15),
+
+                        // List Type Trip
+                        SizedBox(
+                          height: 65,
+                          child: ListView.builder(
+                              itemCount: typesTrip.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                TypeTrip typeTrip = typesTrip[index];
+                                return InkWell(
+                                    onTap: () {
+                                      TripCubit.get(context)
+                                          .changeIndexTypeTrip(typeTrip.id);
+                                    },
+                                    child: ItemTripType(
+                                        typeTrip: typeTrip,
+                                        currentIndex: widget
+                                            .state.currentIndexTypeTrip));
+                              }),
+                        ),
+                        widget.state.currentIndexTypeTrip == 0 ?
+                        Expanded(
+                          child: Column(
+                            children: [
+                              sizedHeight(13),
+                        
                           // select start and end of trip
                           SizedBox(
                               height: 120,
@@ -494,20 +497,20 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                     alignment: Alignment.topCenter,
                                     child: ContainerInputAddress(
                                       title: Strings.starting.tr(),
-                                      value: widget
-                                                  .state.currentIndexTypeTrip ==
-                                              0
-                                          ? widget.state.startPoint != null
+                                      value:
+                                      //  widget
+                                      //             .state.currentIndexTypeTrip ==
+                                      //         0
+                                      //     ? 
+                                          widget.state.startPoint != null
                                               ? widget.state.startPoint!.label
                                               : Strings.whenStarting.tr()
-                                          : widget.state.startCity != null
-                                              ? AppModel.lang=="ar"?widget.state.startCity!.name!:widget.state.startCity!.name_eng!
-                                              : Strings.whenStarting.tr(),
-                                      addAddressWidget: const SizedBox(),
+                                          // : widget.state.startCity != null
+                                          //     ? AppModel.lang=="ar"?widget.state.startCity!.name!:widget.state.startCity!.name_eng!
+                                          //     : Strings.whenStarting.tr(),
+                                     ,addAddressWidget: const SizedBox(),
                                       onTap: () {
-                                        if (widget.state.currentIndexTypeTrip ==
-                                            0) {
-                                          Navigator.push(
+                                       Navigator.push(
                                             context,
                                             // Create the SelectionScreen in the next step.
                                             MaterialPageRoute(
@@ -525,11 +528,8 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                             MapCubit.get(context)
                                                 .getStartLocation(value);
                                           });
-                                        } else {
-                                          TripCubit.get(context).filteredList =
-                                              cities;
-                                          showCitySheet(type: "start");
-                                        }
+                                        
+                        
                                       },
                                     )),
                                 Align(
@@ -537,14 +537,15 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                     child: ContainerInputAddress(
                                       title: Strings.end.tr(),
                                       value:
-                                          widget.state.currentIndexTypeTrip == 0
-                                              ? widget.state.endPoint != null
+                                          // widget.state.currentIndexTypeTrip == 0
+                                              // ?
+                                               widget.state.endPoint != null
                                                   ? widget.state.endPoint!.label
                                                   : Strings.whenEnd.tr()
-                                              : widget.state.endCity != null
-                                                  ?AppModel.lang=="ar"? widget.state.endCity!.name!:widget.state.endCity!.name_eng!
-                                                  : Strings.whenStarting.tr(),
-                                      addAddressWidget: Container(
+                                              // : widget.state.endCity != null
+                                              //     ?AppModel.lang=="ar"? widget.state.endCity!.name!:widget.state.endCity!.name_eng!
+                                              //     : Strings.whenStarting.tr(),
+                                      ,addAddressWidget: Container(
                                         height: 36,
                                         width: 36,
                                         decoration: const BoxDecoration(
@@ -558,8 +559,8 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                         ),
                                       ),
                                       onTap: () async {
-                                        if (widget.state.currentIndexTypeTrip ==
-                                            0) {
+                                        // if (widget.state.currentIndexTypeTrip ==
+                                        //     0) {
                                           Navigator.push(
                                             context,
                                             // Create the SelectionScreen in the next step.
@@ -578,14 +579,14 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                                 .getEndLocation(
                                                     value as AddressModel);
                                           });
-                                        } else {
-                                          TripCubit.get(context).filteredList =
-                                              cities;
-                                          showCitySheet(type: "end");
-                                        }
+                                        // } else {
+                                        //   TripCubit.get(context).filteredList =
+                                        //       cities;
+                                        //   showCitySheet(type: "end");
+                                        // }
                                       },
                                     )),
-
+                        
                                 // Align(
                                 //   alignment: Alignment.center,
                                 //   child: GestureDetector(
@@ -605,10 +606,10 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                 //   ),
                                 // )
                               ])),
-
+                        
                           sizedHeight(13),
                           // list saved Addresses
-                      widget.state.currentIndexTypeTrip==0?
+                                              // widget.state.currentIndexTypeTrip==0?
                           widget.state.responseHome!.addresses.isEmpty
                               ? InkWell(
                                   onTap: () {
@@ -719,47 +720,24 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                           ),
                                         );
                                       }),
-                                ):SizedBox(),
+                                ),
                           const Spacer()
                           // button search
                           ,
-                      ( widget.state.currentIndexTypeTrip==1 && widget.state.addTripState==RequestState.loading)?
-                      
-                      LoadingWidget(height: 55, color: buttonsColor)
-                      
-                      :   ButtonWidget(
+                                              widget.state.addTripState==RequestState.loading?
+                                              
+                                              LoadingWidget(height: 55, color: buttonsColor)
+                                              
+                                              :   ButtonWidget(
                               height: 55,
                               color: buttonsColor,
                               onPress: () {
-                                if (widget.state.currentIndexTypeTrip == 0) {
+                                // if (widget.state.currentIndexTypeTrip == 0) {
                                   if (validateAddressSelector(widget.state)) {
                                     TripCubit.get(context)
                                         .changeStatusScreen(1);
                                   }
-                                } else {
-                                  if (validateGroup(widget.state)) {
-                                    TripCubit.get(context).addGroup(
-                                        startCity: widget.state.startCity!.name!,
-                                        endCity: widget.state.endCity!.name!,context: context);
-                                  }
-                                }
-
-                                // if (state.startPoint != null) {
-                                //   Navigator.push(
-                                //     context,
-                                //     // Create the SelectionScreen in the next step.
-                                //     MaterialPageRoute(
-                                //         builder: (context) =>
-                                //             SelectAddressScreen(0)),
-                                //   ).then((value) {
-                                //     TripCubit.get(context).getEndLocation(
-                                //         value as AddressModel,
-                                //         context: context);
-                                //     MapCubit.get(context).getEndLocation(value);
-                                //   });
-                                // } else {
-                                //   showToast(message: "اختار البداية");
-                                // }
+                              
                               },
                               child: Texts(
                                   title: widget.state.currentIndexTypeTrip == 0
@@ -769,9 +747,140 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                   fontSize: 14,
                                   weight: FontWeight.normal,
                                   align: TextAlign.center)),
-                        ]),
+                                               
+                            ],
+                          ),
+                        ):
+                        // **  external trip
+                        Expanded(child: Column(children: [
+                          SizedBox(height: 20,),
+                             Row(
+                  children: [
+                    Expanded(
+                        child: Column(
+                      children: [
+                        TitleField(
+                          title: "محطة الذهاب".tr(),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        ContainerSelectCity(
+                          icon: Icons.arrow_drop_down_rounded,
+                          onTap: () {
+                            TripCubit.get(context).filteredList = cities;
+                            showCitySheet(type: "start");
+                          },
+                          value: widget.state.startCity != null
+                              ? (AppModel.lang == "ar"
+                                  ? widget.state.startCity!.name!
+                                  : widget.state.startCity!.name_eng!)
+                              : "اختار".tr(),
+                        ),
+                      ],
+                    )),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Expanded(
+                        child: Column(
+                      children: [
+                        TitleField(
+                          title: "محطة الوصول".tr(),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        ContainerSelectCity(
+                          icon: Icons.arrow_drop_down_rounded,
+                          onTap: () {
+                            TripCubit.get(context).filteredList = cities;
+                            showCitySheet(type: "end");
+                          },
+                          value: widget.state.endCity != null
+                              ? (AppModel.lang == "ar"
+                                  ? widget.state.endCity!.name!
+                                  : widget.state.endCity!.name_eng!)
+                              : "اختار".tr(),
+                        ),
+                     
+                      ],
+                    ))
+                  ],
                 ),
-    );
+                     SizedBox(
+                    height: 25,
+                  ),
+
+                  TitleField(
+                    title: "تاريخ  الذهاب".tr(),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                      GestureDetector(
+                    onTap: () {
+                    showDateTimePicker2(context, onConfirm: (dateTime) {
+                        final date =
+                            DateFormat('dd-MM-yyyy').format(dateTime);
+                        print(date);
+                        TripCubit.get(context).setTimeTrip(date.toString(), 0);
+                        pop(context);      });
+                    },
+                    child: Container(
+                      height: 70,
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      decoration: BoxDecoration(
+                        color: const Color(0xffffffff),
+                        border: Border.all(
+                            width: 1.0, color: const Color(0x63707070)),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                              child: Text(
+                            widget.state.dateTrip != null
+                                ? widget.state.dateTrip!
+                                : "حدد وقت الذهاب".tr(),
+                            style: TextStyle(
+                              fontFamily: 'Segoe UI',
+                              fontSize: 18,
+                              color: widget.state.dateTrip != null
+                                  ? const Color(0xff000000)
+                                  : Color(0xff959595),
+                              fontWeight: FontWeight.w700,
+                            ),
+                            textAlign: TextAlign.start,
+                          )),
+                          Image.asset("assets/images/clock.png")
+                        ],
+                      ),
+                    ),
+                  ),
+              
+                        SizedBox(height: 20,),
+
+                                    ButtonWidget(
+                              height: 55,
+                              color: buttonsColor,
+                              onPress: () {
+                                // if (widget.state.currentIndexTypeTrip == 0) {
+                                   pushPage(context: context,page:ExternalTripScreen(startCity:
+                                    widget.state.startCity!.name!, endCity: widget.state.endCity!.name!, 
+                                    date: widget.state.dateTrip!));
+                              },
+                              child: Texts(
+                                  title:"عرض النتائج".tr(),
+                                  textColor: Colors.white,
+                                  fontSize: 14,
+                                  weight: FontWeight.normal,
+                                  align: TextAlign.center)),
+
+                        ],))
+                      
+                         ]),
+              );
   }
 
 //TODO:  RATING
@@ -1034,5 +1143,71 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
     } else {
       return true;
     }
+  }
+}
+class TitleField extends StatelessWidget {
+  final String title;
+  const TitleField({required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          title,
+          style: TextStyle(
+            fontFamily: 'Segoe UI',
+            fontSize: 20,
+            color: const Color(0xff000000),
+            fontWeight: FontWeight.w700,
+          ),
+          textAlign: TextAlign.right,
+        )
+      ],
+    );
+  }
+}
+
+class ContainerSelectCity extends StatelessWidget {
+  final void Function() onTap;
+  final String value;
+  final IconData icon;
+
+  const ContainerSelectCity(
+      {super.key,
+      required this.onTap,
+      required this.value,
+      required this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 70,
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        decoration: BoxDecoration(
+          color: const Color(0xffffffff),
+          border: Border.all(width: 1.0, color: const Color(0x63707070)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+                child: Text(
+              value,
+              style: TextStyle(
+                fontFamily: 'Segoe UI',
+                fontSize: 18,
+                color: const Color(0xff000000),
+                fontWeight: FontWeight.w700,
+              ),
+              textAlign: TextAlign.right,
+            )),
+            Icon(icon)
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -12,7 +12,7 @@ class UserModel extends User {
       required super.deviceToken});
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-      token: json["token"],
+      token: json["token"]??"",
       id: json["user"]["id"],
       fullName: json["user"]["fullName"],
       userName: json["user"]["userName"],
