@@ -3,16 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_svg/svg.dart';
+import 'package:taxi/core/helpers/functions.dart';
 import 'package:taxi/core/styles/colors.dart';
 import 'package:taxi/core/utlis/api_constatns.dart';
 import 'package:taxi/core/utlis/strings.dart';
 import 'package:taxi/core/widgets/circle_image_widget.dart';
 import 'package:taxi/core/widgets/texts.dart';
 import 'package:taxi/persentaion/controller/trip_cubit/trip_cubit.dart';
+import 'package:taxi/persentaion/ui/details_trip_screen/details_trip_screen.dart';
 import 'package:taxi/persentaion/ui/home_screen/components/app_bar_home.dart';
 import 'package:taxi/persentaion/ui/home_screen/components/drawer_widget.dart';
 import 'package:taxi/persentaion/ui/login_screen/login_screen.dart';
 
+import '../../../core/helpers/create_padf.dart';
 import '../../../core/helpers/helper_functions.dart';
 import '../../../core/utlis/enums.dart';
 import '../../../data/models/history_response.dart';
@@ -26,7 +29,6 @@ class HistoryScreen extends StatefulWidget {
 class _HistoryScreenState extends State<HistoryScreen> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -39,323 +41,322 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TripCubit, TripState>(
-  builder: (context, state) {
-    return Scaffold(
-      key: _scaffoldKey,
-      drawer: DrawerWidget(scaffoldKey: _scaffoldKey),
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(110.0),
-        child: Container(
-          height: double.infinity,
-          alignment: Alignment.center,
-          color: homeColor,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: AppBarHome(
-              onTap: () {
-                _scaffoldKey.currentState!.openDrawer();
-              },
+      builder: (context, state) {
+        return Scaffold(
+          key: _scaffoldKey,
+          drawer: DrawerWidget(scaffoldKey: _scaffoldKey),
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(110.0),
+            child: Container(
+              height: double.infinity,
+              alignment: Alignment.center,
+              color: homeColor,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: AppBarHome(
+                  onTap: () {
+                    _scaffoldKey.currentState!.openDrawer();
+                  },
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-      
-      
-      body: state.getHistoriesState==RequestState.loading?
-      Center(child: LoadingWidget(height: 55, color: homeColor)):
-    
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 27),
-        child: Column(children: [
-          // tabs
-          Container(
-            height: 56,
-            decoration: BoxDecoration(
-                border: Border.all(
-                  width: 1,
-                  color: Color(0xffDBDBDB),
-                ),
-                borderRadius: BorderRadius.circular(25)),
-            child: Row(
-              children: [
-                // TabHistoryWidget(
-                //   title: Strings.coming,
-                //   textColor: index == 0 ? Colors.white : Color(0xffA5A5A5),
-                //   containerColor: index == 0 ? textColor : Colors.transparent,
-                //   onTap: () {},
-                // ),
-                TabHistoryWidget(
-                  title: Strings.done.tr(),
-                  textColor: index == 1 ? Colors.white : Color(0xffA5A5A5),
-                  containerColor: index == 1 ? textColor : Colors.transparent,
-                  onTap: () {
-                    setState(() {
-                      index=1;
-                    });
-                  },
-                ),
-                TabHistoryWidget(
-                  title: Strings.canceled.tr(),
-                  textColor: index == 2 ? Colors.white : Color(0xffA5A5A5),
-                  containerColor: index == 2 ? textColor : Colors.transparent,
-                  onTap: () {
+          body: state.getHistoriesState == RequestState.loading
+              ? Center(child: LoadingWidget(height: 55, color: homeColor))
+              : Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 27),
+                  child: Column(children: [
+                    // tabs
+                    Container(
+                      height: 56,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1,
+                            color: Color(0xffDBDBDB),
+                          ),
+                          borderRadius: BorderRadius.circular(25)),
+                      child: Row(
+                        children: [
+                          // TabHistoryWidget(
+                          //   title: Strings.coming,
+                          //   textColor: index == 0 ? Colors.white : Color(0xffA5A5A5),
+                          //   containerColor: index == 0 ? textColor : Colors.transparent,
+                          //   onTap: () {},
+                          // ),
+                          TabHistoryWidget(
+                            title: Strings.done.tr(),
+                            textColor:
+                                index == 1 ? Colors.white : Color(0xffA5A5A5),
+                            containerColor:
+                                index == 1 ? textColor : Colors.transparent,
+                            onTap: () {
+                              setState(() {
+                                index = 1;
+                              });
+                            },
+                          ),
+                          TabHistoryWidget(
+                            title: Strings.canceled.tr(),
+                            textColor:
+                                index == 2 ? Colors.white : Color(0xffA5A5A5),
+                            containerColor:
+                                index == 2 ? textColor : Colors.transparent,
+                            onTap: () {
+                              setState(() {
+                                index = 2;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    )
 
-                    setState(() {
-                      index=2;
-                    });
-                  },
+                    // list Of history
+                    ,
+                    Expanded(
+                        child: index == 1
+                            ? DoneTripsList(list: state.histories!.doneTrips!)
+                            : DoneTripsList(
+                                list: state.histories!.canceledTrips!))
+                  ]),
                 ),
-              ],
-            ),
-          )
-
-          // list Of history
-          ,
-          Expanded(
-            child:index==1 ? DoneTripsList(
-              list : state.histories!.doneTrips!
-            ) : DoneTripsList(
-                list : state.histories!.canceledTrips!
-            )
-          )
-        ]),
-      ),
+        );
+      },
     );
-  },
-);
   }
 }
 
 class DoneTripsList extends StatelessWidget {
-final List<HistoryModel> list;
-DoneTripsList({required this.list});
+  final List<HistoryModel> list;
+  DoneTripsList({required this.list});
 
   @override
   Widget build(BuildContext context) {
-    return list.isEmpty? ListEmptyWidget(
-                          title: Strings.notTrips.tr(),
-                          textColor: homeColor,
-                        ):  ListView.builder(
-        itemCount: list.length,
-        padding: EdgeInsets.only(top: 14),
-        itemBuilder: (context, index) {
-          HistoryModel historyModel=list[index];
-          return ItemListHistory(historyModel);
-        });
+    return list.isEmpty
+        ? ListEmptyWidget(
+            title: Strings.notTrips.tr(),
+            textColor: homeColor,
+          )
+        : ListView.builder(
+            itemCount: list.length,
+            padding: EdgeInsets.only(top: 14),
+            itemBuilder: (context, index) {
+              HistoryModel historyModel = list[index];
+              return ItemListHistory(historyModel);
+            });
   }
 }
 
 class ItemListHistory extends StatelessWidget {
- final HistoryModel historyModel;
+  final HistoryModel historyModel;
   const ItemListHistory(this.historyModel);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 30),
-      height: 275,
-      child: Stack(
-        children: [
-          // details trip
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: 262,
-              width: double.infinity,
-              decoration: BoxDecoration(color: Color(0xffF7F7F7)),
-              child: Column(children: [
-                sizedHeight(24),
-                ContainerDetailsTrip(
-                  colorIcon: buttonsColor,
-                  time: historyModel.trip!.createdAt.split("T")[1],
-                  value:
-                  historyModel.trip!.startAddress,
-                  title: Strings.starting.tr(),
-                ),
-                ContainerDetailsTrip(
-                  colorIcon: textColor,
-                  time:  historyModel.trip!.createdAt.split("T")[1],
-                  value:  historyModel.trip!.endAddress,
-                  title: Strings.arrive.tr(),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 15, horizontal: 15),
-                  child: Row(
-                    children: [
-                      Texts(
-                          title: Strings.details.tr(),
-                          textColor: textColor3,
-                          fontSize: 12,
-                          weight: FontWeight.bold,
-                          align: TextAlign.start)
-                    ],
+    return GestureDetector(
+      onTap: () {
+        pushPage(
+            context: context,
+            page: DetailsTripScreen(historyModel: historyModel));
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 30),
+        height: 275,
+        child: Stack(
+          children: [
+            // details trip
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 262,
+                width: double.infinity,
+                decoration: BoxDecoration(color: Color(0xffF7F7F7)),
+                child: Column(children: [
+                  sizedHeight(24),
+                  ContainerDetailsTrip(
+                    colorIcon: buttonsColor,
+                    time: historyModel.trip!.createdAt.split("T")[1],
+                    value: historyModel.trip!.startAddress,
+                    title: Strings.starting.tr(),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 15, right: 15),
-                  height: 30,
-                  decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                              color: Color(0xff707070)),
-                          top: BorderSide(
-                              color: Color(0xff707070)))),
-                  child: Center(
+                  ContainerDetailsTrip(
+                    colorIcon: textColor,
+                    time: historyModel.trip!.createdAt.split("T")[1],
+                    value: historyModel.trip!.endAddress,
+                    title: Strings.arrive.tr(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 15, horizontal: 15),
                     child: Row(
                       children: [
                         Texts(
-                            title: Strings.cost.tr(),
-                            textColor: Color(0xffA0A0A0),
+                            title: Strings.details.tr(),
+                            textColor: textColor3,
                             fontSize: 12,
                             weight: FontWeight.bold,
-                            align: TextAlign.center),
-                        sizedWidth(23),
-                        Expanded(
-                          child: Texts(
-                              title:  historyModel.trip!.price.toString(),
-                              textColor: textColor3,
-                              fontSize: 10,
-                              weight: FontWeight.normal,
-                              align: TextAlign.start),
-                        ),
+                            align: TextAlign.start)
                       ],
                     ),
                   ),
-                ),
-                historyModel.driver != null ?    Container(
-                  margin: EdgeInsets.only(left: 15, right: 15),
-                  height: 30,
-                  decoration: BoxDecoration(
-                      border: Border(
-                    bottom: BorderSide(color: Color(0xff707070)),
-                  )),
-                  child: Center(
-                    child: Row(
-                      children: [
-                        Texts(
-                            title: Strings.driver.tr(),
-                            textColor: Color(0xffA0A0A0),
-                            fontSize: 12,
-                            weight: FontWeight.bold,
-                            align: TextAlign.center),
-                        sizedWidth(23),
-                        CircleImageWidget(
-                            height: 19,
-                            width: 19,
-                            image: ApiConstants.imageUrl( historyModel.userDetailDiver!.profileImage!)),
-                        sizedWidth(14),
-                        Expanded(
-                          child: Texts(
-                              title: historyModel.userDetailDiver!.fullName!,
-                              textColor: textColor3,
-                              fontSize: 10,
-                              weight: FontWeight.normal,
-                              align: TextAlign.start),
-                        ),
-
-                        CircleImageWidget(
-                            height: 44,
-                            width: 23,
-                            image: ApiConstants.imageUrl( historyModel.driver!.carImage)),
-                      ],
-                    ),
-                  ),
-                ):SizedBox(),
-                Spacer(),
-                Container(
-                  decoration:
-                      BoxDecoration(color: Color(0xffEAEAEA)),
-                  height: 40,
-                  padding: EdgeInsets.symmetric(horizontal: 15),
-                  child: Center(
-                    child: Row(
-                      children: [
-                        RowItemWidget(
-                        onTap: () {
-
-                        },
-                        color: Colors.red,
-                        icon:  "assets/icons/download_cell.svg",
-                        text: Strings.downloadInvoice.tr(),
-                      ) ,
-
-                      DividerHorizontal(
-                        height: double.infinity,
-                        width: 1,
-                        color:  Color(0xff707070),
+                  Container(
+                    margin: EdgeInsets.only(left: 15, right: 15),
+                    height: 30,
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(color: Color(0xff707070)),
+                            top: BorderSide(color: Color(0xff707070)))),
+                    child: Center(
+                      child: Row(
+                        children: [
+                          Texts(
+                              title: Strings.cost.tr(),
+                              textColor: Color(0xffA0A0A0),
+                              fontSize: 12,
+                              weight: FontWeight.bold,
+                              align: TextAlign.center),
+                          sizedWidth(23),
+                          Expanded(
+                            child: Texts(
+                                title: historyModel.trip!.price.toString(),
+                                textColor: textColor3,
+                                fontSize: 10,
+                                weight: FontWeight.normal,
+                                align: TextAlign.start),
+                          ),
+                        ],
                       ),
-                      RowItemWidget(
-                        onTap: () {
-
-                        },
-                        color: Colors.black,
-                        icon:  "assets/icons/repeat.svg",
-                        text: Strings.repetition.tr(),
-                      ) ,
-                       DividerHorizontal(
-                        height: double.infinity,
-                        width: 1,
-                        color:  Color(0xff707070),
-                      ),
-                      RowItemWidget(
-                        onTap: () {
-
-                        },
-                        color: Colors.black,
-                        icon:  "assets/icons/share.svg",
-                        text: Strings.share.tr(),
-                      ) ,
-
-
-
-                      ],
                     ),
                   ),
-                )
-              ]),
+                  historyModel.driver != null
+                      ? Container(
+                          margin: EdgeInsets.only(left: 15, right: 15),
+                          height: 30,
+                          decoration: BoxDecoration(
+                              border: Border(
+                            bottom: BorderSide(color: Color(0xff707070)),
+                          )),
+                          child: Center(
+                            child: Row(
+                              children: [
+                                Texts(
+                                    title: Strings.driver.tr(),
+                                    textColor: Color(0xffA0A0A0),
+                                    fontSize: 12,
+                                    weight: FontWeight.bold,
+                                    align: TextAlign.center),
+                                sizedWidth(23),
+                                CircleImageWidget(
+                                    height: 19,
+                                    width: 19,
+                                    image: ApiConstants.imageUrl(historyModel
+                                        .userDetailDiver!.profileImage!)),
+                                sizedWidth(14),
+                                Expanded(
+                                  child: Texts(
+                                      title: historyModel
+                                          .userDetailDiver!.fullName!,
+                                      textColor: textColor3,
+                                      fontSize: 10,
+                                      weight: FontWeight.normal,
+                                      align: TextAlign.start),
+                                ),
+                                CircleImageWidget(
+                                    height: 44,
+                                    width: 23,
+                                    image: ApiConstants.imageUrl(
+                                        historyModel.driver!.carImage)),
+                              ],
+                            ),
+                          ),
+                        )
+                      : SizedBox(),
+                  Spacer(),
+                  Container(
+                    decoration: BoxDecoration(color: Color(0xffEAEAEA)),
+                    height: 40,
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    child: Center(
+                      child: Row(
+                        children: [
+                          RowItemWidget(
+                            onTap: () {
+                              createPdfTrip();
+                            },
+                            color: Colors.red,
+                            icon: "assets/icons/download_cell.svg",
+                            text: Strings.downloadInvoice.tr(),
+                          ),
+                          DividerHorizontal(
+                            height: double.infinity,
+                            width: 1,
+                            color: Color(0xff707070),
+                          ),
+                          RowItemWidget(
+                            onTap: () {},
+                            color: Colors.black,
+                            icon: "assets/icons/repeat.svg",
+                            text: Strings.repetition.tr(),
+                          ),
+                          DividerHorizontal(
+                            height: double.infinity,
+                            width: 1,
+                            color: Color(0xff707070),
+                          ),
+                          RowItemWidget(
+                            onTap: () {},
+                            color: Colors.black,
+                            icon: "assets/icons/share.svg",
+                            text: Strings.share.tr(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ]),
+              ),
             ),
-          ),
 
-          // container date
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              alignment: Alignment.center,
-              height: 26,
-              width: 110,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: Color(0xffDBDBDB)),
-              child: Texts(
-                  title: Strings.today.tr(),
-                  textColor: Colors.black,
-                  fontSize: 12,
-                  weight: FontWeight.normal,
-                  align: TextAlign.center),
-            ),
-          )
-        ],
+            // container date
+            Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                alignment: Alignment.center,
+                height: 26,
+                width: 110,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: Color(0xffDBDBDB)),
+                child: Texts(
+                    title:historyModel.trip!.createdAt.split("T")[0],
+                    textColor: Colors.black,
+                    fontSize: 12,
+                    weight: FontWeight.normal,
+                    align: TextAlign.center),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
 }
 
 class DividerHorizontal extends StatelessWidget {
-  final double height,width;
+  final double height, width;
   final Color color;
-  
-  const DividerHorizontal({required this.color,required this.height,required this.width});
+
+  const DividerHorizontal(
+      {required this.color, required this.height, required this.width});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height:height,
+      height: height,
       width: width,
       margin: EdgeInsets.symmetric(vertical: 5),
-      decoration: BoxDecoration(
-        color:color
-      ),
+      decoration: BoxDecoration(color: color),
     );
   }
 }
@@ -364,7 +365,11 @@ class RowItemWidget extends StatelessWidget {
   final String icon, text;
   final Color color;
   final void Function() onTap;
-  RowItemWidget({required this.color, required this.text, required this.icon,required this.onTap});
+  RowItemWidget(
+      {required this.color,
+      required this.text,
+      required this.icon,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -374,16 +379,16 @@ class RowItemWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-           sizedWidth(9),
+          sizedWidth(9),
           SvgPicture.asset(
-           icon,
+            icon,
             color: color,
           ),
           sizedWidth(9),
           Expanded(
             child: Texts(
-                title:text,
-                textColor:color,
+                title: text,
+                textColor: color,
                 fontSize: 10,
                 weight: FontWeight.bold,
                 align: TextAlign.start),

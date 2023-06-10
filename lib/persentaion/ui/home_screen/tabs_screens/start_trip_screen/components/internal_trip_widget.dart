@@ -52,7 +52,7 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.state.homeState == RequestState.loading
+    return widget.state.homeState == RequestState.loading || widget.state.responseHome ==null
         ? LoadingWidget(height: 380, color: buttonsColor)
         : widget.state.responseHome!.tripActive
             ? Container(
@@ -99,17 +99,24 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                               // details driver
                               Row(
                                 children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(25),
-                                    child: CachedNetworkImage(
-                                      imageUrl: ApiConstants.imageUrl(widget
-                                          .state
-                                          .responseHome!
-                                          .driverDetail!
-                                          .profileImage),
-                                      fit: BoxFit.cover,
-                                      width: 50,
-                                      height: 50,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(width: .9,color: Colors.grey)
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(25),
+                                      child: CachedNetworkImage(
+                                        errorWidget: (context, url, error) => Icon(Icons.person),
+                                        imageUrl: ApiConstants.imageUrl(widget
+                                            .state
+                                            .responseHome!
+                                            .driverDetail!
+                                            .profileImage),
+                                        fit: BoxFit.cover,
+                                        width: 50,
+                                        height: 50,
+                                      ),
                                     ),
                                   ),
                                   sizedWidth(20),
@@ -131,31 +138,35 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                               sizedHeight(18),
                               // price
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Texts(
-                                      title: Strings.price + " : ",
-                                      textColor: Colors.black,
-                                      fontSize: 14,
-                                      weight: FontWeight.bold,
-                                      align: TextAlign.start),
-                                  sizedWidth(10),
-                                  Texts(
-                                      title: widget
-                                          .state.responseHome!.trip!.price
-                                          .toString(),
-                                      textColor: Colors.black.withOpacity(.5),
-                                      fontSize: 14,
-                                      weight: FontWeight.bold,
-                                      align: TextAlign.start)
-                                ],
-                              ),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Texts(
+                                          title: Strings.price + " : ",
+                                          textColor: Colors.black,
+                                          fontSize: 14,
+                                          weight: FontWeight.bold,
+                                          align: TextAlign.start),
+                                      sizedWidth(10),
+                                      Texts(
+                                          title: widget
+                                              .state.responseHome!.trip!.price
+                                              .toString(),
+                                          textColor: Colors.black.withOpacity(.5),
+                                          fontSize: 14,
+                                          weight: FontWeight.bold,
+                                          align: TextAlign.start)
+                                    ],
+                                  ),
 
-                              sizedHeight(5),
-                              // time
+                                   // time
                               Row(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Texts(
-                                      title: Strings.theExpectedTime + " : ",
+                                      title: Strings.theExpectedTime.tr() + " : ",
                                       textColor: Colors.black,
                                       fontSize: 14,
                                       weight: FontWeight.bold,
@@ -170,6 +181,11 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                 ],
                               ),
 
+                                ],
+                              ),
+
+                              
+                             
                               // date
                               sizedHeight(5),
                               Row(
@@ -185,6 +201,26 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                       title: widget
                                           .state.responseHome!.trip!.createdAt
                                           .split("T")[0],
+                                      textColor: Colors.black.withOpacity(.5),
+                                      fontSize: 14,
+                                      weight: FontWeight.bold,
+                                      align: TextAlign.start)
+                                ],
+                              ),
+
+ // pay ment
+                              sizedHeight(5),
+                              Row(
+                                children: [
+                                  Texts(
+                                      title: Strings.payMent + " : ",
+                                      textColor: Colors.black,
+                                      fontSize: 14,
+                                      weight: FontWeight.bold,
+                                      align: TextAlign.start),
+                                  sizedWidth(10),
+                                  Texts(
+                                      title: "كاش".tr(),
                                       textColor: Colors.black.withOpacity(.5),
                                       fontSize: 14,
                                       weight: FontWeight.bold,
@@ -213,7 +249,7 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                 onTap: () {
                                   openGoogleMapLocation(
                                     lat: widget.state.responseHome!.trip!
-                                        .startPointLat,
+                                        .endPointLat,
                                     lng: widget.state.responseHome!.trip!
                                         .endPointLng,
                                   );
@@ -232,7 +268,7 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                                       ? LoadingWidget(
                                           height: 55, color: homeColor)
                                       : ButtonWidget(
-                                          height: 55,
+                                          height: 50,
                                           color: buttonsColor,
                                           onPress: () {
                                             print(widget.state.statues
@@ -927,13 +963,20 @@ class _InternalTripWidgetState extends State<InternalTripWidget> {
                         weight: FontWeight.bold,
                         align: TextAlign.start),
                     sizedHeight(15),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: CachedNetworkImage(
-                        imageUrl: ApiConstants.imageUrl(widget
-                            .state.responseHome!.driverDetail!.profileImage),
-                        width: 100,
-                        height: 100,
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(width: .8,color: buttonsColor)
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: CachedNetworkImage(
+                            errorWidget: (context, url, error) => Icon(Icons.person,size: 50,),
+                          imageUrl: ApiConstants.imageUrl(widget
+                              .state.responseHome!.driverDetail!.profileImage),
+                          width: 100,
+                          height: 100,
+                        ),
                       ),
                     ),
                     sizedHeight(10),

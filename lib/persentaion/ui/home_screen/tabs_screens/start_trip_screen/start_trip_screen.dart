@@ -47,6 +47,7 @@ class _StartTripScreenState extends State<StartTripScreen> {
   @override
   void initState() {
     super.initState();
+     getFCMToken();
     TripCubit.get(context).updateDeviceToken(
         userId: currentUser.id!, token: AppModel.deviceToken);
     TripCubit.get(context).getStartPointAddress(
@@ -54,7 +55,7 @@ class _StartTripScreenState extends State<StartTripScreen> {
 
     TripCubit.get(context).getCarTypes();
     TripCubit.get(context).homeTrip();
-    getFCMToken();
+   
   }
 
   @override
@@ -115,8 +116,8 @@ class _StartTripScreenState extends State<StartTripScreen> {
                       },
                       child: SizedBox(
                           height: state.currentIndexTypeTrip == 0
-                              ? MediaQuery.of(context).size.height / 2
-                              : MediaQuery.of(context).size.height / 1.7,
+                              ? MediaQuery.of(context).size.height / 1.8
+                              : MediaQuery.of(context).size.height / 1.6,
                           child: InternalTripWidget(state)));
                 },
               ),

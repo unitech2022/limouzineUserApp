@@ -157,6 +157,7 @@ static const String thereNotDriver = "لا يوجد سائقين في الوقت
  static const String price ="السعر";
  static const String theExpectedTime ="الوقت المتوقع";
          static const String date ="تاريخ الرحلة";
+         static const String payMent ="طريقة الدفع";
 static const String call ="اتصال";
 static const String whatsApp ="WhatsApp";
 static const String help ="التواصل مع الدعم الفني";
@@ -175,4 +176,7 @@ static const String myTrip ="رحلاتى";
 
 static const String searchWithCityName ="ابحث باسم المدينة";
   static const String enterNumber = "ادخل رقم جوالك هنا";
+  static const String tripDetails = "تفاصيل الرحلة";
+
+  
 }

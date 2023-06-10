@@ -133,7 +133,17 @@
 
 ,"تاريخ  الذهاب":"Date of to go",
 "عرض النتائج":"View Results",
-"وقت الرحلة":"Trip Time"
+"وقت الرحلة":"Trip Time",
 
+"ملخص الرحلة":"Trip Summary",
+"رحلة رقم":"Trip number",
+"سعر الرحلة" :"Trip Price",
+"طريقة الدفع":"Payment Method",
+"الوقت المتوقع":"Expected time",
+"بيانات السائق":"Driver Data",
+"اسم السائق":"Driver Name",
+"صورة السيارة":"car picture",
+"كاش": "Cash",
+"نوع السيارة":"Type Car"
 }
 
