@@ -20,6 +20,7 @@ import 'package:taxi/persentaion/ui/otp_screen/otp_screen.dart';
 import 'package:taxi/persentaion/ui/sign_up_screen/signup_screen.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import '../../../core/helpers/helper_functions.dart';
+import '../../../data/models/wallet_response.dart';
 import '../../../domin/entities/response_signup.dart';
 import '../../../domin/usese_cases/app_use_case/app_use_case.dart';
 import '../../../domin/usese_cases/auth_uses_cases/signup_usecase.dart';
@@ -101,14 +102,13 @@ class AuthCubit extends Cubit<AuthState> {
         //   context: context,
         // );
 
-
         showTopMessage(
-          context: context,
-          customBar:  CustomSnackBar.error(
-            backgroundColor: Color.fromARGB(255, 211, 161, 11),
-            message:  r.message,
-            textStyle: TextStyle(
-                fontFamily: "font", fontSize: 16, color: Colors.white)));
+            context: context,
+            customBar: CustomSnackBar.error(
+                backgroundColor: Color.fromARGB(255, 211, 161, 11),
+                message: r.message,
+                textStyle: TextStyle(
+                    fontFamily: "font", fontSize: 16, color: Colors.white)));
       }
       emit(state.copyWith(responseSignUp: r, signUpStet: RequestState.loaded));
     });
@@ -202,6 +202,31 @@ class AuthCubit extends Cubit<AuthState> {
     } else {
       print(response.reasonPhrase);
       emit(state.copyWith(updateUserState: RequestState.error));
+    }
+  }
+
+  Future getWallets() async {
+    emit(state.copyWith(getWalletsState: RequestState.loading));
+
+    var request =
+        http.MultipartRequest('GET', Uri.parse(ApiConstants.getWallets));
+
+    request.fields.addAll({'userId': currentUser.id!});
+
+    http.StreamedResponse response = await request.send();
+
+    print(response.statusCode.toString() + "getWallets");
+    if (response.statusCode == 200) {
+      String jsonsDataString = await response.stream.bytesToString();
+      final jsonData = jsonDecode(jsonsDataString);
+
+      emit(state.copyWith(
+          getWalletsState: RequestState.loaded,
+          walletResponse: WalletResponse.fromJson(jsonData)));
+      getUserDetails();
+    } else {
+      print(response.reasonPhrase);
+      emit(state.copyWith(getWalletsState: RequestState.loading));
     }
   }
 }

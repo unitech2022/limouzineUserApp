@@ -158,6 +158,8 @@ static const String thereNotDriver = "لا يوجد سائقين في الوقت
  static const String theExpectedTime ="الوقت المتوقع";
          static const String date ="تاريخ الرحلة";
          static const String payMent ="طريقة الدفع";
+
+          static const String payMented ="مدفوع";
 static const String call ="اتصال";
 static const String whatsApp ="WhatsApp";
 static const String help ="التواصل مع الدعم الفني";

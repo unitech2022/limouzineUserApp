@@ -107,6 +107,27 @@ class _ChoseLangScreenState extends State<ChoseLangScreen> {
                               weight: FontWeight.bold),
                         ),
                       )
+                  
+                     , sizedHeight(10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                        child: ButtonWidget(
+                          isBorder: true,
+                          onPress: () {
+                            context.setLocale(Locale('ur'));
+                             AppCubit.get(context).changeLang("ur", context);
+                          },
+                          color: homeColor,
+                          height: 55,
+                          child: const Texts(
+                              title:"اردو",
+                              textColor: Colors.white,
+                              fontSize: 14,
+                              align: TextAlign.center,
+                              weight: FontWeight.bold),
+                        ),
+                      )
+                   
                     ]),
                   ),
                 )

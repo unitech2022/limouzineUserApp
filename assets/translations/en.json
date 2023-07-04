@@ -144,6 +144,27 @@
 "اسم السائق":"Driver Name",
 "صورة السيارة":"car picture",
 "كاش": "Cash",
-"نوع السيارة":"Type Car"
+"نوع السيارة":"Type Car",
+"تغيير اللغة": "change language",
+"هل تريد تغيير لغة التطبيق  ؟":"Do you want to change the language of the application?",
+"اختر موقع":"choose a Location",
+"اسم العنوان":"Name Location",
+"تآكيد الموقع":"Confirm",
+
+"حفظ":"Save",
+"رقم الجوال":"mobile number",
+"التواصل مع الدعم الفني":"Communicate with technical support",
+"اتصال":"Call",
+
+
+"ادفع الآن": "Pay Now",
+"تأكيد االرحلة ":"Trip Confirmation",
+"اختار طربقة الدفع":"Select Payment Method",
+"تأكيد":"Confirm",
+"تمت عملية الدفع بنجاح":"Successfully Completed ",
+"الدفع باستخدام فيزا/مدى":"Payment with Visa / Mada",
+
+"محفظتي":"My Wallet",
+"payment Trip":"payment Trip"
 }
 

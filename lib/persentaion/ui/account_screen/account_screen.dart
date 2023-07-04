@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -155,7 +156,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               sizedHeight(40),
                               TextFormFieldWidget(
                                   onTap: () {},
-                                  fieldName: Strings.name,
+                                  fieldName: Strings.name.tr(),
                                   myController: _controllerName,
                                   myIcon: Icons.edit,
                                   inputType: TextInputType.text,
@@ -165,7 +166,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               ),
                               TextFormFieldWidget(
                                   onTap: () {},
-                                  fieldName: Strings.email,
+                                  fieldName: Strings.email.tr(),
                                   inputType: TextInputType.emailAddress,
                                   myController: _controllerEmail,
                                   myIcon: Icons.edit,
@@ -175,7 +176,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               ),
                               TextFormFieldWidget(
                                   onTap: () {},
-                                  fieldName: Strings.number,
+                                  fieldName: Strings.number.tr(),
                                   enabel: false,
                                   inputType: TextInputType.number,
                                   myController: _controllerPhone,
@@ -257,8 +258,8 @@ class _AccountScreenState extends State<AccountScreen> {
                                                     .profileImage!
                                                 : state.image);
                                       },
-                                      child: const Texts(
-                                          title: Strings.save,
+                                      child:  Texts(
+                                          title: Strings.save.tr(),
                                           textColor: Colors.white,
                                           fontSize: 14,
                                           weight: FontWeight.normal,

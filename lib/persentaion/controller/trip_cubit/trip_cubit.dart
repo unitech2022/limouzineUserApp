@@ -381,7 +381,7 @@ class TripCubit extends Cubit<TripState> {
 // ** booking ===================================================  booking
 
 //** add booking */
-  Future addBooking({driverId, externalTripId, context}) async {
+  Future addBooking({driverId, externalTripId, context, type = 0}) async {
     emit(state.copyWith(addBookingState: RequestState.loading));
     var request = http.MultipartRequest(
         'POST', Uri.parse('${ApiConstants.baseUrl}/Bookings/add-booking'));
@@ -392,10 +392,11 @@ class TripCubit extends Cubit<TripState> {
     });
 
     http.StreamedResponse response = await request.send();
-
+    print("add booking =======> " + response.statusCode.toString());
     if (response.statusCode == 200) {
       pushPage(context: context, page: BookingScreen());
       emit(state.copyWith(addBookingState: RequestState.loaded));
+
       getExternalTripDetails(groupId: externalTripId);
     } else {
       emit(state.copyWith(addBookingState: RequestState.error));
@@ -431,15 +432,18 @@ class TripCubit extends Cubit<TripState> {
     emit(state.copyWith(acceptExternalTrip: RequestState.loading));
     var request = http.MultipartRequest('POST',
         Uri.parse('${ApiConstants.baseUrl}/Bookings/change-status-booking'));
-    request.fields.addAll(
-        {'bookingId': bookingId.toString(), 'status': status.toString(),'type': "0",});
+    request.fields.addAll({
+      'bookingId': bookingId.toString(),
+      'status': status.toString(),
+      'type': "0",
+    });
 
     http.StreamedResponse response = await request.send();
     print(response.statusCode.toString() + " ========> acceptExternalTrip");
     if (response.statusCode == 200) {
       emit(state.copyWith(acceptExternalTrip: RequestState.loaded));
       getExternalTripDetails(groupId: tripId);
-      getMyBookings();  
+      getMyBookings();
     } else {
       emit(state.copyWith(acceptExternalTrip: RequestState.error));
     }
@@ -497,8 +501,9 @@ class TripCubit extends Cubit<TripState> {
 
 //todo : add rate
   addRateDriver(
-      {driverId, comment, tripId, stare, context, status, driverUserId}) async {
-    emit(state.copyWith(addRateState: RequestState.loading));
+      {driverId, comment, tripId, stare, context, status, driverUserId,rated}) async {
+        if(rated){
+  emit(state.copyWith(addRateState: RequestState.loading));
     var request =
         http.MultipartRequest('POST', Uri.parse(ApiConstants.addRatePath));
     request.fields.addAll({
@@ -518,6 +523,30 @@ class TripCubit extends Cubit<TripState> {
           tripId: tripId, status: status + 1, userId: driverUserId);
     } else {
       emit(state.copyWith(addRateState: RequestState.error));
+    }
+        }else {
+          TripCubit.get(context).changeStatusTrip(
+          tripId: tripId, status: status + 1, userId: driverUserId);
+        }
+  
+  }
+
+// ** payment trip
+
+  Future paymentTrip({tripId, payment, context, endPoint}) async {
+    emit(state.copyWith(paymentTripState: RequestState.loading));
+    var request = http.MultipartRequest('POST', Uri.parse(endPoint));
+    request.fields
+        .addAll({'tripId': tripId.toString(), 'payment': payment.toString(),'userId':currentUser.id!});
+
+    http.StreamedResponse response = await request.send();
+
+    print("paymentTrip ======= > " + response.statusCode.toString());
+    if (response.statusCode == 200) {
+      // pop(context);
+      emit(state.copyWith(paymentTripState: RequestState.loaded));
+    } else {
+      emit(state.copyWith(paymentTripState: RequestState.error));
     }
   }
 }

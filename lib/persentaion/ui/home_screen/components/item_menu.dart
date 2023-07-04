@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:taxi/core/styles/colors.dart';
 
 import '../../../../core/helpers/helper_functions.dart';
 import '../../../../core/widgets/texts.dart';
@@ -23,7 +24,11 @@ class ItemMenu extends StatelessWidget {
       child: Row(
 
         children: [
-          SvgPicture.asset(icon,width: 25,height: 25,),
+          SizedBox(
+       
+            child: SizedBox(
+              width: 20,height: 25,
+              child: SvgPicture.asset(icon,width: 25,height: 25,color: textColor,))),
           sizedWidth(18),
           Texts(
               title: text,

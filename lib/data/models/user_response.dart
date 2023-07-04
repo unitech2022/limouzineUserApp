@@ -11,7 +11,7 @@ class UserDetail {
   String? status;
   String? code;
 
-  // String? points;
+   double? points;
   String? surveysBalance;
   String? createdAt;
 
@@ -25,7 +25,7 @@ class UserDetail {
       this.deviceToken,
       this.status,
       this.code,
-      // this.points,
+      this.points,
       this.surveysBalance,
       this.createdAt});
 
@@ -40,7 +40,7 @@ class UserDetail {
     status = json['status'].toString();
     code = json['code'];
   
-    // points = json['points'];
+   points = json['points'].toDouble();
     surveysBalance = json['surveysBalance'].toString();
     createdAt = json['createdAt'];
   }

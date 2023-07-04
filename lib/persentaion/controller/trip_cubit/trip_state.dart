@@ -32,94 +32,99 @@ class TripState extends Equatable {
   final City? endCity;
   final RequestState? searchCity;
   final RequestState? getGroupsState;
-    final String? dateTrip;
+  final String? dateTrip;
   final List<GroupLocation> groupsLocation;
   // final  String createdAt;
-final List<ExternalTrip>? externalTrips;
+  final List<ExternalTrip>? externalTrips;
   final RequestState? getExternalTripsState;
-    final RequestState? getGroupDetailsState;
+  final RequestState? getGroupDetailsState;
   final ExternalDetails? groupDetails;
 
   // booking
-   final RequestState? addBookingState;
+  final RequestState? addBookingState;
   final RequestState? acceptExternalTrip;
 
-   final RequestState? getBookingsState;
-    final List<BookingResponse>? responseBookings;
-  TripState(
-      {this.endPoint,
-      this.carTypes = const [],
-      this.currentIndex = 0,
-      this.timerTrip = 0,
-      this.selectedRadio = 0,
-      this.statues = 0,
-      this.isActiveTimer = false,
-      this.homeState,
-      this.changeStatusTrip,
-      this.responseHome,
-      this.addTripState,
-      this.carTypesState = RequestState.loading,
-      this.startPoint,
-      this.updateDeviceTokenState,
-      this.currentIndexTypeTrip = 0,
-      this.movMapState,
-      this.getHistoriesState,
-      this.histories,
-      this.addNewAddressState,
-      this.addRateState,
-      this.startCity,
-      this.endCity,
-      this.searchCity,
-      this.groupsLocation = const [],
-      this.getGroupsState, 
-        this.dateTrip,
-            this.externalTrips,
-      this.getExternalTripsState,
-       this.getGroupDetailsState,
-      this.groupDetails,
-     this.addBookingState, 
-        this.acceptExternalTrip,
-         this.getBookingsState, 
-        this.responseBookings
-      });
+  final RequestState? getBookingsState;
+  final List<BookingResponse>? responseBookings;
 
-  TripState copyWith(
-          {final AddressModel? endPoint,
-          final currentIndex,
-          final RequestState? carTypesState,
-          final RequestState? addTripState,
-          final statues,
-          final RequestState? movMapState,
-          final bool? isActiveTimer,
-          final int? timerTrip,
-          final RequestState? updateDeviceTokenState,
-          final RequestState? changeStatusTrip,
-          final ResponseHome? responseHome,
-          final RequestState? homeState,
-          final int? selectedRadio,
-          final List<CartType>? carTypes,
-          final int? currentIndexTypeTrip,
-          final AddressModel? startPoint,
-          final RequestState? getHistoriesState,
-          final ResponseHistory? histories,
-          final RequestState? addNewAddressState,
-          final RequestState? addRateState,
-          final City? startCity,
-          final City? endCity,
-          final RequestState? searchCity,
-          final List<GroupLocation>? groupsLocation,
-             final RequestState? acceptExternalTrip,
+  // payment
+  final RequestState? paymentTripState;
 
-          final RequestState? getGroupsState,
-            final String? dateTrip,
-            final List<ExternalTrip>? externalTrips,
-          final RequestState? getExternalTripsState,
-           final RequestState? getGroupDetailsState,
-          final ExternalDetails? groupDetails,
-            final RequestState? addBookingState,
-               final RequestState? getBookingsState,
-    final List<BookingResponse>? responseBookings
-            }) =>
+  TripState({
+    this.endPoint,
+    this.carTypes = const [],
+    this.currentIndex = 0,
+    this.timerTrip = 0,
+    this.selectedRadio = 0,
+    this.statues = 0,
+    this.isActiveTimer = false,
+    this.homeState,
+    this.changeStatusTrip,
+    this.responseHome,
+    this.addTripState,
+    this.carTypesState = RequestState.loading,
+    this.startPoint,
+    this.updateDeviceTokenState,
+    this.currentIndexTypeTrip = 0,
+    this.movMapState,
+    this.getHistoriesState,
+    this.histories,
+    this.addNewAddressState,
+    this.addRateState,
+    this.startCity,
+    this.endCity,
+    this.searchCity,
+    this.groupsLocation = const [],
+    this.getGroupsState,
+    this.dateTrip,
+    this.externalTrips,
+    this.getExternalTripsState,
+    this.getGroupDetailsState,
+    this.groupDetails,
+    this.addBookingState,
+    this.acceptExternalTrip,
+    this.getBookingsState,
+    this.responseBookings,
+    this.paymentTripState,
+  });
+
+  TripState copyWith({
+    final AddressModel? endPoint,
+    final currentIndex,
+    final RequestState? carTypesState,
+    final RequestState? addTripState,
+    final statues,
+    final RequestState? movMapState,
+    final bool? isActiveTimer,
+    final int? timerTrip,
+    final RequestState? updateDeviceTokenState,
+    final RequestState? changeStatusTrip,
+    final ResponseHome? responseHome,
+    final RequestState? homeState,
+    final int? selectedRadio,
+    final List<CartType>? carTypes,
+    final int? currentIndexTypeTrip,
+    final AddressModel? startPoint,
+    final RequestState? getHistoriesState,
+    final ResponseHistory? histories,
+    final RequestState? addNewAddressState,
+    final RequestState? addRateState,
+    final City? startCity,
+    final City? endCity,
+    final RequestState? searchCity,
+    final List<GroupLocation>? groupsLocation,
+    final RequestState? acceptExternalTrip,
+    final RequestState? getGroupsState,
+    final String? dateTrip,
+    final List<ExternalTrip>? externalTrips,
+    final RequestState? getExternalTripsState,
+    final RequestState? getGroupDetailsState,
+    final ExternalDetails? groupDetails,
+    final RequestState? addBookingState,
+    final RequestState? getBookingsState,
+    final List<BookingResponse>? responseBookings,
+    final RequestState? paymentTripState,
+  }) =>
       TripState(
         movMapState: movMapState ?? this.movMapState,
         homeState: homeState ?? this.homeState,
@@ -132,9 +137,8 @@ final List<ExternalTrip>? externalTrips;
             updateDeviceTokenState ?? this.updateDeviceTokenState,
         carTypesState: carTypesState ?? this.carTypesState,
         startPoint: startPoint ?? this.startPoint,
-          endPoint: endPoint ?? this.endPoint,
+        endPoint: endPoint ?? this.endPoint,
         selectedRadio: selectedRadio ?? this.selectedRadio,
-      
         addTripState: addTripState ?? this.addTripState,
         currentIndex: currentIndex ?? this.currentIndex,
         currentIndexTypeTrip: currentIndexTypeTrip ?? this.currentIndexTypeTrip,
@@ -149,16 +153,16 @@ final List<ExternalTrip>? externalTrips;
         getGroupsState: getGroupsState ?? this.getGroupsState,
         groupsLocation: groupsLocation ?? this.groupsLocation,
         dateTrip: dateTrip ?? this.dateTrip,
-           externalTrips: externalTrips ?? this.externalTrips,
+        externalTrips: externalTrips ?? this.externalTrips,
         getExternalTripsState:
             getExternalTripsState ?? this.getExternalTripsState,
-             groupDetails: groupDetails ?? this.groupDetails,
+        groupDetails: groupDetails ?? this.groupDetails,
         getGroupDetailsState: getGroupDetailsState ?? this.getGroupDetailsState,
         addBookingState: addBookingState ?? this.addBookingState,
-         acceptExternalTrip: acceptExternalTrip ?? this.acceptExternalTrip,
-  getBookingsState: getBookingsState ?? this.getBookingsState,
-         responseBookings: responseBookings ?? this.responseBookings,
-
+        acceptExternalTrip: acceptExternalTrip ?? this.acceptExternalTrip,
+        getBookingsState: getBookingsState ?? this.getBookingsState,
+        responseBookings: responseBookings ?? this.responseBookings,
+        paymentTripState: paymentTripState ?? this.paymentTripState,
       );
 
   @override
@@ -188,13 +192,14 @@ final List<ExternalTrip>? externalTrips;
         getGroupsState,
         groupsLocation,
         dateTrip,
-          externalTrips,
+        externalTrips,
         getExternalTripsState,
-         getGroupDetailsState,
+        getGroupDetailsState,
         groupDetails,
         addBookingState,
-                acceptExternalTrip,
-
-getBookingsState,responseBookings
+        acceptExternalTrip,
+        getBookingsState,
+        responseBookings,
+        paymentTripState
       ];
 }

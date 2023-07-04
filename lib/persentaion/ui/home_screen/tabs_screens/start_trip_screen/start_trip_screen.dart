@@ -47,7 +47,7 @@ class _StartTripScreenState extends State<StartTripScreen> {
   @override
   void initState() {
     super.initState();
-     getFCMToken();
+    getFCMToken();
     TripCubit.get(context).updateDeviceToken(
         userId: currentUser.id!, token: AppModel.deviceToken);
     TripCubit.get(context).getStartPointAddress(
@@ -55,7 +55,6 @@ class _StartTripScreenState extends State<StartTripScreen> {
 
     TripCubit.get(context).getCarTypes();
     TripCubit.get(context).homeTrip();
-   
   }
 
   @override
@@ -67,6 +66,7 @@ class _StartTripScreenState extends State<StartTripScreen> {
         ),
         body: Stack(
           children: [
+           
             // container select addresses trip
             BlocBuilder<MapCubit, MapState>(
               builder: (context, state) {
@@ -114,11 +114,7 @@ class _StartTripScreenState extends State<StartTripScreen> {
                         }
                         return false;
                       },
-                      child: SizedBox(
-                          height: state.currentIndexTypeTrip == 0
-                              ? MediaQuery.of(context).size.height / 1.8
-                              : MediaQuery.of(context).size.height / 1.6,
-                          child: InternalTripWidget(state)));
+                      child: SizedBox(child: InternalTripWidget(state)));
                 },
               ),
             )
@@ -134,6 +130,26 @@ class _StartTripScreenState extends State<StartTripScreen> {
                 },
               ),
             )
+        , Align(
+                alignment: Alignment.topCenter,
+                child: GestureDetector(
+                  onTap: () {
+                         TripCubit.get(context).homeTrip();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(.5),
+                      shape: BoxShape.circle
+                    ),
+                    padding: const EdgeInsets.all(8.0),
+                    margin: const EdgeInsets.all(20.0),
+                    child: 
+                       Icon(Icons.refresh,color: Colors.white,),
+                      
+                    
+                  ),
+                )),
+        
           ],
         ));
   }

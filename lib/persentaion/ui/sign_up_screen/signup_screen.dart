@@ -227,7 +227,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     Strings.codeNumber + _controllerPhone.text,
                                 profileImage: state.image,
                                 role: "user",
-                                deviceToken: "deviceToken");
+                                deviceToken: "deviceToken", points: 0.0);
 
                             AuthCubit.get(context)
                                 .signUpUser(user: user, context: context);

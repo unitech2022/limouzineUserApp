@@ -11,7 +11,7 @@ class User extends Equatable {
   final String profileImage;
 
   final String role;
-
+ final double points;
   final String deviceToken;
 
   User({required this.token,
@@ -21,6 +21,7 @@ class User extends Equatable {
     required this.userName,
     required this.profileImage,
     required this.role,
+    required this.points,
     required this.deviceToken});
 
   @override
@@ -33,5 +34,6 @@ class User extends Equatable {
         profileImage,
         role,
         deviceToken,
+        points
       ];
 }

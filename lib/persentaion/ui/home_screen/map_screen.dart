@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
@@ -135,8 +136,8 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                const Text(
-                                  "اختر موقع",
+                                 Text(
+                                  "اختر موقع".tr(),
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 18),
                                 ),
@@ -185,8 +186,8 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                                   )
                                 : TextField(
                                     controller: _controllertext,
-                                    decoration: const InputDecoration(
-                                      hintText: 'اسم العنوان',
+                                    decoration:  InputDecoration(
+                                      hintText: 'اسم العنوان'.tr(),
                                       border: InputBorder.none,
                                       focusedBorder: InputBorder.none,
                                       enabledBorder: InputBorder.none,
@@ -239,9 +240,9 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                                 height: 45,
                                 width: double.infinity,
                                 color: buttonsColor,
-                                child: const Center(
+                                child:  Center(
                                   child: Text(
-                                    "تآكيد الموقع",
+                                    "تآكيد الموقع".tr(),
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 17,

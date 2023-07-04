@@ -18,6 +18,9 @@ class AuthState extends Equatable {
   final RequestState? updateUserState;
   final UserDetail? getUserDetails;
 
+  final RequestState? getWalletsState;
+  final WalletResponse? walletResponse;
+
   AuthState(
       {this.loginStet,
       this.checkUserStet,
@@ -33,7 +36,9 @@ class AuthState extends Equatable {
       this.signUpMessage,
       this.getUserDetails,
       this.getUserState,
-      this.updateUserState
+      this.updateUserState,
+        this.getWalletsState,
+      this.walletResponse
       });
 
   AuthState copyWith(
@@ -48,10 +53,15 @@ class AuthState extends Equatable {
           final String? signUpMessage,
           final RequestState? updateUserState,
           final User? user,
-            final RequestState? getUserState,
-  final UserDetail? getUserDetails,
+          final RequestState? getUserState,
+          final UserDetail? getUserDetails,
           final ResponseLogin? responseLogin,
-          final ResponseSignUp? responseSignUp}) =>
+          final ResponseSignUp? responseSignUp,
+            final RequestState? getWalletsState,
+  final WalletResponse? walletResponse
+
+
+          }) =>
       AuthState(
           user: user ?? this.user,
           responseLogin: responseLogin ?? this.responseLogin,
@@ -67,7 +77,10 @@ class AuthState extends Equatable {
           image: image ?? this.image,
           errorImageMessage: errorImageMessage ?? this.errorImageMessage,
           getUserDetails: getUserDetails ?? this.getUserDetails,
-          getUserState: getUserState?? this.getUserState
+          getUserState: getUserState ?? this.getUserState,
+           getWalletsState: getWalletsState ?? this.getWalletsState,
+          walletResponse: walletResponse ?? this.walletResponse
+          
           );
 
   @override
@@ -86,6 +99,8 @@ class AuthState extends Equatable {
         responseSignUp,
         getUserDetails,
         getUserState,
-        updateUserState
+        updateUserState,
+        getWalletsState,
+        walletResponse
       ];
 }

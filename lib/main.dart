@@ -21,6 +21,7 @@ import 'package:taxi/persentaion/ui/history_screen/history_screen.dart';
 import 'package:taxi/persentaion/ui/home_screen/tabs_screens/start_trip_screen/start_trip_screen.dart';
 import 'package:taxi/persentaion/ui/login_screen/login_screen.dart';
 import 'package:taxi/persentaion/ui/my_groups_screen/my_groups_screen.dart';
+import 'package:taxi/persentaion/ui/my_walet_screen/my_walet_screen.dart';
 import 'package:taxi/persentaion/ui/notifications_screen/notifications_screen.dart';
 import 'package:taxi/persentaion/ui/packages_screen/packages_screen.dart';
 import 'package:taxi/persentaion/ui/payment_screens/add_payment_method/add_payment_,ethod_screen.dart';
@@ -61,7 +62,7 @@ void main() async {
   initLocalNotification();
   runApp(
     EasyLocalization(
-        supportedLocales: const [Locale("ar"), Locale("en")],
+        supportedLocales: const [Locale("ar"), Locale("en"), Locale("ur")],
         path: "assets/translations",
         // <-- change the path of the translation files
         fallbackLocale: const Locale("ar"),
@@ -150,6 +151,7 @@ class MyApp extends StatelessWidget {
               subscription: (context) => SubscriptionsScreen(),
               settings: (context) => SettingsScreen(),
               externalTrip: (context) => MyGroupsScreen(),
+              wallet:(context) => MyWalletScreen()
             },
           );
         },

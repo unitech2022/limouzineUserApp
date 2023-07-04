@@ -9,6 +9,7 @@ class UserModel extends User {
       required super.role,
       required super.token,
         required super.email,
+        required super.points,
       required super.deviceToken});
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -19,5 +20,6 @@ class UserModel extends User {
       email: json["user"]["email"],
       profileImage: json["user"]["profileImage"]??"",
       role: json["user"]["role"],
+       points: json["user"]["points"].toDouble(),
       deviceToken: json["user"]["deviceToken"]);
 }

@@ -52,7 +52,7 @@ class TripRemoteDataSource extends BaseTripRemoteDataSource {
       'startAddress': trip.startAddress,
       'endAddress': trip.endAddress,
       'OTP': trip.otp,
-      'payment': '0',
+      'payment': '5',
       'type': type.toString()
     });
 

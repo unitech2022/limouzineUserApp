@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taxi/core/routers/routers.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/helpers/functions.dart';
 import '../../../core/styles/colors.dart';
@@ -619,7 +619,7 @@ class DetailsTripWedgit extends StatelessWidget {
           SizedBox(
             height: 37,
           ),
-       BlocBuilder<TripCubit, TripState>(builder: (context, state) {
+   externalDetails.isBooking!?    BlocBuilder<TripCubit, TripState>(builder: (context, state) {
             return state.acceptExternalTrip == RequestState.loading 
                 ? LoadingWidget(height: 50, color: homeColor)
                 : GestureDetector(
@@ -629,6 +629,9 @@ class DetailsTripWedgit extends StatelessWidget {
                           TripCubit.get(context).acceptExternalTrip(
                               bookingId: bookingId, status: 2,tripId: externalDetails.trip!.id);
                         } else {
+                           
+                           
+
                           TripCubit.get(context).acceptExternalTrip(
                               bookingId: bookingId, status: 0,tripId: externalDetails.trip!.id);
                         }
@@ -652,7 +655,7 @@ class DetailsTripWedgit extends StatelessWidget {
                       ),
                     ),
                   );
-          })
+          }):SizedBox()
         ]));
   }
 

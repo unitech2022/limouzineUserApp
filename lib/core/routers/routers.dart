@@ -20,6 +20,8 @@ const settings = "/settings";
 const lang = "/lang";
 const notifications = "/notifications";
 const externalTrip = "/externalTrip";
+const wallet = "/wallet";
+
 
 
 
